@@ -19,7 +19,12 @@ func main() {
 
     // initialize jwt first
     auth.InitAuth([]byte("your-sign-key"), time.Hour*24) // default signing method is HS256
-    // auth.InitAuth([]byte("your-sign-key"), time.Minute*24, WithInitAuthSigningMethod(HS512), WithInitAuthIssuer("foobar.com"))
+    // auth.InitAuth(
+    //     []byte("your-sign-key"),
+    //     time.Minute*24,
+    //     auth.WithInitAuthSigningMethod(auth.HS512),
+    //     auth.WithInitAuthIssuer("foobar.com"),
+    // )
 
     r.POST("/auth/login", Login)
 
@@ -35,22 +40,30 @@ func main() {
 }
 
 func Login(c *gin.Context) {
-    // ......
+    // Get uid from User.id or other place
+    uid := "100"
 
     // Case 1: only uid for token
     {
-        token, err := auth.GenerateToken("100")
+        token, err := auth.GenerateToken(uid)
+        if err != nil {
+            c.AbortWithStatus(500)
+            return
+        }
     }
 
     // Case 2: uid and custom fields for token
     {
-        uid := "100"
         fields := map[string]interface{}{
             "name":   "bob",
             "age":    10,
             "is_vip": true,
         }
-        token, err := auth.GenerateToken(uid, auth.WithGenerateTokenFields(fields))
+        token, err = auth.GenerateToken(uid, auth.WithGenerateTokenFields(fields))
+        if err != nil {
+            c.AbortWithStatus(500)
+            return
+        }
     }
 
     response.Success(c, token)
