@@ -73,6 +73,10 @@ grpcClient:
       appKey: ""            # app key
 # delete the templates code end
 
+# jwt settings
+jwt:
+  signingKey: "change-me"    # jwt signing key for token validation and generation
+  expire: 86400              # token expiry seconds (24h)
 
 # logger settings
 logger:

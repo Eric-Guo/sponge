@@ -36,6 +36,7 @@ type Config struct {
 	Grpc       Grpc         `yaml:"grpc" json:"grpc"`
 	GrpcClient []GrpcClient `yaml:"grpcClient" json:"grpcClient"`
 	HTTP       HTTP         `yaml:"http" json:"http"`
+	JWT        JWT          `yaml:"jwt" json:"jwt"`
 	Jaeger     Jaeger       `yaml:"jaeger" json:"jaeger"`
 	Logger     Logger       `yaml:"logger" json:"logger"`
 	NacosRd    NacosRd      `yaml:"nacosRd" json:"nacosRd"`
@@ -178,4 +179,9 @@ type HTTP struct {
 	Port    int `yaml:"port" json:"port"`
 	Timeout int `yaml:"timeout" json:"timeout"`
 	TLS     TLS `yaml:"tls" json:"tls"`
+}
+
+type JWT struct {
+	SigningKey string `yaml:"signingKey" json:"signingKey"`
+	Expire     int    `yaml:"expire" json:"expire"` // seconds
 }
