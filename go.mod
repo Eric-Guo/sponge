@@ -71,7 +71,7 @@ require (
 	gorm.io/driver/mysql v1.5.7
 	gorm.io/driver/postgres v1.5.4
 	gorm.io/driver/sqlite v1.5.4
-	gorm.io/gorm v1.30.0
+	gorm.io/gorm v1.30.3
 	gorm.io/plugin/dbresolver v1.6.0
 	// todo generate the local sponge template code version here
 )
