@@ -1,0 +1,39 @@
+---
+description: Guidance for working with Protobuf and generated code in this repo
+globs: api/**/*.proto,**/*.pb.go
+---
+### Protobuf and Code Generation Workflow
+
+- **Primary scripts**
+  - Protobuf compile and glue code: [scripts/protoc.sh](mdc:scripts/protoc.sh)
+  - Proto documentation: [scripts/proto-doc.sh](mdc:scripts/proto-doc.sh)
+
+- **Key Make targets**
+  - `make proto` → invokes `scripts/protoc.sh` to generate:
+    - `*_pb.go` via `protoc-gen-go`
+    - `*_grpc.pb.go` via `protoc-gen-go-grpc`
+    - `*_pb.validate.go` via `protoc-gen-validate`
+    - `*_router.pb.go` and service/handler/router templates via `protoc-gen-go-gin`
+    - OpenAPI merged file at [docs/apis.swagger.json](mdc:docs/apis.swagger.json)
+  - `make proto-doc` → generates HTML docs into [docs/apis.html](mdc:docs/apis.html)
+
+- **Conventions**
+  - Protos live under [api/](mdc:api/). Example: [api/serverNameExample/v1/userExample.proto](mdc:api/serverNameExample/v1/userExample.proto)
+  - Generated files are written next to their proto sources with `paths=source_relative`.
+  - The codegen may append imports cleanup and tag embedding; see `deleteUnusedPkg` and `gotag` steps in `scripts/protoc.sh`.
+  - Types proto auto-detection: if a proto imports [api/types/types.proto](mdc:api/types/types.proto), types are generated via `sponge patch gen-types-pb`.
+
+- **Generated glue and templates**
+  - Router registration files: `*_router.pb.go` generated beside protos.
+  - Injected router, service, handler templates are emitted to:
+    - Routers → [internal/routers](mdc:internal/routers)
+    - Services → [internal/service](mdc:internal/service)
+    - Error codes → [internal/ecode](mdc:internal/ecode)
+
+- **Swagger/OpenAPI**
+  - Protos produce a merged file [docs/apis.swagger.json](mdc:docs/apis.swagger.json); standardized via `sponge web swagger`.
+
+- **Common pitfalls**
+  - Ensure required plugins are installed: see [Makefile install](mdc:Makefile) target.
+  - Re-run `go mod tidy` and `gofmt -s -w .` after generation (handled by `make proto`).
+

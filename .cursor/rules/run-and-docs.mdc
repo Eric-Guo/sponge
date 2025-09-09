@@ -1,0 +1,26 @@
+---
+description: Rules for running the service locally and generating docs
+globs: Makefile,scripts/**/*.sh,docs/**
+---
+### Run, Build, and Docs Guide
+
+- **Local run**
+  - `make run` → builds and runs [cmd/serverNameExample_mixExample/main.go](mdc:cmd/serverNameExample_mixExample/main.go) via [scripts/run.sh](mdc:scripts/run.sh).
+  - Optional config: `make run Config=configs/serverNameExample.yml` or `configs/serverNameExample_cc.yml`.
+
+- **Swagger docs**
+  - `make docs` → [scripts/swag-docs.sh](mdc:scripts/swag-docs.sh) generates Swagger from `@` annotations in [cmd/serverNameExample_mixExample/main.go](mdc:cmd/serverNameExample_mixExample/main.go).
+  - Open in `http://localhost:8080/swagger/index.html`.
+
+- **Protobuf OpenAPI**
+  - `make proto` standardizes [docs/apis.swagger.json](mdc:docs/apis.swagger.json) after generation from protos.
+  - View merged artifacts in [docs/](mdc:docs/).
+
+- **Docker/K8s**
+  - Local Docker: `make run-docker` via [scripts/deploy-docker.sh](mdc:scripts/deploy-docker.sh) and [deployments/docker-compose/docker-compose.yml](mdc:deployments/docker-compose/docker-compose.yml).
+  - Kubernetes: `make deploy-k8s` applies [deployments/kubernetes](mdc:deployments/kubernetes).
+
+- **Maintenance**
+  - Lint: `make ci-lint`.
+  - Tests: `make test`, coverage `make cover`.
+

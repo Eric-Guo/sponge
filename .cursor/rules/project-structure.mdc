@@ -1,0 +1,35 @@
+---
+alwaysApply: true
+---
+### Sponge Project Structure Map
+
+Use this as a navigation guide for this repo. The main entry for the CLI is
+[cmd/sponge/main.go](mdc:cmd/sponge/main.go). It initializes commands from
+[cmd/sponge/commands](mdc:cmd/sponge/commands).
+
+- **APIs and Protobuf**
+  - Protos live under [api/](mdc:api/). Example service: [api/serverNameExample/v1/userExample.proto](mdc:api/serverNameExample/v1/userExample.proto).
+  - Generated files are co-located: `*_pb.go`, `*_grpc.pb.go`, `*_pb.validate.go`, and router stubs like `*_router.pb.go`.
+
+- **Service Code (monolith-style layout)**
+  - Entrypoint server binary: [cmd/serverNameExample_mixExample/main.go](mdc:cmd/serverNameExample_mixExample/main.go)
+    with initialization in [cmd/serverNameExample_mixExample/initial](mdc:cmd/serverNameExample_mixExample/initial).
+  - HTTP/GRPC servers: [internal/server](mdc:internal/server).
+  - HTTP routing: [internal/routers](mdc:internal/routers), handlers in [internal/handler](mdc:internal/handler).
+  - GRPC services: [internal/service](mdc:internal/service).
+  - Config structs: [internal/config](mdc:internal/config), config files in [configs/](mdc:configs/).
+  - Data access and models: [internal/dao](mdc:internal/dao), [internal/model](mdc:internal/model), DB init in [internal/database](mdc:internal/database).
+  - Error codes: [internal/ecode](mdc:internal/ecode).
+
+- **Shared Libraries**
+  - Shared packages live under [pkg/](mdc:pkg/), such as Gin helpers, GRPC, JWT, logger, etc.
+
+- **Build/Deploy/Docs**
+  - Make targets: [Makefile](mdc:Makefile). Local run script: [scripts/run.sh](mdc:scripts/run.sh).
+  - Protobuf/codegen scripts: [scripts/protoc.sh](mdc:scripts/protoc.sh), proto docs: [scripts/proto-doc.sh](mdc:scripts/proto-doc.sh).
+  - Swagger generation: [scripts/swag-docs.sh](mdc:scripts/swag-docs.sh), docs in [docs/](mdc:docs/).
+  - Deployment manifests: [deployments/docker-compose](mdc:deployments/docker-compose), [deployments/kubernetes](mdc:deployments/kubernetes).
+
+Tip: Prefer navigating to `internal/*` for runtime behavior, `cmd/*` for entrypoints,
+`api/*` for definitions, and `pkg/*` for reusable utilities.
+
