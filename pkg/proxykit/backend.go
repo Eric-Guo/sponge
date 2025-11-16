@@ -103,3 +103,8 @@ func (b *Backend) IncrementActiveConns() {
 func (b *Backend) DecrementActiveConns() {
 	b.activeConns.Add(-1)
 }
+
+// ReverseProxy exposes the underlying reverse proxy to allow custom configuration.
+func (b *Backend) ReverseProxy() *httputil.ReverseProxy {
+	return b.proxy
+}
