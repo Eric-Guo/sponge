@@ -41,7 +41,8 @@ var sqliteToMysqlType = map[string]string{
 	"real":          "FLOAT",
 	"datetime":      "DATETIME",
 	"blob":          "BLOB",
-	"boolean":       "TINYINT",
+	"boolean":       "TINYINT(1)",
+	"bool":          "TINYINT(1)",
 	"numeric":       " VARCHAR(255)",
 	"autoincrement": "auto_increment",
 }

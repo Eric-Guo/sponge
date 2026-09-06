@@ -15,7 +15,7 @@ import (
 	"github.com/go-dev-frame/sponge/pkg/gin/middleware"
 	"github.com/go-dev-frame/sponge/pkg/gin/middleware/metrics"
 	"github.com/go-dev-frame/sponge/pkg/gin/prof"
-	"github.com/go-dev-frame/sponge/pkg/logger"
+	"github.com/go-dev-frame/sponge/pkg/gin/proxy"
 
 	"github.com/go-dev-frame/sponge/docs"
 	"github.com/go-dev-frame/sponge/internal/config"
@@ -42,13 +42,6 @@ func NewRouter() *gin.Engine {
 
 	// request id middleware
 	r.Use(middleware.RequestID())
-
-	// logger middleware, to print simple messages, replace middleware.Logging with middleware.SimpleLog
-	r.Use(middleware.Logging(
-		middleware.WithLog(logger.Get()),
-		middleware.WithRequestIDFromContext(),
-		middleware.WithIgnoreRoutes("/metrics"), // ignore path
-	))
 
 	// metrics middleware
 	if config.Get().App.EnableMetrics {
@@ -112,12 +105,36 @@ func NewRouter() *gin.Engine {
 	// example:
 	//    registerRouters(r, "/api/v2", apiV2RouteFns, middleware.Auth())
 
+	registerProxy(r)
 	return r
 }
 
 func registerRouters(r *gin.Engine, groupPath string, routerFns []func(*gin.RouterGroup), handlers ...gin.HandlerFunc) {
+	rails := config.Get().Rails
+	if rails.SecretKeyBase != "" && rails.SecretKeyBase != "change-me" {
+		handlers = append(handlers, middleware.RailsCookieAuthMiddleware(rails.SecretKeyBase, rails.CookieName), middleware.VerifyRailsSessionUserIDIs(int64(rails.UserID)))
+	}
 	rg := r.Group(groupPath, handlers...)
 	for _, fn := range routerFns {
 		fn(rg)
+	}
+}
+
+func registerProxy(r *gin.Engine) {
+	cfg := config.Get()
+	p := cfg.Proxy
+	options := proxy.FallbackConfig{Proxy: proxy.FallbackProxyConfig{
+		Enabled: p.Enabled, TargetURL: p.TargetURL, Strategy: p.Strategy,
+		ForwardHeaders: p.ForwardHeaders, BadGatewayPage: p.BadGatewayPage,
+		H2cEnabled: p.H2cEnabled, XSendfileEnabled: p.XSendfileEnabled,
+		Cache:       proxy.FallbackCacheConfig(p.Cache),
+		HealthCheck: proxy.FallbackHealthCheck(p.HealthCheck),
+		Management:  proxy.FallbackManagement(p.Management),
+	}}
+	options.Upstream.Enabled = cfg.Upstream.Enabled
+	options.Upstream.TargetPort = cfg.Upstream.TargetPort
+	options.Upstream.TargetBindSocket = cfg.Upstream.TargetBindSocket
+	if err := proxy.RegisterFallback(r, options); err != nil {
+		panic(err)
 	}
 }

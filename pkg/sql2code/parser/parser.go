@@ -210,7 +210,12 @@ func (t tmplField) ConditionZero() string {
 		return ` != 0`
 	case "string", "sql.NullString": //nolint
 		return ` != ""`
-	case "time.Time", "*time.Time", "sql.NullTime": //nolint
+	case goTypeTime:
+		if t.DBDriver == DBDriverSqlite {
+			return `.IsZero() == false`
+		}
+		return ` != nil && table.` + t.Name + `.IsZero() == false`
+	case "*time.Time", "sql.NullTime": //nolint
 		return ` != nil && table.` + t.Name + `.IsZero() == false`
 	case "interface{}": //nolint
 		return ` != nil` //nolint
@@ -864,11 +869,13 @@ func getModelCode(data modelCodes) (string, error) {
 }
 
 func getUpdateFieldsCode(data tmplData, isEmbed bool) (string, error) {
-	_ = isEmbed
 
 	// filter fields
 	var newFields = []tmplField{}
 	for _, field := range data.Fields {
+		if field.DBDriver == DBDriverSqlite && !isEmbed && field.GoType == goTypeTime {
+			field.GoType = "*time.Time"
+		}
 		falseColumns := []string{}
 		if isIgnoreFields(field.ColName, falseColumns...) || field.ColName == columnID || field.ColName == _columnID {
 			continue

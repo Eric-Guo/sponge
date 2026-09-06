@@ -36,6 +36,7 @@ var commonInitialisms = map[string]bool{
 	"ID":    true,
 	"IP":    true,
 	"JSON":  true,
+	"JWT":   true,
 	"LHS":   true,
 	"QPS":   true,
 	"RAM":   true,

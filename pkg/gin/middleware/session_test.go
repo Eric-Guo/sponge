@@ -39,3 +39,26 @@ func TestRailsCookieAuthMiddleware_InvalidCookie(t *testing.T) {
 
 	assert.Equal(t, 401, w.Code)
 }
+
+func TestVerifyRailsSessionUserID(t *testing.T) {
+	for _, tc := range []struct {
+		name   string
+		id     any
+		status int
+	}{
+		{"integer", int64(1), 200}, {"json number", float64(1), 200}, {"string", "1", 200},
+		{"other user", 2, 403}, {"fractional", 1.5, 401}, {"invalid", "oops", 401},
+	} {
+		t.Run(tc.name, func(t *testing.T) {
+			r := gin.New()
+			r.Use(func(c *gin.Context) {
+				c.Set("rails_session", map[string]any{"warden.user.user.key": []any{[]any{tc.id}, "salt"}})
+			})
+			r.Use(VerifyRailsSessionUserIDIs(1))
+			r.GET("/", func(c *gin.Context) { c.String(200, "ok") })
+			w := httptest.NewRecorder()
+			r.ServeHTTP(w, httptest.NewRequest("GET", "/", nil))
+			assert.Equal(t, tc.status, w.Code)
+		})
+	}
+}

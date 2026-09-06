@@ -1,40 +1,20 @@
-#!/usr/bin/expect
+#!/usr/bin/env bash
 
-set serviceName "serverNameExample"
+set -euo pipefail
 
-if {$argc < 3} {
-    puts "Usage: $argv0 username password ipAddr"
-    exit 1
-}
+serviceName="serverNameExample"
+tarball="${serviceName}-binary.tar.gz"
+remote_host="${1:?usage: deploy-binary.sh user@host [remote-directory]}"
+remote_tmp="${2:-/tmp}"
 
-# parameters
-set username [lindex $argv 0]
-set password [lindex $argv 1]
-set ipAddr [lindex $argv 2]
+if [[ ! -f "${tarball}" ]]; then
+  echo "error: ${tarball} not found. run 'make binary-package' first." >&2
+  exit 1
+fi
 
-set timeout 30
+ssh "${remote_host}" "mkdir -p '${remote_tmp}'"
+scp "${tarball}" "${remote_host}":"${remote_tmp}/${tarball}"
+ssh "${remote_host}" "cd '${remote_tmp}' && rm -rf ${serviceName}-binary && tar zxf '${tarball}'"
+ssh "${remote_host}" "cd '${remote_tmp}' && bash ${serviceName}-binary/deploy.sh"
 
-spawn scp -r ./${serviceName}-binary.tar.gz ${username}@${ipAddr}:/tmp/
-#expect "*yes/no*"
-#send  "yes\r"
-expect "*password:*"
-send  "${password}\r"
-expect eof
-
-spawn ssh ${username}@${ipAddr}
-#expect "*yes/no*"
-#send  "yes\r"
-expect "*password:*"
-send  "${password}\r"
-
-# execute a command or script
-expect "*${username}@*"
-send "cd /tmp && tar zxvf ${serviceName}-binary.tar.gz\r"
-expect "*${username}@*"
-send "bash /tmp/${serviceName}-binary/deploy.sh\r"
-
-# logging out of a session
-expect "*${username}@*"
-send "exit\r"
-
-expect eof
+echo "Deployment to ${remote_host} complete."

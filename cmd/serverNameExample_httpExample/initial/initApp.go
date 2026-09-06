@@ -4,11 +4,11 @@
 package initial
 
 import (
-	"flag"
 	"strconv"
 	"time"
 
 	ginAuth "github.com/go-dev-frame/sponge/pkg/gin/middleware/auth"
+
 	"github.com/go-dev-frame/sponge/pkg/logger"
 	"github.com/go-dev-frame/sponge/pkg/stat"
 	"github.com/go-dev-frame/sponge/pkg/tracer"
@@ -18,14 +18,9 @@ import (
 	"github.com/go-dev-frame/sponge/internal/database"
 )
 
-var (
-	version    string
-	configFile string
-)
-
 // InitApp initial app configuration
-func InitApp() {
-	initConfig()
+func InitApp(configFile, version string) {
+	initConfig(configFile, version)
 	cfg := config.Get()
 
 	// initializing log
@@ -77,20 +72,13 @@ func InitApp() {
 	if cfg.App.CacheType != "" {
 		logger.Infof("[%s] was initialized", cfg.App.CacheType)
 	}
-
-	// initialize gin jwt auth with config
-	if cfg.JWT.SigningKey != "change-me" {
+	if cfg.JWT.SigningKey != "" && cfg.JWT.SigningKey != "change-me" {
 		ginAuth.InitAuth([]byte(cfg.JWT.SigningKey), time.Duration(cfg.JWT.Expire)*time.Second)
-		logger.Info("[jwt auth] was initialized")
 	}
 }
 
-func initConfig() {
-	flag.StringVar(&version, "version", "", "service Version Number")
-	flag.StringVar(&configFile, "c", "", "configuration file")
-	flag.Parse()
-
-	getConfigFromLocal()
+func initConfig(configFile, version string) {
+	getConfigFromLocal(configFile)
 
 	if version != "" {
 		config.Get().App.Version = version
@@ -98,7 +86,7 @@ func initConfig() {
 }
 
 // get configuration from local configuration file
-func getConfigFromLocal() {
+func getConfigFromLocal(configFile string) {
 	if configFile == "" {
 		configFile = configs.Location("serverNameExample.yml")
 	}

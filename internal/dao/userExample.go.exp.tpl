@@ -153,7 +153,7 @@ func (d *{{.TableNameCamelFCL}}Dao) GetBy{{.ColumnNameCamel}}(ctx context.Contex
 {{else}}		val, err, _ := d.sfg.Do(utils.{{.GoTypeFCU}}ToStr({{.ColumnNameCamelFCL}}), func() (interface{}, error) {
 {{end}}
 			table := &model.{{.TableNameCamel}}{}
-			err = d.db.WithContext(ctx).Where("{{.ColumnName}} = ?", {{.ColumnNameCamelFCL}}).First(table).Error
+			err := d.db.WithContext(ctx).Where("{{.ColumnName}} = ?", {{.ColumnNameCamelFCL}}).First(table).Error
 			if err != nil {
 				// set placeholder cache to prevent cache penetration, default expiration time 10 minutes
 				if errors.Is(err, database.ErrRecordNotFound) {
@@ -349,10 +349,7 @@ func (d *{{.TableNameCamelFCL}}Dao) CreateByTx(ctx context.Context, tx *gorm.DB,
 
 // DeleteByTx delete a record by {{.ColumnNameCamelFCL}} in the database using the provided transaction
 func (d *{{.TableNameCamelFCL}}Dao) DeleteByTx(ctx context.Context, tx *gorm.DB, {{.ColumnNameCamelFCL}} {{.GoType}}) error {
-	update := map[string]interface{}{
-		"deleted_at": time.Now(),
-	}
-	err := tx.WithContext(ctx).Model(&model.{{.TableNameCamel}}{}).Where("{{.ColumnName}} = ?", {{.ColumnNameCamelFCL}}).Updates(update).Error
+	err := tx.WithContext(ctx).Where("{{.ColumnName}} = ?", {{.ColumnNameCamelFCL}}).Delete(&model.{{.TableNameCamel}}{}).Error
 	if err != nil {
 		return err
 	}

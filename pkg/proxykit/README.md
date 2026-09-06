@@ -133,3 +133,27 @@ Dynamically scale in. Health checks for removed nodes will stop automatically.
   "healthy": true
 }
 ```
+
+
+### Generated HTTP services
+
+The existing HTTP templates expose `proxy`, `upstream`, `rails`, and expanded
+`http.tls` settings. These features are optional: proxying and upstream process
+startup are disabled by default, and Rails authentication is enabled by replacing
+`rails.secretKeyBase: change-me` and setting the cookie name and permitted user ID.
+
+`pkg/gin/proxy.RegisterFallback` sends unmatched Gin routes through proxykit while
+keeping registered API routes local. It supports TCP or UNIX socket upstreams,
+optional h2c, forwarded headers, a custom 502 page, load balancing, and management
+endpoints. UNIX socket health checks use the same socket as request forwarding.
+
+`pkg/proxykit/cache` caches explicitly public responses with a positive max-age,
+tracks Vary headers, honors ETags, and omits Set-Cookie on cache hits. Range and
+upgrade requests bypass the cache; private/no-store responses are not cached.
+`NewSendfileHandler` translates upstream X-Sendfile responses into file downloads.
+
+Generated HTTP servers also support gzip, request start timestamps, body limits,
+access logs, and self-signed, Let's Encrypt, external, or remote API TLS modes.
+Environment variables and remote API headers remain string maps after
+`make update-config`. These capabilities require the updated Sponge library;
+when testing an unreleased checkout, use a local Go module replacement.

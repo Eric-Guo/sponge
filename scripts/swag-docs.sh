@@ -1,5 +1,7 @@
 #!/bin/bash
 
+set -e
+
 function checkResult() {
     result=$1
     if [ ${result} -ne 0 ]; then
@@ -31,7 +33,11 @@ if [[ -z "${swaggerAddr}" ]]; then
   swaggerAddr="localhost:8080"
 fi
 if [ "${configAddr}" != "${swaggerAddr}" ];then
-  sed -i "s/${swaggerAddr}/${configAddr}/g" cmd/serverNameExample_mixExample/main.go
+  mainFile="cmd/serverNameExample_mixExample/main.go"
+  temporaryFile=$(mktemp)
+  awk -v host="${configAddr}" '/^[[:space:]]*\/\/[[:space:]]*@host[[:space:]]/ { $0 = "// @host " host } { print }' "$mainFile" > "$temporaryFile"
+  cat "$temporaryFile" > "$mainFile"
+  rm -f "$temporaryFile"
 fi
 
 # generate api docs
