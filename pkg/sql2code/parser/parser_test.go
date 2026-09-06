@@ -698,3 +698,37 @@ func TestSQLiteBooleanType(t *testing.T) {
 	assert.NoError(t, err)
 	assert.Regexp(t, `Admin\s+bool`, codes[CodeTypeModel])
 }
+
+func TestSoftDeleteModelGeneration(t *testing.T) {
+	const sql = "CREATE TABLE users (id bigint primary key, created_at datetime, updated_at datetime, deleted_at datetime, name varchar(100));"
+	for _, driver := range []string{DBDriverMysql, DBDriverPostgresql, DBDriverSqlite} {
+		for _, naming := range []int{0, 1} {
+			t.Run(fmt.Sprintf("%s/naming=%d", driver, naming), func(t *testing.T) {
+				options := []Option{WithDBDriver(driver), WithEmbed(), WithJSONTag(naming), WithNullStyle(NullDisable)}
+				original, err := ParseSQL(sql, options...)
+				assert.NoError(t, err)
+				enabled, err := ParseSQL(sql, append(options, WithSoftDelete(true))...)
+				assert.NoError(t, err)
+				assert.Equal(t, original[CodeTypeModel], enabled[CodeTypeModel])
+				assert.Contains(t, enabled[CodeTypeModel], "sgorm.Model")
+				assert.Contains(t, enabled[CodeTypeModel], "deleted_at")
+
+				disabled, err := ParseSQL(sql, append(options, WithSoftDelete(false))...)
+				assert.NoError(t, err)
+				base := "sgorm.BaseModel"
+				if naming == 0 {
+					base += "2"
+				}
+				assert.Contains(t, disabled[CodeTypeModel], base)
+				assert.NotContains(t, disabled[CodeTypeModel], "deleted_at")
+				assert.NotContains(t, disabled[CodeTypeModel], "DeletedAt")
+				assert.Contains(t, disabled[CodeTypeModel], "created_at")
+				assert.Contains(t, disabled[CodeTypeModel], "updated_at")
+			})
+		}
+	}
+	explicit, err := ParseSQL(sql, WithSoftDelete(false), WithNullStyle(NullDisable))
+	assert.NoError(t, err)
+	assert.NotContains(t, explicit[CodeTypeModel], "deleted_at")
+	assert.NotContains(t, explicit[CodeTypeModel], "DeletedAt")
+}

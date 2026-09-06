@@ -24,6 +24,7 @@ func HTTPCommand() *cobra.Command {
 		repoAddr    string // image repo address
 		outPath     string // output directory
 		dbTables    string // table names
+		softDelete  bool   // enable soft deletion for embedded SQL models
 		sqlArgs     = sql2code.Args{
 			Package:  "model",
 			JSONTag:  true,
@@ -47,6 +48,9 @@ func HTTPCommand() *cobra.Command {
   # Generate web server code with extended api.
   sponge web http --module-name=yourModuleName --server-name=yourServerName --project-name=yourProjectName --db-driver=mysql --db-dsn=root:123456@(192.168.3.37:3306)/test --db-table=user --extended-api=true
 
+  # Generate an embedded model without a deleted_at column (deletes permanently remove records).
+  sponge web http --module-name=yourModuleName --server-name=yourServerName --project-name=yourProjectName --db-driver=sqlite --db-dsn=/tmp/app.db --db-table=user --embed=true --soft-delete=false
+
   # Generate web server code and specify the output directory, Note: code generation will be canceled when the latest generated file already exists.
   sponge web http --module-name=yourModuleName --server-name=yourServerName --project-name=yourProjectName --db-driver=mysql --db-dsn=root:123456@(192.168.3.37:3306)/test --db-table=user --out=./yourServerDir
 
@@ -57,6 +61,7 @@ func HTTPCommand() *cobra.Command {
 		SilenceErrors: true,
 		SilenceUsage:  true,
 		RunE: func(cmd *cobra.Command, args []string) error {
+			sqlArgs.DisableSoftDelete = !softDelete
 			var err error
 			var firstTable string
 			var handlerTableNames []string
@@ -87,17 +92,18 @@ func HTTPCommand() *cobra.Command {
 				return err
 			}
 			g := &httpGenerator{
-				moduleName:     moduleName,
-				serverName:     serverName,
-				projectName:    projectName,
-				repoAddr:       repoAddr,
-				dbDSN:          sqlArgs.DBDsn,
-				dbDriver:       sqlArgs.DBDriver,
-				codes:          codes,
-				outPath:        outPath,
-				isExtendedAPI:  sqlArgs.IsExtendedAPI,
-				isEmbed:        sqlArgs.IsEmbed,
-				suitedMonoRepo: suitedMonoRepo,
+				moduleName:        moduleName,
+				serverName:        serverName,
+				projectName:       projectName,
+				repoAddr:          repoAddr,
+				dbDSN:             sqlArgs.DBDsn,
+				dbDriver:          sqlArgs.DBDriver,
+				codes:             codes,
+				outPath:           outPath,
+				isExtendedAPI:     sqlArgs.IsExtendedAPI,
+				isEmbed:           sqlArgs.IsEmbed,
+				disableSoftDelete: sqlArgs.DisableSoftDelete,
+				suitedMonoRepo:    suitedMonoRepo,
 			}
 			outPath, err = g.generateCode()
 			if err != nil {
@@ -116,13 +122,14 @@ func HTTPCommand() *cobra.Command {
 				}
 
 				hg := &handlerGenerator{
-					moduleName:    moduleName,
-					dbDriver:      sqlArgs.DBDriver,
-					codes:         codes,
-					outPath:       outPath,
-					isEmbed:       sqlArgs.IsEmbed,
-					isExtendedAPI: sqlArgs.IsExtendedAPI,
-					serverName:    serverName,
+					moduleName:        moduleName,
+					dbDriver:          sqlArgs.DBDriver,
+					codes:             codes,
+					outPath:           outPath,
+					isEmbed:           sqlArgs.IsEmbed,
+					disableSoftDelete: sqlArgs.DisableSoftDelete,
+					isExtendedAPI:     sqlArgs.IsExtendedAPI,
+					serverName:        serverName,
 
 					suitedMonoRepo: suitedMonoRepo,
 				}
@@ -158,6 +165,7 @@ using help:
 	cmd.Flags().StringVarP(&dbTables, "db-table", "t", "", "table name, multiple names separated by commas")
 	_ = cmd.MarkFlagRequired("db-table")
 	cmd.Flags().BoolVarP(&sqlArgs.IsEmbed, "embed", "e", false, "whether to embed gorm.model struct")
+	cmd.Flags().BoolVar(&softDelete, "soft-delete", true, "whether embedded SQL models use soft deletion; false omits deleted_at and permanently deletes records")
 	cmd.Flags().BoolVarP(&sqlArgs.IsExtendedAPI, "extended-api", "a", false, "whether to generate extended crud api, additional includes: DeleteByIDs, GetByCondition, ListByIDs, ListByLatestID")
 	cmd.Flags().BoolVarP(&suitedMonoRepo, "suited-mono-repo", "l", false, "whether the generated code is suitable for mono-repo")
 	cmd.Flags().IntVarP(&sqlArgs.JSONNamedType, "json-name-type", "j", 1, "json tags name type, 0:snake case, 1:camel case")
@@ -168,17 +176,18 @@ using help:
 }
 
 type httpGenerator struct {
-	moduleName     string
-	serverName     string
-	projectName    string
-	repoAddr       string
-	dbDSN          string
-	dbDriver       string
-	codes          map[string]string
-	outPath        string
-	isEmbed        bool
-	isExtendedAPI  bool
-	suitedMonoRepo bool
+	moduleName        string
+	serverName        string
+	projectName       string
+	repoAddr          string
+	dbDSN             string
+	dbDriver          string
+	codes             map[string]string
+	outPath           string
+	isEmbed           bool
+	disableSoftDelete bool
+	isExtendedAPI     bool
+	suitedMonoRepo    bool
 
 	fields        []replacer.Field
 	isCommonStyle bool
@@ -275,7 +284,7 @@ func (g *httpGenerator) generateCode() (string, error) {
 	replaceFiles := make(map[string][]string)
 	switch strings.ToLower(g.dbDriver) {
 	case DBDriverMysql, DBDriverPostgresql, DBDriverTidb, DBDriverSqlite:
-		g.fields = append(g.fields, getExpectedSQLForDeletionField(g.isEmbed)...)
+		g.fields = append(g.fields, getExpectedSQLForDeletionField(g.isEmbed && !g.disableSoftDelete)...)
 		if g.isExtendedAPI {
 			var fields []replacer.Field
 			if !crudInfo.CheckCommonType() {

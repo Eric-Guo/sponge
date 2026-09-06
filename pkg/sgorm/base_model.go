@@ -42,6 +42,21 @@ type Model2 struct {
 	DeletedAt gorm.DeletedAt `gorm:"column:deleted_at;index" json:"-"`
 }
 
+// BaseModel embeds ID and timestamps without enabling soft deletion.
+// Use this for tables without a deleted_at column.
+type BaseModel struct {
+	ID        uint64    `gorm:"column:id;AUTO_INCREMENT;primary_key" json:"id"`
+	CreatedAt time.Time `gorm:"column:created_at" json:"createdAt"`
+	UpdatedAt time.Time `gorm:"column:updated_at" json:"updatedAt"`
+}
+
+// BaseModel2 is BaseModel with snake case JSON tags.
+type BaseModel2 struct {
+	ID        uint64    `gorm:"column:id;AUTO_INCREMENT;primary_key" json:"id"`
+	CreatedAt time.Time `gorm:"column:created_at" json:"created_at"`
+	UpdatedAt time.Time `gorm:"column:updated_at" json:"updated_at"`
+}
+
 // KV map type
 type KV = map[string]interface{}
 

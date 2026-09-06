@@ -151,15 +151,16 @@ func ParseSQL(sql string, options ...Option) (map[string]string, error) {
 type tmplData struct {
 	TableNamePrefix string
 
-	RawTableName    string // raw table name, example: foo_bar
-	TableName       string // table name in camel case, example: FooBar
-	TName           string // table name first letter in lower case, example: fooBar
-	NameFunc        bool
-	Fields          []tmplField
-	Comment         string
-	SubStructs      string // sub structs for model
-	ProtoSubStructs string // sub structs for protobuf
-	DBDriver        string
+	RawTableName      string // raw table name, example: foo_bar
+	TableName         string // table name in camel case, example: FooBar
+	TName             string // table name first letter in lower case, example: fooBar
+	NameFunc          bool
+	Fields            []tmplField
+	Comment           string
+	SubStructs        string // sub structs for model
+	ProtoSubStructs   string // sub structs for protobuf
+	DisableSoftDelete bool
+	DBDriver          string
 
 	CrudInfo *CrudInfo
 }
@@ -442,9 +443,10 @@ type codeText struct {
 func makeCode(stmt *ast.CreateTableStmt, opt options) (*codeText, error) {
 	importPath := make([]string, 0, 1)
 	data := tmplData{
-		TableNamePrefix: opt.TablePrefix,
-		RawTableName:    stmt.Table.Name.String(),
-		DBDriver:        opt.DBDriver,
+		TableNamePrefix:   opt.TablePrefix,
+		RawTableName:      stmt.Table.Name.String(),
+		DBDriver:          opt.DBDriver,
+		DisableSoftDelete: opt.DisableSoftDelete,
 	}
 
 	tablePrefix := data.TableNamePrefix
@@ -490,6 +492,9 @@ func makeCode(stmt *ast.CreateTableStmt, opt options) (*codeText, error) {
 	columnPrefix := opt.ColumnPrefix
 	for _, col := range stmt.Cols {
 		colName := col.Name.Name.String()
+		if data.DisableSoftDelete && data.DBDriver != DBDriverMongodb && colName == columnDeletedAt {
+			continue
+		}
 		goFieldName := colName
 		if columnPrefix != "" && strings.HasPrefix(goFieldName, columnPrefix) {
 			goFieldName = goFieldName[len(columnPrefix):]
@@ -782,6 +787,9 @@ func getModelStructCode(data tmplData, importPaths []string, isEmbed bool, jsonN
 	// restore the real embedded fields
 	if isEmbed {
 		gormEmbed := replaceFields[__mysqlModel__]
+		if data.DisableSoftDelete {
+			gormEmbed = "sgorm.BaseModel"
+		}
 		if jsonNamedType == 0 { // snake case
 			gormEmbed += "2" // sgorm.Model2
 		}
@@ -829,9 +837,9 @@ func getTableColumnsCode(data tmplData, isEmbed bool) ([]byte, error) {
 			{
 				ColName: "updated_at",
 			},
-			{
-				ColName: "deleted_at",
-			},
+		}
+		if !data.DisableSoftDelete {
+			fields = append(fields, tmplField{ColName: columnDeletedAt})
 		}
 		for _, field := range data.Fields {
 			if field.Name == __mysqlModel__ {

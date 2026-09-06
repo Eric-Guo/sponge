@@ -130,14 +130,15 @@ using help:
 }
 
 type handlerGenerator struct {
-	moduleName     string
-	dbDriver       string
-	codes          map[string]string
-	outPath        string
-	serverName     string
-	isEmbed        bool
-	isExtendedAPI  bool
-	suitedMonoRepo bool
+	moduleName        string
+	dbDriver          string
+	codes             map[string]string
+	outPath           string
+	serverName        string
+	isEmbed           bool
+	disableSoftDelete bool
+	isExtendedAPI     bool
+	suitedMonoRepo    bool
 
 	fields        []replacer.Field
 	isCommonStyle bool
@@ -227,7 +228,7 @@ func (g *handlerGenerator) generateCode() (string, error) {
 	replaceFiles := make(map[string][]string)
 	switch strings.ToLower(g.dbDriver) {
 	case DBDriverMysql, DBDriverPostgresql, DBDriverTidb, DBDriverSqlite:
-		g.fields = append(g.fields, getExpectedSQLForDeletionField(g.isEmbed)...)
+		g.fields = append(g.fields, getExpectedSQLForDeletionField(g.isEmbed && !g.disableSoftDelete)...)
 		if g.isExtendedAPI {
 			var fields []replacer.Field
 			if !crudInfo.CheckCommonType() {
