@@ -1,6 +1,7 @@
 package generate
 
 import (
+	"database/sql"
 	"fmt"
 	goparser "go/parser"
 	"go/token"
@@ -10,6 +11,7 @@ import (
 	"strings"
 	"testing"
 
+	_ "github.com/mattn/go-sqlite3"
 	"github.com/stretchr/testify/require"
 
 	"github.com/go-dev-frame/sponge/pkg/jy2struct"
@@ -112,6 +114,53 @@ func TestHTTPGenerationUsesRepositoryTemplates(t *testing.T) {
 				require.NotContains(t, read("internal/dao/users.go"), "table.SignedInAt != nil")
 			} else {
 				require.Contains(t, read("internal/dao/users.go"), "table.SignedInAt != nil")
+			}
+		})
+	}
+}
+
+func TestHTTPSoftDeleteOption(t *testing.T) {
+	repository, err := filepath.Abs("../../../..")
+	require.NoError(t, err)
+	previous := SpongeDir
+	SpongeDir = repository
+	t.Cleanup(func() { SpongeDir = previous })
+	dir := t.TempDir()
+	dbFile := filepath.Join(dir, "schema.db")
+	db, err := sql.Open("sqlite3", dbFile)
+	require.NoError(t, err)
+	for _, table := range []string{"users", "posts"} {
+		_, err = db.Exec("CREATE TABLE " + table + " (id INTEGER PRIMARY KEY, created_at DATETIME, updated_at DATETIME, name TEXT)")
+		require.NoError(t, err)
+	}
+	require.NoError(t, db.Close())
+	for _, option := range []string{"default", "true", "false"} {
+		t.Run(option, func(t *testing.T) {
+			output := filepath.Join(dir, option)
+			command := HTTPCommand()
+			require.Equal(t, "true", command.Flags().Lookup("soft-delete").DefValue)
+			args := []string{"--module-name=example.com/service", "--server-name=sample", "--project-name=sample",
+				"--db-driver=sqlite", "--db-dsn=" + dbFile, "--db-table=users,posts", "--extended-api=true", "--embed=true", "--out=" + output}
+			if option != "default" {
+				args = append(args, "--soft-delete="+option)
+			}
+			command.SetArgs(args)
+			require.NoError(t, command.Execute())
+			for _, table := range []string{"users", "posts"} {
+				model, err := os.ReadFile(filepath.Join(output, "internal/model", table+".go"))
+				require.NoError(t, err)
+				tests, err := os.ReadFile(filepath.Join(output, "internal/dao", table+"_test.go"))
+				require.NoError(t, err)
+				if option == "false" {
+					require.Contains(t, string(model), "sgorm.BaseModel")
+					require.NotContains(t, string(model), "deleted_at")
+					require.Contains(t, string(tests), `expectedSQLForDeletion := "DELETE .*"`)
+					require.NotContains(t, string(tests), "expectedArgsForDeletionTime")
+				} else {
+					require.Contains(t, string(model), "sgorm.Model")
+					require.Contains(t, string(model), "deleted_at")
+					require.Contains(t, string(tests), `expectedSQLForDeletion := "UPDATE .*"`)
+				}
 			}
 		})
 	}

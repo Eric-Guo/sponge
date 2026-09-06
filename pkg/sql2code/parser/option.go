@@ -14,22 +14,23 @@ const (
 type Option func(*options)
 
 type options struct {
-	DBDriver       string
-	FieldTypes     map[string]string // name:type
-	Charset        string
-	Collation      string
-	JSONTag        bool
-	JSONNamedType  int
-	TablePrefix    string
-	ColumnPrefix   string
-	NoNullType     bool
-	NullStyle      NullStyle
-	Package        string
-	GormType       bool
-	ForceTableName bool
-	IsEmbed        bool // is gorm.Model embedded
-	IsWebProto     bool // true: proto file include router path and swagger info, false: normal proto file without router and swagger
-	IsExtendedAPI  bool // true: extended api (9 api), false: basic api (5 api)
+	DBDriver          string
+	FieldTypes        map[string]string // name:type
+	Charset           string
+	Collation         string
+	JSONTag           bool
+	JSONNamedType     int
+	TablePrefix       string
+	ColumnPrefix      string
+	NoNullType        bool
+	NullStyle         NullStyle
+	Package           string
+	GormType          bool
+	ForceTableName    bool
+	IsEmbed           bool // is gorm.Model embedded
+	DisableSoftDelete bool // omit deleted_at from SQL models
+	IsWebProto        bool // true: proto file include router path and swagger info, false: normal proto file without router and swagger
+	IsExtendedAPI     bool // true: extended api (9 api), false: basic api (5 api)
 
 	IsCustomTemplate bool // true: custom extend template, false: sponge template
 }
@@ -135,6 +136,12 @@ func WithEmbed() Option {
 	return func(o *options) {
 		o.IsEmbed = true
 	}
+}
+
+// WithSoftDelete controls whether generated SQL models include deleted_at.
+// The default is true; embedded models then use sgorm.Model for soft deletion.
+func WithSoftDelete(enabled bool) Option {
+	return func(o *options) { o.DisableSoftDelete = !enabled }
 }
 
 // WithWebProto set proto file type
