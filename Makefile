@@ -74,10 +74,10 @@ proto-doc:
 
 
 .PHONY: build
-# Build serverNameExample_mixExample for linux amd64 binary
+# Build serverNameExample_mixExample for binary
 build:
-	@echo "building 'serverNameExample_mixExample', linux binary file will output to 'cmd/serverNameExample_mixExample'"
-	@cd cmd/serverNameExample_mixExample && CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build
+	@echo "building 'serverNameExample_mixExample', macOS binary file will output to 'cmd/serverNameExample_mixExample'"
+	@cd cmd/serverNameExample_mixExample && CGO_ENABLED=0 go build
 
 # delete the templates code start
 
