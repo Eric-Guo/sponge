@@ -70,3 +70,9 @@ func Test_mergeObjects(t *testing.T) {
 	v = mergeObjects(o3, o3)
 	t.Log(v)
 }
+
+func TestJWTFieldInitialism(t *testing.T) {
+	if got := FmtFieldName("jwt"); got != "JWT" {
+		t.Fatalf("FmtFieldName(jwt) = %q, want JWT", got)
+	}
+}

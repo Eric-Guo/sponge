@@ -29,6 +29,9 @@ func Set(conf *Config) {
 }
 
 type Config struct {
+	Proxy      Proxy        `yaml:"proxy" json:"proxy"`
+	Rails      Rails        `yaml:"rails" json:"rails"`
+	Upstream   Upstream     `yaml:"upstream" json:"upstream"`
 	App        App          `yaml:"app" json:"app"`
 	Consul     Consul       `yaml:"consul" json:"consul"`
 	Database   Database     `yaml:"database" json:"database"`
@@ -78,11 +81,15 @@ type ServerSecure struct {
 }
 
 type TLS struct {
-	CertFile   string `yaml:"certFile" json:"certFile"`
-	Domain     string `yaml:"domain" json:"domain"`
-	Email      string `yaml:"email" json:"email"`
-	EnableMode string `yaml:"enableMode" json:"enableMode"`
-	KeyFile    string `yaml:"keyFile" json:"keyFile"`
+	CertFile     string    `yaml:"certFile" json:"certFile"`
+	Domain       string    `yaml:"domain" json:"domain"`
+	Domains      []string  `yaml:"domains" json:"domains"`
+	Email        string    `yaml:"email" json:"email"`
+	EnableMode   string    `yaml:"enableMode" json:"enableMode"`
+	KeyFile      string    `yaml:"keyFile" json:"keyFile"`
+	RedirectHTTP bool      `yaml:"redirectHTTP" json:"redirectHTTP"`
+	RemoteAPI    RemoteAPI `yaml:"remoteAPI" json:"remoteAPI"`
+	StoragePath  string    `yaml:"storagePath" json:"storagePath"`
 }
 
 type App struct {
@@ -176,12 +183,73 @@ type NacosRd struct {
 }
 
 type HTTP struct {
-	Port    int `yaml:"port" json:"port"`
-	Timeout int `yaml:"timeout" json:"timeout"`
-	TLS     TLS `yaml:"tls" json:"tls"`
+	AddRequestStartHeader bool `yaml:"addRequestStartHeader" json:"addRequestStartHeader"`
+	GzipEnabled           bool `yaml:"gzipEnabled" json:"gzipEnabled"`
+	HTTPSPort             int  `yaml:"httpsPort" json:"httpsPort"`
+	IdleTimeout           int  `yaml:"idleTimeout" json:"idleTimeout"`
+	LogRequests           bool `yaml:"logRequests" json:"logRequests"`
+	MaxRequestBodyBytes   int  `yaml:"maxRequestBodyBytes" json:"maxRequestBodyBytes"`
+	Port                  int  `yaml:"port" json:"port"`
+	ReadTimeout           int  `yaml:"readTimeout" json:"readTimeout"`
+	Timeout               int  `yaml:"timeout" json:"timeout"`
+	TLS                   TLS  `yaml:"tls" json:"tls"`
+	WriteTimeout          int  `yaml:"writeTimeout" json:"writeTimeout"`
 }
 
 type JWT struct {
 	SigningKey string `yaml:"signingKey" json:"signingKey"`
 	Expire     int    `yaml:"expire" json:"expire"` // seconds
+}
+
+type RemoteAPI struct {
+	Headers map[string]string `yaml:"headers" json:"headers"`
+	Timeout int               `yaml:"timeout" json:"timeout"`
+	URL     string            `yaml:"url" json:"url"`
+}
+
+type Upstream struct {
+	Args             []string          `yaml:"args" json:"args"`
+	Command          string            `yaml:"command" json:"command"`
+	Enabled          bool              `yaml:"enabled" json:"enabled"`
+	Env              map[string]string `yaml:"env" json:"env"`
+	StopSignal       string            `yaml:"stopSignal" json:"stopSignal"`
+	TargetBindSocket string            `yaml:"targetBindSocket" json:"targetBindSocket"`
+	TargetPort       int               `yaml:"targetPort" json:"targetPort"`
+	WorkingDirectory string            `yaml:"workingDirectory" json:"workingDirectory"`
+}
+
+type Proxy struct {
+	BadGatewayPage   string      `yaml:"badGatewayPage" json:"badGatewayPage"`
+	Cache            Cache       `yaml:"cache" json:"cache"`
+	Enabled          bool        `yaml:"enabled" json:"enabled"`
+	ForwardHeaders   bool        `yaml:"forwardHeaders" json:"forwardHeaders"`
+	H2cEnabled       bool        `yaml:"h2cEnabled" json:"h2cEnabled"`
+	HealthCheck      HealthCheck `yaml:"healthCheck" json:"healthCheck"`
+	Management       Management  `yaml:"management" json:"management"`
+	Strategy         string      `yaml:"strategy" json:"strategy"`
+	TargetURL        string      `yaml:"targetURL" json:"targetURL"`
+	XSendfileEnabled bool        `yaml:"xSendfileEnabled" json:"xSendfileEnabled"`
+}
+
+type Management struct {
+	BasePath string `yaml:"basePath" json:"basePath"`
+	Enabled  bool   `yaml:"enabled" json:"enabled"`
+}
+
+type Cache struct {
+	CapacityBytes        int  `yaml:"capacityBytes" json:"capacityBytes"`
+	Enabled              bool `yaml:"enabled" json:"enabled"`
+	MaxItemSizeBytes     int  `yaml:"maxItemSizeBytes" json:"maxItemSizeBytes"`
+	MaxResponseBodyBytes int  `yaml:"maxResponseBodyBytes" json:"maxResponseBodyBytes"`
+}
+
+type HealthCheck struct {
+	IntervalSeconds int `yaml:"intervalSeconds" json:"intervalSeconds"`
+	TimeoutSeconds  int `yaml:"timeoutSeconds" json:"timeoutSeconds"`
+}
+
+type Rails struct {
+	CookieName    string `yaml:"cookieName" json:"cookieName"`
+	SecretKeyBase string `yaml:"secretKeyBase" json:"secretKeyBase"`
+	UserID        int    `yaml:"userID" json:"userID"`
 }

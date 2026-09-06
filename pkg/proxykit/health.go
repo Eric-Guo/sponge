@@ -7,8 +7,9 @@ import (
 
 // HealthCheckConfig defined the configuration for health check.
 type HealthCheckConfig struct {
-	Interval time.Duration `json:"interval"`
-	Timeout  time.Duration `json:"timeout"`
+	UnixSocket string        `json:"unixSocket,omitempty"`
+	Interval   time.Duration `json:"interval"`
+	Timeout    time.Duration `json:"timeout"`
 }
 
 // StartHealthChecks initiate backend health check for the backend server pool.
@@ -54,7 +55,11 @@ func runHealthCheck(backend *Backend, config HealthCheckConfig) {
 			}
 
 			addressToDial := net.JoinHostPort(host, port)
-			conn, err := net.DialTimeout("tcp", addressToDial, config.Timeout)
+			network := "tcp"
+			if config.UnixSocket != "" {
+				network, addressToDial = "unix", config.UnixSocket
+			}
+			conn, err := net.DialTimeout(network, addressToDial, config.Timeout)
 			if err != nil {
 				if backend.IsHealthy() {
 					log.Printf("[Health Check] %s is now UNHEALTHY: failed to connect to %s - %v", backend.URL, addressToDial, err)

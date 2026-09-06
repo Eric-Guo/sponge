@@ -1,8 +1,13 @@
 package generate
 
 import (
+	"bytes"
 	"errors"
 	"fmt"
+	"go/ast"
+	"go/format"
+	"go/parser"
+	"go/token"
 	"os"
 	"path/filepath"
 	"strings"
@@ -93,7 +98,11 @@ func runGenConfigCommand(files map[string]configType, ysArgs jy2struct.Args) err
 		if err != nil {
 			return err
 		}
-		err = saveFile(config.configFile, outputFile, startCode+structCodes)
+		source, err := normalizeConfigSource(startCode + structCodes)
+		if err != nil {
+			return err
+		}
+		err = saveFile(config.configFile, outputFile, source)
 		if err != nil {
 			return err
 		}
@@ -193,7 +202,11 @@ func convertToGoFile(ysArgs jy2struct.Args, outPath string) error {
 		outPath = strings.ReplaceAll(outPath, "/", "\\")
 	}
 
-	err = os.WriteFile(outPath, []byte(configFileCode+data), 0666)
+	source, err := normalizeConfigSource(configFileCode + data)
+	if err != nil {
+		return err
+	}
+	err = os.WriteFile(outPath, []byte(source), 0666)
 	if err != nil {
 		return err
 	}
@@ -201,4 +214,40 @@ func convertToGoFile(ysArgs jy2struct.Args, outPath string) error {
 	fmt.Printf("convert yaml to go struct successfully, out=%s\n", cutPath(outPath))
 
 	return nil
+}
+
+// normalizeConfigSource preserves open-ended string maps in service configuration.
+// YAML examples describe values, but must not turn environment names or HTTP
+// header names into a fixed set of struct fields after make update-config.
+func normalizeConfigSource(source string) (string, error) {
+	fset := token.NewFileSet()
+	file, err := parser.ParseFile(fset, "config.go", source, parser.ParseComments)
+	if err != nil {
+		return "", err
+	}
+	ast.Inspect(file, func(node ast.Node) bool {
+		spec, ok := node.(*ast.TypeSpec)
+		if !ok {
+			return true
+		}
+		structure, ok := spec.Type.(*ast.StructType)
+		if !ok {
+			return true
+		}
+		for _, field := range structure.Fields.List {
+			if len(field.Names) != 1 {
+				continue
+			}
+			name := spec.Name.Name + "." + field.Names[0].Name
+			if name == "Upstream.Env" || name == "RemoteAPI.Headers" {
+				field.Type = &ast.MapType{Key: ast.NewIdent("string"), Value: ast.NewIdent("string")}
+			}
+		}
+		return false
+	})
+	var output bytes.Buffer
+	if err := format.Node(&output, fset, file); err != nil {
+		return "", err
+	}
+	return output.String(), nil
 }

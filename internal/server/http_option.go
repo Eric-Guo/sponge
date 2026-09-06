@@ -1,6 +1,8 @@
 package server
 
 import (
+	"net/http"
+
 	"github.com/go-dev-frame/sponge/pkg/servicerd/registry"
 
 	"github.com/go-dev-frame/sponge/internal/config"
@@ -10,10 +12,11 @@ import (
 type HTTPOption func(*httpOptions)
 
 type httpOptions struct {
+	handler   http.Handler
 	isProd    bool
 	instance  *registry.ServiceInstance
 	iRegistry registry.Registry
-	tls       config.TLS
+	tls       *config.TLS
 }
 
 func defaultHTTPOptions() *httpOptions {
@@ -48,6 +51,11 @@ func WithHTTPRegistry(iRegistry registry.Registry, instance *registry.ServiceIns
 // WithHTTPTLS setting up tls
 func WithHTTPTLS(tls config.TLS) HTTPOption {
 	return func(o *httpOptions) {
-		o.tls = tls
+		o.tls = &tls
 	}
+}
+
+// WithHTTPHandler supplies the application handler.
+func WithHTTPHandler(handler http.Handler) HTTPOption {
+	return func(o *httpOptions) { o.handler = handler }
 }

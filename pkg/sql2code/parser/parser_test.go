@@ -678,3 +678,23 @@ func Test_customEndOfLetterToLower(t *testing.T) {
 		t.Log(customEndOfLetterToLower(name, inflection.Plural(name)))
 	}
 }
+
+func TestSQLiteTimestampUpdateMatchesModel(t *testing.T) {
+	initTemplate()
+	data := tmplData{Fields: []tmplField{{Name: "SignedInAt", ColName: "signed_in_at", GoType: "time.Time", DBDriver: DBDriverSqlite}}}
+	embedded, err := getUpdateFieldsCode(data, true)
+	assert.NoError(t, err)
+	assert.Contains(t, embedded, "table.SignedInAt.IsZero() == false")
+	assert.NotContains(t, embedded, "table.SignedInAt != nil")
+	explicit, err := getUpdateFieldsCode(data, false)
+	assert.NoError(t, err)
+	assert.Contains(t, explicit, "table.SignedInAt != nil")
+}
+
+func TestSQLiteBooleanType(t *testing.T) {
+	fields := SqliteFields{&SqliteField{Name: "id", Type: "integer", Pk: 1}, &SqliteField{Name: "admin", Type: "boolean"}}
+	sql := convertToSQLBySqliteFields("users", fields)
+	codes, err := ParseSQL(sql, WithDBDriver(DBDriverSqlite), WithEmbed(), WithJSONTag(1), WithNullStyle(NullDisable))
+	assert.NoError(t, err)
+	assert.Regexp(t, `Admin\s+bool`, codes[CodeTypeModel])
+}

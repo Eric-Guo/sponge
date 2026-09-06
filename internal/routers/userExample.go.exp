@@ -6,7 +6,7 @@ import (
 	"github.com/go-dev-frame/sponge/pkg/jwt"
 	"github.com/go-dev-frame/sponge/pkg/logger"
 
-	"test-user-server/internal/config"
+	"github.com/go-dev-frame/sponge/internal/config"
 	"github.com/go-dev-frame/sponge/internal/handler"
 )
 
@@ -25,7 +25,7 @@ func userExampleRouter(group *gin.RouterGroup, h handler.UserExampleHandler) {
 	//g.Use(middleware.Auth())
 	// not change-me signing key will make routes use jwt authentication
 	jwtCfg := config.Get().JWT
-	if jwtCfg.SigningKey != "change-me" {
+	if jwtCfg.SigningKey != "" && jwtCfg.SigningKey != "change-me" {
 		g.Use(middleware.Auth(
 			middleware.WithSignKey([]byte(jwtCfg.SigningKey)),
 			middleware.WithExtraVerify(func(claims *jwt.Claims, c *gin.Context) error {

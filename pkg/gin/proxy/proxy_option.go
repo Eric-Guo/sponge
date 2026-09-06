@@ -107,3 +107,43 @@ func WithPassMiddlewares(middlewares ...gin.HandlerFunc) PassOption {
 		o.passMiddlewares = middlewares
 	}
 }
+
+type FallbackProxyConfig struct {
+	BadGatewayPage   string              `yaml:"badGatewayPage" json:"badGatewayPage"`
+	Cache            FallbackCacheConfig `yaml:"cache" json:"cache"`
+	Enabled          bool                `yaml:"enabled" json:"enabled"`
+	ForwardHeaders   bool                `yaml:"forwardHeaders" json:"forwardHeaders"`
+	H2cEnabled       bool                `yaml:"h2cEnabled" json:"h2cEnabled"`
+	HealthCheck      FallbackHealthCheck `yaml:"healthCheck" json:"healthCheck"`
+	Management       FallbackManagement  `yaml:"management" json:"management"`
+	Strategy         string              `yaml:"strategy" json:"strategy"`
+	TargetURL        string              `yaml:"targetURL" json:"targetURL"`
+	XSendfileEnabled bool                `yaml:"xSendfileEnabled" json:"xSendfileEnabled"`
+}
+
+type FallbackCacheConfig struct {
+	CapacityBytes        int  `yaml:"capacityBytes" json:"capacityBytes"`
+	Enabled              bool `yaml:"enabled" json:"enabled"`
+	MaxItemSizeBytes     int  `yaml:"maxItemSizeBytes" json:"maxItemSizeBytes"`
+	MaxResponseBodyBytes int  `yaml:"maxResponseBodyBytes" json:"maxResponseBodyBytes"`
+}
+
+type FallbackHealthCheck struct {
+	IntervalSeconds int `yaml:"intervalSeconds" json:"intervalSeconds"`
+	TimeoutSeconds  int `yaml:"timeoutSeconds" json:"timeoutSeconds"`
+}
+
+type FallbackManagement struct {
+	BasePath string `yaml:"basePath" json:"basePath"`
+	Enabled  bool   `yaml:"enabled" json:"enabled"`
+}
+
+// FallbackConfig configures proxy routing and an optional local upstream.
+type FallbackConfig struct {
+	Proxy    FallbackProxyConfig
+	Upstream struct {
+		Enabled          bool
+		TargetPort       int
+		TargetBindSocket string
+	}
+}

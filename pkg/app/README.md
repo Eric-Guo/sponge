@@ -65,3 +65,12 @@ func Close(servers []app.IServer) []app.Close {
     return closes
 }
 ```
+
+
+### Local upstream processes
+
+`NewUpstreamServer(UpstreamConfig{...})` implements `IServer` for a local command.
+It supports quoted arguments, a working directory, extra environment variables,
+a target `PORT`, and a configurable shutdown signal. Add the supervisor to the
+services passed to `app.New`; initialize the application logger before starting
+services. A UNIX socket setting takes precedence over exporting the target port.
