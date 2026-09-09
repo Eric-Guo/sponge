@@ -1,6 +1,7 @@
 package proxy
 
 import (
+	"context"
 	"io"
 	"net"
 	"net/http"
@@ -14,6 +15,8 @@ import (
 	"github.com/stretchr/testify/require"
 	"golang.org/x/net/http2"
 	"golang.org/x/net/http2/h2c"
+
+	"github.com/go-dev-frame/sponge/pkg/httpsrv"
 )
 
 func TestFallbackKeepsAPIRoutesAndCachesAssets(t *testing.T) {
@@ -45,6 +48,58 @@ func TestFallbackKeepsAPIRoutesAndCachesAssets(t *testing.T) {
 	require.Equal(t, "hit", second.Header().Get("X-Cache"))
 	require.Empty(t, second.Header().Get("Set-Cookie"))
 	require.Equal(t, 1, hits)
+}
+
+func TestFallbackUpgradeThroughCompressionGuard(t *testing.T) {
+	backend := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		conn, rw, err := w.(http.Hijacker).Hijack()
+		if err != nil {
+			t.Error(err)
+			return
+		}
+		defer conn.Close()
+		_, _ = rw.WriteString("HTTP/1.1 101 Switching Protocols\r\nConnection: Upgrade\r\nUpgrade: websocket\r\nX-Request-ID: origin\r\n\r\n")
+		_ = rw.Flush()
+		line, err := rw.ReadString('\n')
+		if err == nil {
+			_, _ = rw.WriteString(line)
+			_ = rw.Flush()
+		}
+	}))
+	defer backend.Close()
+	r := gin.New()
+	require.NoError(t, RegisterFallback(r, FallbackConfig{Proxy: FallbackProxyConfig{
+		Enabled: true, TargetURL: backend.URL, XSendfileEnabled: true,
+		Cache: FallbackCacheConfig{Enabled: true, CapacityBytes: 1 << 20, MaxItemSizeBytes: 1 << 16},
+	}}))
+	front := httptest.NewServer(httpsrv.WrapHandler(r, httpsrv.MiddlewareOptions{
+		AddRequestID: true, GzipEnabled: true, GzipDisableOnAuth: true, GzipJitter: 32, LogRequests: true,
+	}))
+	defer front.Close()
+	ctx, cancel := context.WithTimeout(t.Context(), 5*time.Second)
+	defer cancel()
+	req, err := http.NewRequestWithContext(ctx, "GET", front.URL+"/cable", nil)
+	require.NoError(t, err)
+	req.Header.Set("Connection", "Upgrade, X-Request-ID")
+	req.Header.Set("Upgrade", "websocket")
+	req.Header.Set("Accept-Encoding", "gzip")
+	req.Header.Set("Cookie", "session=secret")
+	resp, err := front.Client().Do(req)
+	require.NoError(t, err)
+	defer resp.Body.Close()
+	require.Equal(t, http.StatusSwitchingProtocols, resp.StatusCode)
+	require.Empty(t, resp.Header.Get("Content-Encoding"))
+	require.Equal(t, "bypass", resp.Header.Get("X-Cache"))
+	require.NotEmpty(t, resp.Header.Get("X-Request-ID"))
+	require.NotEqual(t, "origin", resp.Header.Get("X-Request-ID"))
+	stream, ok := resp.Body.(io.ReadWriteCloser)
+	require.True(t, ok)
+	_, err = io.WriteString(stream, "ping\n")
+	require.NoError(t, err)
+	data := make([]byte, 5)
+	_, err = io.ReadFull(stream, data)
+	require.NoError(t, err)
+	require.Equal(t, "ping\n", string(data))
 }
 
 func TestFallbackUnixSocketSurvivesHealthCheck(t *testing.T) {

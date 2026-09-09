@@ -109,6 +109,9 @@ func TestHTTPGenerationUsesRepositoryTemplates(t *testing.T) {
 			require.Contains(t, read("internal/routers/routers.go"), "proxy.RegisterFallback")
 			require.Contains(t, read("internal/routers/routers.go"), "middleware.RailsCookieAuthMiddleware")
 			require.Contains(t, read("internal/server/http.go"), "httpsrv.ModeRemoteAPI")
+			require.Contains(t, read("internal/server/http.go"), "GzipJitter: cfg.GzipJitter")
+			require.Contains(t, read("configs/sample.yml"), "gzipJitter: 32")
+			require.Contains(t, read("configs/sample.yml"), "gzipDisableOnAuth: false")
 			if embedded {
 				require.Contains(t, read("internal/model/users.go"), "sgorm.Model")
 				require.NotContains(t, read("internal/dao/users.go"), "table.SignedInAt != nil")

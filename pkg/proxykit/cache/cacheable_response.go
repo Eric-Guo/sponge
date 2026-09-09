@@ -9,6 +9,9 @@ import (
 	"strconv"
 	"strings"
 	"time"
+
+	"github.com/go-dev-frame/sponge/pkg/logger"
+	"github.com/go-dev-frame/sponge/pkg/requestid"
 )
 
 var (
@@ -55,6 +58,7 @@ func (c *CacheableResponse) ToBuffer() ([]byte, error) {
 	c.Body = c.stasher.Body()
 
 	headerForStorage := cloneHeader(c.HTTPHeader)
+	headerForStorage.Del(requestid.Header)
 	if cacheable, _ := c.CacheStatus(); cacheable {
 		headerForStorage.Del("Set-Cookie")
 	}
@@ -112,11 +116,11 @@ func (c *CacheableResponse) CacheStatus() (bool, time.Time) {
 		return false, time.Time{}
 	}
 
-	if strings.Contains(c.HTTPHeader.Get("Vary"), "*") {
+	if strings.Contains(strings.Join(c.HTTPHeader.Values("Vary"), ","), "*") {
 		return false, time.Time{}
 	}
 
-	cc := c.HTTPHeader.Get("Cache-Control")
+	cc := strings.Join(c.HTTPHeader.Values("Cache-Control"), ",")
 
 	if !publicExp.MatchString(cc) || noCacheExp.MatchString(cc) {
 		return false, time.Time{}
@@ -145,7 +149,9 @@ func (c *CacheableResponse) WriteCachedResponse(w http.ResponseWriter, r *http.R
 	} else {
 		c.copyHeaders(w, true, c.StatusCode)
 		if r.Method != http.MethodHead {
-			_, _ = io.Copy(w, bytes.NewReader(c.Body))
+			if _, err := io.Copy(w, bytes.NewReader(c.Body)); err != nil {
+				logger.Error("proxy cache: write response failed", logger.String("request_id", requestid.LogValue(r)), logger.Err(err))
+			}
 		}
 	}
 }
@@ -170,6 +176,15 @@ func (c *CacheableResponse) wasNotModified(r *http.Request) bool {
 
 func (c *CacheableResponse) copyHeaders(w http.ResponseWriter, wasHit bool, statusCode int) {
 	for k, v := range c.HTTPHeader {
+		if strings.EqualFold(k, requestid.Header) && w.Header().Get(requestid.Header) != "" {
+			continue
+		}
+		if k == "Vary" {
+			for _, value := range v {
+				w.Header().Add(k, value)
+			}
+			continue
+		}
 		w.Header()[k] = v
 	}
 

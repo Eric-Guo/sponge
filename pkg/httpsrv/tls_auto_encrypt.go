@@ -11,6 +11,7 @@ import (
 	"time"
 
 	"golang.org/x/crypto/acme/autocert"
+	"golang.org/x/net/idna"
 )
 
 // TLSEncryptOption set tlsEncryptOptions.
@@ -171,17 +172,20 @@ func (c *TLSAutoEncryptConfig) redirectHTTP() error {
 
 func (c *TLSAutoEncryptConfig) redirectHandler() http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		if r.Method != http.MethodGet && r.Method != http.MethodHead {
-			http.Error(w, "Use HTTPS", http.StatusBadRequest)
-			return
-		}
+		w.Header().Set("Connection", "close")
 
 		host := strings.TrimSpace(r.Host)
 		if parsedHost, _, err := net.SplitHostPort(host); err == nil && parsedHost != "" {
 			host = parsedHost
 		}
-		if host == "" && r.URL != nil {
-			host = r.URL.Host
+		host, err := idna.Lookup.ToASCII(host)
+		policy := autocert.HostWhitelist(c.domains...)
+		if c.m != nil && c.m.HostPolicy != nil {
+			policy = c.m.HostPolicy
+		}
+		if err != nil || host == "" || policy(r.Context(), host) != nil {
+			http.Error(w, http.StatusText(http.StatusMisdirectedRequest), http.StatusMisdirectedRequest)
+			return
 		}
 
 		targetHost := host
@@ -189,7 +193,7 @@ func (c *TLSAutoEncryptConfig) redirectHandler() http.Handler {
 			targetHost = net.JoinHostPort(host, strconv.Itoa(c.redirectHTTPSPort))
 		}
 
-		http.Redirect(w, r, "https://"+targetHost+r.URL.RequestURI(), http.StatusFound)
+		http.Redirect(w, r, "https://"+targetHost+r.URL.RequestURI(), http.StatusMovedPermanently)
 	})
 }
 

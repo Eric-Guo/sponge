@@ -74,3 +74,14 @@ It supports quoted arguments, a working directory, extra environment variables,
 a target `PORT`, and a configurable shutdown signal. Add the supervisor to the
 services passed to `app.New`; initialize the application logger before starting
 services. A UNIX socket setting takes precedence over exporting the target port.
+### Supervising an upstream application
+
+Applications hosting a supervised Rails/Puma process can use
+`os.Exit(app.New(servers, closes).RunWithExitCode())`. This additive lifecycle
+method shuts down on any service completion, including a successful child exit,
+and runs every closer before returning. Put the upstream closer first so signals
+reach it before HTTP connections drain. Parent termination signals override the
+upstream's configured StopSignal; an upstream killed by a signal returns
+`128 + signal`, while a child that handles the signal and exits normally retains
+its chosen exit code. `UpstreamServer.ExitCode()` exposes the final status.
+The existing `Run()` behavior remains available for other Sponge applications.

@@ -26,6 +26,9 @@ type UpstreamServer struct {
 	cmd      *exec.Cmd
 	done     chan struct{}
 	stopping bool
+	exitCode int
+	// shutdownSignal overrides the configured stop signal when the parent was signaled.
+	shutdownSignal os.Signal
 }
 
 // NewUpstreamServer creates a supervisor for the configured upstream command.
@@ -77,6 +80,7 @@ func (s *UpstreamServer) Start() error {
 	}
 	s.cmd = cmd
 	s.done = done
+	s.exitCode = 0
 	s.mu.Unlock()
 
 	defer func() {
@@ -97,8 +101,12 @@ func (s *UpstreamServer) Start() error {
 		var exitErr *exec.ExitError
 		if errors.As(err, &exitErr) {
 			exitCode := exitErr.ExitCode()
+			if status, ok := exitErr.Sys().(syscall.WaitStatus); ok && status.Signaled() {
+				exitCode = 128 + int(status.Signal())
+			}
 
 			s.mu.Lock()
+			s.exitCode = exitCode
 			stopping := s.stopping
 			s.mu.Unlock()
 
@@ -127,6 +135,7 @@ func (s *UpstreamServer) Stop() error {
 	s.mu.Lock()
 	cmd := s.cmd
 	done := s.done
+	shutdownSignal := s.shutdownSignal
 	s.stopping = true
 	s.mu.Unlock()
 
@@ -139,12 +148,16 @@ func (s *UpstreamServer) Stop() error {
 		logger.Warn("invalid stop signal; defaulting to SIGTERM", logger.String("signal", s.cfg.StopSignal), logger.Err(err))
 		sig = syscall.SIGTERM
 	}
+	var signalToSend os.Signal = sig
+	if shutdownSignal != nil {
+		signalToSend = shutdownSignal
+	}
 
 	logger.Info("sending signal to upstream process",
 		logger.Int("pid", cmd.Process.Pid),
-		logger.String("signal", sig.String()))
+		logger.String("signal", signalToSend.String()))
 
-	if err := cmd.Process.Signal(sig); err != nil && !errors.Is(err, os.ErrProcessDone) {
+	if err := cmd.Process.Signal(signalToSend); err != nil && !errors.Is(err, os.ErrProcessDone) {
 		return fmt.Errorf("signal upstream process: %w", err)
 	}
 
@@ -163,6 +176,21 @@ func (s *UpstreamServer) Stop() error {
 	}
 
 	return nil
+}
+
+// ExitCode returns the upstream's exit status after Start or Stop completes.
+// Unix signal deaths use the shell convention 128 + signal number.
+func (s *UpstreamServer) ExitCode() int {
+	s.mu.Lock()
+	defer s.mu.Unlock()
+	return s.exitCode
+}
+
+// SetShutdownSignal relays the parent's terminating signal during Stop.
+func (s *UpstreamServer) SetShutdownSignal(sig os.Signal) {
+	s.mu.Lock()
+	defer s.mu.Unlock()
+	s.shutdownSignal = sig
 }
 
 // String implements app.IServer for logging purposes.

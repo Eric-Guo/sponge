@@ -250,3 +250,19 @@ func main() {
     }
 }
 ```
+### HTTP middleware for Rails proxy services
+
+`WrapHandler` accepts `GzipJitter` (padding bytes; zero disables it),
+`GzipDisableOnAuth`, `AddRequestID`, and `TrustRequestIDHeader` alongside the
+existing compression, logging, body-limit, and request-start options. Generated
+HTTP configurations use `gzipJitter: 32` and `gzipDisableOnAuth: false`.
+Gzip covers eligible API and proxied responses, and skips compressed image
+formats while retaining SVG/BMP/TIFF compression. The optional guard skips gzip
+for Cookie/Authorization/X-Csrf-Token requests and Set-Cookie, private/no-store,
+or Vary: Cookie responses. It does not decompress pre-encoded upstream responses.
+
+Request IDs are assigned before downstream middleware; trusted IDs are preserved
+and other IDs are replaced with UUIDs. Access logs cap IDs at 255 bytes.
+Let's Encrypt redirects check the certificate host policy after IDNA conversion:
+allowed hosts receive 301 and disallowed hosts receive 421 without a redirect.
+Configured HTTPS ports and ACME challenge handling are preserved.

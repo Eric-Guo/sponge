@@ -2,10 +2,14 @@ package httpsrv
 
 import (
 	"context"
+	"errors"
 	"net/http"
 	"net/http/httptest"
 	"testing"
 	"time"
+
+	"github.com/stretchr/testify/require"
+	"golang.org/x/crypto/acme/autocert"
 )
 
 func TestTLSAutoEncryptConfig_Validate(t *testing.T) {
@@ -69,6 +73,42 @@ func TestTLSAutoEncryptConfig_Validate(t *testing.T) {
 				t.Errorf("Validate() error = %v, wantError %v", err, tt.wantError)
 			}
 		})
+	}
+}
+
+func TestRedirectUsesCertificateHostPolicy(t *testing.T) {
+	c := NewTLSEAutoEncryptConfig("example.com", "admin@example.com", WithTLSEncryptDomains("bücher.example"))
+	for _, host := range []string{"example.com:80", "EXAMPLE.com", "bücher.example", "xn--bcher-kva.example"} {
+		r := httptest.NewRequest("GET", "http://example.com/path?q=1", nil)
+		r.Host = host
+		w := httptest.NewRecorder()
+		c.redirectHandler().ServeHTTP(w, r)
+		require.Equal(t, http.StatusMovedPermanently, w.Code, host)
+		require.Equal(t, "close", w.Header().Get("Connection"))
+	}
+	for _, host := range []string{"evil.example", "example.com.evil", "example.com@evil.example", "bad\x00host", "", "[::1]:80"} {
+		r := httptest.NewRequest("GET", "http://example.com/path", nil)
+		r.Host = host
+		w := httptest.NewRecorder()
+		c.redirectHandler().ServeHTTP(w, r)
+		require.Equal(t, http.StatusMisdirectedRequest, w.Code, host)
+		require.Empty(t, w.Header().Get("Location"))
+	}
+	c.m = &autocert.Manager{HostPolicy: func(_ context.Context, host string) error {
+		if host == "dynamic.example" {
+			return nil
+		}
+		return errors.New("denied")
+	}}
+	for _, host := range []string{"example.com", "dynamic.example"} {
+		r := httptest.NewRequest("GET", "http://"+host+"/", nil)
+		w := httptest.NewRecorder()
+		c.redirectHandler().ServeHTTP(w, r)
+		if host == "dynamic.example" {
+			require.Equal(t, http.StatusMovedPermanently, w.Code)
+		} else {
+			require.Equal(t, http.StatusMisdirectedRequest, w.Code)
+		}
 	}
 }
 
@@ -173,7 +213,7 @@ func TestTLSAutoEncryptConfig_RedirectHandler(t *testing.T) {
 			httpsPort:     443,
 			host:          "example.com:8080",
 			wantLocation:  "https://example.com/login?next=%2F",
-			wantStatus:    http.StatusFound,
+			wantStatus:    http.StatusMovedPermanently,
 			requestMethod: http.MethodGet,
 		},
 		{
@@ -181,14 +221,14 @@ func TestTLSAutoEncryptConfig_RedirectHandler(t *testing.T) {
 			httpsPort:     8443,
 			host:          "example.com:8080",
 			wantLocation:  "https://example.com:8443/login?next=%2F",
-			wantStatus:    http.StatusFound,
+			wantStatus:    http.StatusMovedPermanently,
 			requestMethod: http.MethodGet,
 		},
 		{
 			name:          "non get method",
 			httpsPort:     8443,
 			host:          "example.com:8080",
-			wantStatus:    http.StatusBadRequest,
+			wantStatus:    http.StatusMovedPermanently,
 			requestMethod: http.MethodPost,
 		},
 	}

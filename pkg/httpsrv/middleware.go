@@ -8,16 +8,18 @@ import (
 	"net/http"
 	"time"
 
-	"github.com/klauspost/compress/gzhttp"
-
-	ginmiddleware "github.com/go-dev-frame/sponge/pkg/gin/middleware"
 	"github.com/go-dev-frame/sponge/pkg/logger"
+	"github.com/go-dev-frame/sponge/pkg/requestid"
 )
 
 // Options configures the optional HTTP middleware that can wrap the Gin engine.
 type MiddlewareOptions struct {
 	AddRequestStartHeader bool
 	GzipEnabled           bool
+	GzipJitter            int // Maximum gzip padding in bytes; zero disables padding.
+	GzipDisableOnAuth     bool
+	AddRequestID          bool
+	TrustRequestIDHeader  bool
 	LogRequests           bool
 	MaxRequestBodyBytes   int
 }
@@ -33,7 +35,7 @@ func WrapHandler(handler http.Handler, opts MiddlewareOptions) http.Handler {
 	}
 
 	if opts.GzipEnabled {
-		handler = gzhttp.GzipHandler(handler)
+		handler = newCompressionHandler(handler, opts.GzipJitter, opts.GzipDisableOnAuth)
 	}
 
 	if opts.MaxRequestBodyBytes > 0 {
@@ -42,6 +44,9 @@ func WrapHandler(handler http.Handler, opts MiddlewareOptions) http.Handler {
 
 	if opts.LogRequests {
 		handler = newLoggingMiddleware(handler)
+	}
+	if opts.AddRequestID {
+		handler = requestid.Handler(handler, opts.TrustRequestIDHeader)
 	}
 
 	return handler
@@ -77,7 +82,7 @@ func newLoggingMiddleware(next http.Handler) http.Handler {
 		if remoteAddr == "" {
 			remoteAddr = r.RemoteAddr
 		}
-		requestIDHeader := r.Header.Get(ginmiddleware.HeaderXRequestIDKey)
+		requestIDHeader := requestid.LogValue(r)
 
 		fields := []logger.Field{
 			logger.String("path", r.URL.Path),

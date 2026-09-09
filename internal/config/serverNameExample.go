@@ -183,6 +183,8 @@ type NacosRd struct {
 }
 
 type HTTP struct {
+	GzipJitter            int  `yaml:"gzipJitter" json:"gzipJitter"`
+	GzipDisableOnAuth     bool `yaml:"gzipDisableOnAuth" json:"gzipDisableOnAuth"`
 	AddRequestStartHeader bool `yaml:"addRequestStartHeader" json:"addRequestStartHeader"`
 	GzipEnabled           bool `yaml:"gzipEnabled" json:"gzipEnabled"`
 	HTTPSPort             int  `yaml:"httpsPort" json:"httpsPort"`

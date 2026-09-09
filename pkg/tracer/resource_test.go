@@ -4,11 +4,17 @@ import (
 	"testing"
 
 	"github.com/stretchr/testify/assert"
+	"go.opentelemetry.io/otel/attribute"
+	"go.opentelemetry.io/otel/sdk/resource"
 )
 
 func TestNewResource(t *testing.T) {
-	resource := NewResource()
-	assert.NotNil(t, resource)
+	res := NewResource(WithServiceName("rails-proxy"), WithServiceVersion("v1"))
+	assert.NotNil(t, res)
+	assert.Equal(t, resource.Default().SchemaURL(), res.SchemaURL())
+	name, ok := res.Set().Value(attribute.Key("service.name"))
+	assert.True(t, ok)
+	assert.Equal(t, "rails-proxy", name.AsString())
 }
 
 func TestWithAttributes(t *testing.T) {

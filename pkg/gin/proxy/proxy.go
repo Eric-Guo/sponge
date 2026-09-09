@@ -19,6 +19,7 @@ import (
 	"github.com/go-dev-frame/sponge/pkg/logger"
 	"github.com/go-dev-frame/sponge/pkg/proxykit"
 	proxycache "github.com/go-dev-frame/sponge/pkg/proxykit/cache"
+	"github.com/go-dev-frame/sponge/pkg/requestid"
 )
 
 // Proxy is a proxy server.
@@ -123,6 +124,10 @@ func RegisterFallback(r *gin.Engine, cfg FallbackConfig) error {
 			ErrorHandler: errorHandler,
 			Transport:    createProxyTransport(backend.URL, unixSocketPath, proxyCfg.H2cEnabled),
 			Rewrite:      proxyRewrite(backend.URL, proxyCfg.ForwardHeaders),
+			ModifyResponse: func(resp *http.Response) error {
+				resp.Header.Del(requestid.Header)
+				return nil
+			},
 		}
 	}
 
@@ -236,7 +241,7 @@ func newProxyErrorHandler(badGatewayPage string) func(http.ResponseWriter, *http
 	}
 
 	return func(w http.ResponseWriter, r *http.Request, err error) {
-		logger.Info("unable to proxy request", logger.String("path", r.URL.Path), logger.Err(err))
+		logger.Info("unable to proxy request", logger.String("request_id", requestid.LogValue(r)), logger.String("path", r.URL.Path), logger.Err(err))
 
 		if isRequestEntityTooLarge(err) {
 			w.WriteHeader(http.StatusRequestEntityTooLarge)
@@ -307,6 +312,13 @@ func proxyRewrite(target *url.URL, forwardHeaders bool) func(*httputil.ProxyRequ
 		}
 		req.SetXForwarded()
 		req.Out.Header.Set("X-Origin-Host", target.Host)
+		// ReverseProxy strips headers named by Connection before Rewrite. Restore
+		// identifiers assigned by our HTTP middleware after that stripping.
+		for _, header := range []string{requestid.Header, "X-Request-Start"} {
+			if value := req.In.Header.Get(header); value != "" {
+				req.Out.Header.Set(header, value)
+			}
+		}
 		if forwardHeaders {
 			for _, header := range []string{"X-Forwarded-Host", "X-Forwarded-Proto"} {
 				if value := req.In.Header.Get(header); value != "" {

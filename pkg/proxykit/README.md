@@ -152,6 +152,18 @@ tracks Vary headers, honors ETags, and omits Set-Cookie on cache hits. Range and
 upgrade requests bypass the cache; private/no-store responses are not cached.
 `NewSendfileHandler` translates upstream X-Sendfile responses into file downloads.
 
+Cache keys now retain separate request components, are limited to 8 KiB, and
+count toward Ristretto's byte budget. Stored keys are compared on retrieval so
+hash collisions cannot return another request's response. Oversized keys,
+including learned Vary keys, bypass lookup. The Vary lookup index is bounded and
+expires. This changes the `proxykit/cache.CacheKey` API from a numeric key to a
+struct; custom Cache implementations should use the struct as their map key.
+
+The Gin fallback preserves middleware-owned X-Request-ID and X-Request-Start
+headers after hop-by-hop stripping and discards upstream request-ID overrides.
+Use `httpsrv.WrapHandler` with `AddRequestID: true` around Gin, setting
+`TrustRequestIDHeader` to the same trust policy as `FallbackProxyConfig.ForwardHeaders`.
+
 Generated HTTP servers also support gzip, request start timestamps, body limits,
 access logs, and self-signed, Let's Encrypt, external, or remote API TLS modes.
 Environment variables and remote API headers remain string maps after

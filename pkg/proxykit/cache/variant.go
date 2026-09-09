@@ -1,7 +1,6 @@
 package proxycache
 
 import (
-	"hash/fnv"
 	"net/http"
 	"slices"
 	"strings"
@@ -39,23 +38,21 @@ func (v *Variant) ApplyHeaderNames(names []string) {
 
 // CacheKey computes the stable cache key for the request variant.
 func (v *Variant) CacheKey() CacheKey {
-	hash := fnv.New64()
-	hash.Write([]byte(v.r.Method))
-	hash.Write([]byte(v.r.URL.Path))
-	hash.Write([]byte(v.r.URL.Query().Encode()))
-	hash.Write([]byte(v.r.Host))
-
-	for _, name := range v.headerNames {
-		hash.Write([]byte(name + "=" + v.r.Header.Get(name)))
+	vary := make([]string, len(v.headerNames))
+	for i, name := range v.headerNames {
+		vary[i] = name + "=" + strings.Join(v.r.Header.Values(name), "\x00")
 	}
-
-	return CacheKey(hash.Sum64())
+	return CacheKey{
+		Method: strings.Clone(v.r.Method), Host: strings.Clone(v.r.Host),
+		Path: strings.Clone(v.r.URL.EscapedPath()), Query: v.r.URL.Query().Encode(),
+		Vary: strings.Join(vary, "\n"),
+	}
 }
 
 // Matches verifies whether the response headers align with the request variant.
 func (v *Variant) Matches(responseHeader http.Header) bool {
 	for _, name := range v.headerNames {
-		if responseHeader.Get(name) != v.r.Header.Get(name) {
+		if !slices.Equal(responseHeader.Values(name), v.r.Header.Values(name)) {
 			return false
 		}
 	}
@@ -66,7 +63,7 @@ func (v *Variant) Matches(responseHeader http.Header) bool {
 func (v *Variant) VariantHeader() http.Header {
 	requestHeader := http.Header{}
 	for _, name := range v.headerNames {
-		requestHeader.Set(name, v.r.Header.Get(name))
+		requestHeader[name] = append([]string(nil), v.r.Header.Values(name)...)
 	}
 	return requestHeader
 }
@@ -74,7 +71,7 @@ func (v *Variant) VariantHeader() http.Header {
 // Private
 
 func (v *Variant) parseVaryHeader(responseHeader http.Header) []string {
-	list := responseHeader.Get("Vary")
+	list := strings.Join(responseHeader.Values("Vary"), ",")
 	if list == "" {
 		return []string{}
 	}
@@ -85,5 +82,5 @@ func (v *Variant) parseVaryHeader(responseHeader http.Header) []string {
 	}
 	slices.Sort(names)
 
-	return names
+	return slices.Compact(names)
 }

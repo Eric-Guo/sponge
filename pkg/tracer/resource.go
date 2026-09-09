@@ -84,7 +84,9 @@ func NewResource(opts ...ResourceOption) *resource.Resource {
 
 	r, err := resource.Merge(
 		resource.Default(),
-		resource.NewWithAttributes(semconv.SchemaURL, kvs...),
+		// These application attributes override defaults without imposing an older
+		// semantic-convention schema on the SDK's detected resource.
+		resource.NewSchemaless(kvs...),
 	)
 	if err != nil {
 		panic(err)

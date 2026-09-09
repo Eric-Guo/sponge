@@ -1,7 +1,7 @@
 package proxycache
 
 import (
-	"fmt"
+	"encoding/binary"
 	"time"
 
 	"github.com/dgraph-io/ristretto"
@@ -19,6 +19,22 @@ type MemoryCache struct {
 	capacity       int
 	maxItemSize    int
 	getCurrentTime GetCurrentTime
+}
+
+type memoryEntry struct {
+	key   CacheKey
+	value []byte
+}
+
+// storageKey encodes component boundaries for ristretto. The stored key is also
+// compared on Get, so even an internal ristretto hash collision becomes a miss.
+func storageKey(key CacheKey) string {
+	var encoded []byte
+	for _, part := range []string{key.Method, key.Host, key.Path, key.Query, key.Vary} {
+		encoded = binary.AppendUvarint(encoded, uint64(len(part)))
+		encoded = append(encoded, part...)
+	}
+	return string(encoded)
 }
 
 // NewMemoryCache constructs a memory cache bounded by capacity and per-item size.
@@ -43,12 +59,12 @@ func NewMemoryCache(capacity, maxItemSize int) *MemoryCache {
 
 // Set stores a value if it fits per-item limits, leveraging sponge's cache for eviction.
 func (c *MemoryCache) Set(key CacheKey, value []byte, expiresAt time.Time) {
-	if c.client == nil {
+	if c.client == nil || !key.isCacheable() {
 		return
 	}
 
-	itemSize := len(value)
-	if itemSize > c.maxItemSize || (c.capacity > 0 && itemSize > c.capacity) {
+	itemSize := key.size() + len(value)
+	if len(value) > c.maxItemSize || (c.capacity > 0 && itemSize > c.capacity) {
 		logger.Debug(
 			"proxy cache: item too large",
 			logger.Int("item_size", itemSize),
@@ -63,18 +79,15 @@ func (c *MemoryCache) Set(key CacheKey, value []byte, expiresAt time.Time) {
 	if ttl <= 0 {
 		logger.Debug(
 			"proxy cache: item already expired",
-			logger.Any("key", key),
 			logger.Time("expires_at", expiresAt),
 		)
 		return
 	}
 
 	valueCopy := append([]byte(nil), value...)
-	ristrettoKey := uint64(key) // ristretto expects built-in numeric types, not custom aliases
-	if ok := c.client.SetWithTTL(ristrettoKey, valueCopy, int64(itemSize), ttl); !ok {
+	if ok := c.client.SetWithTTL(storageKey(key), memoryEntry{key: key, value: valueCopy}, int64(itemSize), ttl); !ok {
 		logger.Debug(
 			"proxy cache: failed to store item",
-			logger.Any("key", key),
 			logger.Int("size", itemSize),
 		)
 		return
@@ -83,7 +96,6 @@ func (c *MemoryCache) Set(key CacheKey, value []byte, expiresAt time.Time) {
 
 	logger.Debug(
 		"proxy cache: item stored",
-		logger.Any("key", key),
 		logger.Int("size", itemSize),
 		logger.Time("expires_at", expiresAt),
 	)
@@ -91,26 +103,21 @@ func (c *MemoryCache) Set(key CacheKey, value []byte, expiresAt time.Time) {
 
 // Get retrieves a stored item when present and not expired.
 func (c *MemoryCache) Get(key CacheKey) ([]byte, bool) {
-	if c.client == nil {
+	if c.client == nil || !key.isCacheable() {
 		return nil, false
 	}
 
-	value, ok := c.client.Get(uint64(key))
+	value, ok := c.client.Get(storageKey(key))
 	if !ok {
 		return nil, false
 	}
 
-	data, ok := value.([]byte)
-	if !ok {
-		logger.Error(
-			"proxy cache: unexpected item type",
-			logger.Any("key", key),
-			logger.String("type", fmt.Sprintf("%T", value)),
-		)
+	entry, ok := value.(memoryEntry)
+	if !ok || entry.key != key {
 		return nil, false
 	}
 
-	return data, true
+	return append([]byte(nil), entry.value...), true
 }
 
 // deriveNumCounters sizes ristretto's frequency sketch so metadata overhead scales with the cache capacity.

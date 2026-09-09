@@ -229,6 +229,8 @@ func NewHTTPServer(addr string, opts ...HTTPOption) app.IServer {
 		Addr: addr,
 		Handler: httpsrv.WrapHandler(router, httpsrv.MiddlewareOptions{
 			AddRequestStartHeader: cfg.AddRequestStartHeader, GzipEnabled: cfg.GzipEnabled,
+			GzipJitter: cfg.GzipJitter, GzipDisableOnAuth: cfg.GzipDisableOnAuth,
+			AddRequestID: true, TrustRequestIDHeader: config.Get().Proxy.ForwardHeaders,
 			LogRequests: cfg.LogRequests, MaxRequestBodyBytes: cfg.MaxRequestBodyBytes,
 		}),
 		ReadTimeout:    secondsToDuration(cfg.ReadTimeout),
@@ -273,6 +275,8 @@ func NewHTTPServer_pbExample(addr string, opts ...HTTPOption) app.IServer { //no
 		Addr: addr,
 		Handler: httpsrv.WrapHandler(router, httpsrv.MiddlewareOptions{
 			AddRequestStartHeader: cfg.AddRequestStartHeader, GzipEnabled: cfg.GzipEnabled,
+			GzipJitter: cfg.GzipJitter, GzipDisableOnAuth: cfg.GzipDisableOnAuth,
+			AddRequestID: true, TrustRequestIDHeader: config.Get().Proxy.ForwardHeaders,
 			LogRequests: cfg.LogRequests, MaxRequestBodyBytes: cfg.MaxRequestBodyBytes,
 		}),
 		ReadTimeout:    secondsToDuration(cfg.ReadTimeout),
