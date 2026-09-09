@@ -233,7 +233,7 @@ func Test_userExampleHandler_List(t *testing.T) {
 	h.MockDao.SQLMock.ExpectQuery("SELECT .*").WillReturnRows(rows)
 
 	result := &httpcli.StdResult{}
-	err := httpcli.Post(result, h.GetRequestURL("List"), &types.ListUserExamplesRequest{query.Params{
+	err := httpcli.Post(result, h.GetRequestURL("List"), &types.ListUserExamplesRequest{Params: query.Params{
 		Page:  0,
 		Limit: 10,
 		Sort:  "ignore count", // ignore test count
@@ -250,7 +250,7 @@ func Test_userExampleHandler_List(t *testing.T) {
 	assert.NoError(t, err)
 
 	// get error test
-	err = httpcli.Post(result, h.GetRequestURL("List"), &types.ListUserExamplesRequest{query.Params{
+	err = httpcli.Post(result, h.GetRequestURL("List"), &types.ListUserExamplesRequest{Params: query.Params{
 		Page:  0,
 		Limit: 10,
 		Sort:  "unknown-column",

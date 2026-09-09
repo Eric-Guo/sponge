@@ -2,11 +2,15 @@ package parser
 
 import (
 	"fmt"
+	"os"
+	"os/exec"
 	"path/filepath"
+	"strings"
 	"testing"
 
 	"github.com/jinzhu/inflection"
 	"github.com/stretchr/testify/assert"
+	"github.com/stretchr/testify/require"
 	"github.com/zhufuyi/sqlparser/dependency/mysql"
 	"github.com/zhufuyi/sqlparser/dependency/types"
 )
@@ -684,11 +688,11 @@ func TestSQLiteTimestampUpdateMatchesModel(t *testing.T) {
 	data := tmplData{Fields: []tmplField{{Name: "SignedInAt", ColName: "signed_in_at", GoType: "time.Time", DBDriver: DBDriverSqlite}}}
 	embedded, err := getUpdateFieldsCode(data, true)
 	assert.NoError(t, err)
-	assert.Contains(t, embedded, "table.SignedInAt.IsZero() == false")
-	assert.NotContains(t, embedded, "table.SignedInAt != nil")
+	assert.Contains(t, embedded.helpers, "!table.SignedInAt.IsZero()")
+	assert.NotContains(t, embedded.helpers, "table.SignedInAt != nil")
 	explicit, err := getUpdateFieldsCode(data, false)
 	assert.NoError(t, err)
-	assert.Contains(t, explicit, "table.SignedInAt != nil")
+	assert.Contains(t, explicit.helpers, "table.SignedInAt != nil")
 }
 
 func TestSQLiteBooleanType(t *testing.T) {
@@ -697,6 +701,52 @@ func TestSQLiteBooleanType(t *testing.T) {
 	codes, err := ParseSQL(sql, WithDBDriver(DBDriverSqlite), WithEmbed(), WithJSONTag(1), WithNullStyle(NullDisable))
 	assert.NoError(t, err)
 	assert.Regexp(t, `Admin\s+bool`, codes[CodeTypeModel])
+}
+
+func TestGeneratedPartialUpdateSemantics(t *testing.T) {
+	initTemplate()
+	for _, embedded := range []bool{true, false} {
+		t.Run(fmt.Sprintf("embedded=%t", embedded), func(t *testing.T) {
+			data := tmplData{TableName: "Record", Fields: []tmplField{
+				{Name: "ID", ColName: "id", GoType: "uint64", DBDriver: DBDriverSqlite},
+				{Name: "Name", ColName: "name", GoType: "string", DBDriver: DBDriverSqlite},
+				{Name: "Admin", ColName: "admin", GoType: "bool", DBDriver: DBDriverSqlite},
+				{Name: "SignedInAt", ColName: "signed_in_at", GoType: "time.Time", DBDriver: DBDriverSqlite},
+			}}
+			updates, err := getUpdateFieldsCode(data, embedded)
+			require.NoError(t, err)
+			require.NotContains(t, updates.inline, "addRecordTimeUpdates", "standalone DAO snippets must remain self-contained")
+			require.Contains(t, updates.inline, `update["signed_in_at"] = table.SignedInAt`)
+			timeType, timeValue := "time.Time", "now"
+			if !embedded {
+				timeType, timeValue = "*time.Time", "&now"
+			}
+			source := fmt.Sprintf(`package generated
+import ("reflect"; "testing"; "time")
+type Record struct { ID uint64; Name string; Admin bool; SignedInAt %s }
+func updatesFor(table *Record) map[string]interface{} {
+    update := map[string]interface{}{}
+    %s
+    return update
+}
+%s
+func TestPartialUpdate(t *testing.T) {
+    if got := updatesFor(&Record{ID: 42}); len(got) != 0 { t.Fatalf("zero fields updated: %%v", got) }
+    now := time.Unix(100, 0)
+    table := &Record{ID: 42, Name: "test", Admin: true, SignedInAt: %s}
+    want := map[string]interface{}{"name": "test", "admin": true, "signed_in_at": table.SignedInAt}
+    if got := updatesFor(table); !reflect.DeepEqual(got, want) { t.Fatalf("updates = %%v, want %%v", got, want) }
+    now = time.Time{}
+    table.Name, table.Admin, table.SignedInAt = "", false, %s
+    if got := updatesFor(table); len(got) != 0 { t.Fatalf("zero timestamp updated: %%v", got) }
+}
+`, timeType, updates.fields, strings.ReplaceAll(updates.helpers, "model.Record", "Record"), timeValue, timeValue)
+			file := filepath.Join(t.TempDir(), "updates_test.go")
+			require.NoError(t, os.WriteFile(file, []byte(source), 0600))
+			output, err := exec.Command("go", "test", "-count=1", file).CombinedOutput()
+			require.NoError(t, err, "%s", output)
+		})
+	}
 }
 
 func TestSoftDeleteModelGeneration(t *testing.T) {

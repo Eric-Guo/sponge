@@ -298,7 +298,11 @@ func (g *serviceGenerator) addFields(r replacer.Replacer) []replacer.Field {
 		},
 		{ // replace the contents of the dao/userExample.go file
 			Old: daoFileMark,
-			New: g.codes[parser.CodeTypeDAO],
+			New: g.codes[parser.CodeTypeDAOUpdate],
+		},
+		{
+			Old: daoHelpersMark,
+			New: g.codes[parser.CodeTypeDAOHelpers],
 		},
 		{ // replace the contents of the handler/userExample_logic.go file
 			Old: embedTimeMark,

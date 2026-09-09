@@ -9,9 +9,9 @@ import (
 	"github.com/stretchr/testify/assert"
 
 	"github.com/go-dev-frame/sponge/pkg/copier"
-	"github.com/go-dev-frame/sponge/pkg/sgorm/query"
-	"github.com/go-dev-frame/sponge/pkg/httpcli"
 	"github.com/go-dev-frame/sponge/pkg/gotest"
+	"github.com/go-dev-frame/sponge/pkg/httpcli"
+	"github.com/go-dev-frame/sponge/pkg/sgorm/query"
 	"github.com/go-dev-frame/sponge/pkg/utils"
 
 	"github.com/go-dev-frame/sponge/internal/cache"
@@ -257,10 +257,10 @@ func Test_userExampleHandler_List(t *testing.T) {
 	h.MockDao.SQLMock.ExpectQuery("SELECT .*").WillReturnRows(rows)
 
 	result := &httpcli.StdResult{}
-	err := httpcli.Post(result, h.GetRequestURL("List"), &types.ListUserExamplesRequest{query.Params{
-		Page: 0,
+	err := httpcli.Post(result, h.GetRequestURL("List"), &types.ListUserExamplesRequest{Params: query.Params{
+		Page:  0,
 		Limit: 10,
-		Sort: "ignore count", // ignore test count
+		Sort:  "ignore count", // ignore test count
 	}})
 	if err != nil {
 		t.Fatal(err)
@@ -274,10 +274,10 @@ func Test_userExampleHandler_List(t *testing.T) {
 	assert.NoError(t, err)
 
 	// get error test
-	err = httpcli.Post(result, h.GetRequestURL("List"), &types.ListUserExamplesRequest{query.Params{
-		Page: 0,
+	err = httpcli.Post(result, h.GetRequestURL("List"), &types.ListUserExamplesRequest{Params: query.Params{
+		Page:  0,
 		Limit: 10,
-		Sort: "unknown-column",
+		Sort:  "unknown-column",
 	}})
 	assert.Error(t, err)
 }
@@ -326,7 +326,7 @@ func Test_userExampleHandler_GetByCondition(t *testing.T) {
 
 	result := &httpcli.StdResult{}
 	err := httpcli.Post(result, h.GetRequestURL("GetByCondition"), &types.GetUserExampleByConditionRequest{
-		query.Conditions{
+		Conditions: query.Conditions{
 			Columns: []query.Column{
 				{
 					Name:  "id",
@@ -348,7 +348,7 @@ func Test_userExampleHandler_GetByCondition(t *testing.T) {
 
 	// get error test
 	err = httpcli.Post(result, h.GetRequestURL("GetByCondition"), &types.GetUserExampleByConditionRequest{
-		query.Conditions{
+		Conditions: query.Conditions{
 			Columns: []query.Column{
 				{
 					Name:  "id",

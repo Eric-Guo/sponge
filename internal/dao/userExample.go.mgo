@@ -149,17 +149,17 @@ func (d *userExampleDao) GetByID(ctx context.Context, id string) (*model.UserExa
 	}
 
 	// get from cache
-	cacheRecord, err := d.cache.Get(ctx, id)
-	if err == nil {
+	cacheRecord, cacheErr := d.cache.Get(ctx, id)
+	if cacheErr == nil {
 		return cacheRecord, nil
 	}
 
 	// get from mongodb
-	if errors.Is(err, database.ErrCacheNotFound) {
+	if errors.Is(cacheErr, database.ErrCacheNotFound) {
 		// for the same id, prevent high concurrent simultaneous access to mongodb
 		val, err, _ := d.sfg.Do(id, func() (interface{}, error) {
 			record := &model.UserExample{}
-			err = d.collection.FindOne(ctx, mgo.ExcludeDeleted(filter)).Decode(record)
+			err := d.collection.FindOne(ctx, mgo.ExcludeDeleted(filter)).Decode(record)
 			if err != nil {
 				// set placeholder cache to prevent cache penetration, default expiration time 10 minutes
 				if errors.Is(err, database.ErrRecordNotFound) {
@@ -186,11 +186,11 @@ func (d *userExampleDao) GetByID(ctx context.Context, id string) (*model.UserExa
 		return record, nil
 	}
 
-	if d.cache.IsPlaceholderErr(err) {
+	if d.cache.IsPlaceholderErr(cacheErr) {
 		return nil, database.ErrRecordNotFound
 	}
 
-	return nil, err
+	return nil, cacheErr
 }
 
 // GetByColumns get a paginated list of userExamples by custom conditions.
@@ -228,3 +228,5 @@ func (d *userExampleDao) GetByColumns(ctx context.Context, params *query.Params)
 
 	return records, total, err
 }
+
+// todo generate the update helper functions here

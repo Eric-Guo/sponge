@@ -325,6 +325,10 @@ func (g *httpGenerator) generateCode() (string, error) {
 	ignoreDirs := []string{"cmd/sponge"}
 	ignoreFiles := []string{"scripts/image-rpc-test.sh", "scripts/patch.sh", "scripts/protoc.sh",
 		"scripts/proto-doc.sh", "configs/serverNameExample_cc.yml"}
+	if g.dbDriver != DBDriverSqlite {
+		// The subprocess test uses an isolated SQLite database.
+		ignoreFiles = append(ignoreFiles, "cmd/serverNameExample_httpExample/main_test.go")
+	}
 
 	r.SetSubDirsAndFiles(subDirs, subFiles...)
 	r.SetIgnoreSubDirs(ignoreDirs...)
@@ -388,7 +392,11 @@ func (g *httpGenerator) addFields(r replacer.Replacer) []replacer.Field {
 		},
 		{ // replace the contents of the dao/userExample.go file
 			Old: daoFileMark,
-			New: g.codes[parser.CodeTypeDAO],
+			New: g.codes[parser.CodeTypeDAOUpdate],
+		},
+		{
+			Old: daoHelpersMark,
+			New: g.codes[parser.CodeTypeDAOHelpers],
 		},
 		{ // replace the contents of the handler/userExample.go file
 			Old: handlerFileMark,

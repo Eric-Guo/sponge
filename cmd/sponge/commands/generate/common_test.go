@@ -106,10 +106,16 @@ func TestHTTPGenerationUsesRepositoryTemplates(t *testing.T) {
 				return string(data)
 			}
 			require.Contains(t, read("cmd/sample/initial/createService.go"), "app.NewUpstreamServer")
+			require.Contains(t, read("cmd/sample/main.go"), "os.Exit(a.RunWithExitCode())")
+			require.Contains(t, read("deployments/binary/run.sh"), "configs/${serviceName}.yml")
+			require.Contains(t, read("scripts/binary-package.sh"), "configs/${serviceName}_cc.yml")
+			require.Contains(t, read("go.mod"), "tool golang.org/x/vuln/cmd/govulncheck")
+			require.Contains(t, read("Makefile"), "go tool govulncheck ./...")
 			require.Contains(t, read("internal/routers/routers.go"), "proxy.RegisterFallback")
 			require.Contains(t, read("internal/routers/routers.go"), "middleware.RailsCookieAuthMiddleware")
 			require.Contains(t, read("internal/server/http.go"), "httpsrv.ModeRemoteAPI")
 			require.Contains(t, read("internal/server/http.go"), "GzipJitter: cfg.GzipJitter")
+			require.Contains(t, read("internal/server/http.go"), "TrustRequestIDHeader: config.Get().Proxy.ForwardHeaders")
 			require.Contains(t, read("configs/sample.yml"), "gzipJitter: 32")
 			require.Contains(t, read("configs/sample.yml"), "gzipDisableOnAuth: false")
 			if embedded {
@@ -118,6 +124,14 @@ func TestHTTPGenerationUsesRepositoryTemplates(t *testing.T) {
 			} else {
 				require.Contains(t, read("internal/dao/users.go"), "table.SignedInAt != nil")
 			}
+			// Configuration regeneration must preserve startup defaults and overrides.
+			startup := read("cmd/sample/initial/initApp.go")
+			files, err := getYAMLFile(output)
+			require.NoError(t, err)
+			require.NoError(t, runGenConfigCommand(files, jy2struct.Args{Tags: "yaml,json", SubStruct: true}))
+			require.Equal(t, startup, read("cmd/sample/initial/initApp.go"))
+			require.Contains(t, startup, "loadConfig(configFile)")
+			require.Contains(t, startup, "GzipJitter: 32")
 		})
 	}
 }

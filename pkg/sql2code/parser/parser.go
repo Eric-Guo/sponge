@@ -17,6 +17,7 @@ import (
 	"github.com/zhufuyi/sqlparser/dependency/mysql"
 	"github.com/zhufuyi/sqlparser/dependency/types"
 	"github.com/zhufuyi/sqlparser/parser"
+	"golang.org/x/tools/imports"
 )
 
 const (
@@ -28,6 +29,10 @@ const (
 	CodeTypeJSON = "json"
 	// CodeTypeDAO update fields code
 	CodeTypeDAO = "dao"
+	// CodeTypeDAOUpdate contains update statements that use CodeTypeDAOHelpers.
+	CodeTypeDAOUpdate = "dao_update"
+	// CodeTypeDAOHelpers contains helpers for updating timestamp fields.
+	CodeTypeDAOHelpers = "dao_helpers"
 	// CodeTypeHandler handler request and respond code
 	CodeTypeHandler = "handler"
 	// CodeTypeProto proto file code
@@ -88,6 +93,8 @@ func ParseSQL(sql string, options ...Option) (map[string]string, error) {
 	}
 	modelStructCodes := make([]string, 0, len(stmts))
 	updateFieldsCodes := make([]string, 0, len(stmts))
+	splitUpdateFieldsCodes := make([]string, 0, len(stmts))
+	updateHelpersCodes := make([]string, 0, len(stmts))
 	handlerStructCodes := make([]string, 0, len(stmts))
 	protoFileCodes := make([]string, 0, len(stmts))
 	serviceStructCodes := make([]string, 0, len(stmts))
@@ -104,6 +111,8 @@ func ParseSQL(sql string, options ...Option) (map[string]string, error) {
 			}
 			modelStructCodes = append(modelStructCodes, code.modelStruct)
 			updateFieldsCodes = append(updateFieldsCodes, code.updateFields)
+			splitUpdateFieldsCodes = append(splitUpdateFieldsCodes, code.splitUpdateFields)
+			updateHelpersCodes = append(updateHelpersCodes, code.updateHelpers)
 			handlerStructCodes = append(handlerStructCodes, code.handlerStruct)
 			protoFileCodes = append(protoFileCodes, code.protoFile)
 			serviceStructCodes = append(serviceStructCodes, code.serviceStruct)
@@ -137,6 +146,7 @@ func ParseSQL(sql string, options ...Option) (map[string]string, error) {
 		CodeTypeModel:     modelCode,
 		CodeTypeJSON:      strings.Join(modelJSONCodes, "\n\n"),
 		CodeTypeDAO:       strings.Join(updateFieldsCodes, "\n\n"),
+		CodeTypeDAOUpdate: strings.Join(splitUpdateFieldsCodes, "\n\n"),
 		CodeTypeHandler:   strings.Join(handlerStructCodes, "\n\n"),
 		CodeTypeProto:     strings.Join(protoFileCodes, "\n\n"),
 		CodeTypeService:   strings.Join(serviceStructCodes, "\n\n"),
@@ -145,6 +155,9 @@ func ParseSQL(sql string, options ...Option) (map[string]string, error) {
 		CodeTypeTableInfo: strings.Join(tableInfoCodes, " |||| "),
 	}
 
+	if helpers := strings.TrimSpace(strings.Join(updateHelpersCodes, "\n\n")); helpers != "" {
+		codesMap[CodeTypeDAOHelpers] = helpers
+	}
 	return codesMap, nil
 }
 
@@ -190,7 +203,23 @@ func (d tmplData) isCommonStyle(isEmbed bool) bool {
 	return false
 }
 
-// ConditionZero type of condition 0, used in dao template code
+// NonZeroCondition returns the complete condition used for a partial update.
+func (t tmplField) NonZeroCondition() string {
+	expression := "table." + t.Name + t.ConditionZero()
+	if strings.HasSuffix(expression, " != false") {
+		return strings.TrimSuffix(expression, " != false")
+	}
+	if strings.HasSuffix(expression, ".IsZero() == false") {
+		guard, value, guarded := strings.Cut(expression, " && ")
+		if guarded {
+			return guard + " && !" + strings.TrimSuffix(value, " == false")
+		}
+		return "!" + strings.TrimSuffix(expression, " == false")
+	}
+	return expression
+}
+
+// ConditionZero type of condition 0, retained for custom templates using suffix conditions.
 func (t tmplField) ConditionZero() string {
 	if t.DBDriver == DBDriverMysql || t.DBDriver == DBDriverPostgresql || t.DBDriver == DBDriverTidb {
 		if t.rewriterField != nil {
@@ -263,7 +292,7 @@ func (t tmplField) GoZero() string {
 		return `= 0`
 	case "string", "sql.NullString":
 		return `= "string"`
-	case "time.Time", "*time.Time", "sql.NullTime":
+	case goTypeTime, "*time.Time", "sql.NullTime":
 		return `= "0000-01-00T00:00:00.000+08:00"`
 	case "[]byte", "[]string", "[]int", "interface{}": //nolint
 		return `= nil` //nolint
@@ -311,7 +340,7 @@ func (t tmplField) GoTypeZero() string {
 		return `0`
 	case "string", "sql.NullString", jsonTypeName:
 		return `""`
-	case "time.Time", "*time.Time", "sql.NullTime":
+	case goTypeTime, "*time.Time", "sql.NullTime":
 		return `""`
 	case "[]byte", "[]string", "[]int", "interface{}": //nolint
 		return `nil` //nolint
@@ -428,15 +457,17 @@ func replaceCommentNewline(comment string) string {
 }
 
 type codeText struct {
-	importPaths   []string
-	modelStruct   string
-	modelJSON     string
-	updateFields  string
-	handlerStruct string
-	protoFile     string
-	serviceStruct string
-	crudInfo      string
-	tableInfo     []byte
+	importPaths       []string
+	modelStruct       string
+	modelJSON         string
+	updateFields      string
+	splitUpdateFields string
+	updateHelpers     string
+	handlerStruct     string
+	protoFile         string
+	serviceStruct     string
+	crudInfo          string
+	tableInfo         []byte
 }
 
 // nolint
@@ -574,7 +605,7 @@ func makeCode(stmt *ast.CreateTableStmt, opt options) (*codeText, error) {
 			}
 			field.Tag = makeTagStr(tags)
 			field.GoType = opt.FieldTypes[colName]
-			if field.GoType == "time.Time" {
+			if field.GoType == goTypeTime {
 				importPath = append(importPath, "time")
 			}
 
@@ -634,7 +665,7 @@ func makeCode(stmt *ast.CreateTableStmt, opt options) (*codeText, error) {
 		return nil, err
 	}
 
-	updateFieldsCode, err := getUpdateFieldsCode(data, opt.IsEmbed)
+	updates, err := getUpdateFieldsCode(data, opt.IsEmbed)
 	if err != nil {
 		return nil, err
 	}
@@ -676,14 +707,16 @@ func makeCode(stmt *ast.CreateTableStmt, opt options) (*codeText, error) {
 	}
 
 	return &codeText{
-		importPaths:   importPaths,
-		modelStruct:   modelStructCode,
-		modelJSON:     modelJSONCode,
-		updateFields:  updateFieldsCode,
-		handlerStruct: handlerStructCode,
-		protoFile:     protoFileCode,
-		serviceStruct: serviceStructCode,
-		crudInfo:      data.CrudInfo.getCode(),
+		importPaths:       importPaths,
+		modelStruct:       modelStructCode,
+		modelJSON:         modelJSONCode,
+		updateFields:      updates.inline,
+		splitUpdateFields: updates.fields,
+		updateHelpers:     updates.helpers,
+		handlerStruct:     handlerStructCode,
+		protoFile:         protoFileCode,
+		serviceStruct:     serviceStructCode,
+		crudInfo:          data.CrudInfo.getCode(),
 	}, nil
 }
 
@@ -708,7 +741,7 @@ func getModelStructCode(data tmplData, importPaths []string, isEmbed bool, jsonN
 			}
 			switch field.DBDriver {
 			case DBDriverMysql, DBDriverTidb, DBDriverPostgresql:
-				if strings.Contains(field.GoType, "time.Time") {
+				if strings.Contains(field.GoType, goTypeTime) {
 					field.GoType = "*time.Time"
 				}
 				if field.rewriterField != nil {
@@ -720,7 +753,7 @@ func getModelStructCode(data tmplData, importPaths []string, isEmbed bool, jsonN
 				}
 			}
 			newFields = append(newFields, field)
-			if strings.Contains(field.GoType, "time.Time") {
+			if strings.Contains(field.GoType, goTypeTime) {
 				isHaveTimeType = true
 			}
 		}
@@ -740,7 +773,7 @@ func getModelStructCode(data tmplData, importPaths []string, isEmbed bool, jsonN
 		newImportPaths = append(newImportPaths, "github.com/go-dev-frame/sponge/pkg/sgorm")
 	} else {
 		for _, field := range data.Fields {
-			if strings.Contains(field.GoType, "time.Time") {
+			if strings.Contains(field.GoType, goTypeTime) {
 				field.GoType = "*time.Time"
 			}
 			switch field.DBDriver {
@@ -868,44 +901,72 @@ func getModelCode(data modelCodes) (string, error) {
 		return "", err
 	}
 
-	code, err := format.Source([]byte(builder.String()))
+	code, err := imports.Process("model.go", []byte(builder.String()), &imports.Options{Comments: true, TabIndent: true, TabWidth: 8, FormatOnly: true})
 	if err != nil {
-		return "", fmt.Errorf("getModelCode format.Source error: %v", err)
+		return "", fmt.Errorf("getModelCode imports.Process error: %v", err)
 	}
 
 	return string(code), nil
 }
 
-func getUpdateFieldsCode(data tmplData, isEmbed bool) (string, error) {
+type updateCodes struct {
+	inline  string // standalone statements for existing sql2code consumers
+	fields  string // statements for DAO templates, with timestamp helper calls
+	helpers string
+}
 
-	// filter fields
-	var newFields = []tmplField{}
+func getUpdateFieldsCode(data tmplData, isEmbed bool) (updateCodes, error) {
+	var fields, scalarFields, timeFields []tmplField
 	for _, field := range data.Fields {
 		if field.DBDriver == DBDriverSqlite && !isEmbed && field.GoType == goTypeTime {
 			field.GoType = "*time.Time"
 		}
-		falseColumns := []string{}
-		if isIgnoreFields(field.ColName, falseColumns...) || field.ColName == columnID || field.ColName == _columnID {
+		if isIgnoreFields(field.ColName) || field.ColName == columnID || field.ColName == _columnID {
 			continue
 		}
 		switch field.DBDriver {
 		case DBDriverMysql, DBDriverTidb, DBDriverPostgresql:
-			if field.rewriterField != nil {
-				if field.rewriterField.goType == jsonTypeName {
-					field.GoType = "[]byte"
-				}
+			if field.rewriterField != nil && field.rewriterField.goType == jsonTypeName {
+				field.GoType = "[]byte"
 			}
 		}
-		newFields = append(newFields, field)
+		fields = append(fields, field)
+		switch field.GoType {
+		case goTypeTime, "*time.Time", "sql.NullTime":
+			timeFields = append(timeFields, field)
+		default:
+			scalarFields = append(scalarFields, field)
+		}
 	}
-	data.Fields = newFields
 
+	data.Fields = fields
 	buf := new(bytes.Buffer)
-	err := updateFieldTmpl.Execute(buf, data)
-	if err != nil {
-		return "", err
+	if err := updateFieldTmpl.Execute(buf, data); err != nil {
+		return updateCodes{}, err
 	}
-	return buf.String(), nil
+	code := updateCodes{inline: buf.String(), fields: buf.String()}
+	if len(timeFields) == 0 {
+		return code, nil
+	}
+
+	// Separate timestamp updates in service templates without changing the
+	// standalone DAO snippet or partial-update zero-value semantics.
+	buf.Reset()
+	data.Fields = scalarFields
+	if err := updateFieldTmpl.Execute(buf, data); err != nil {
+		return updateCodes{}, err
+	}
+	fmt.Fprintf(buf, "\n\tadd%sTimeUpdates(table, update)\n", data.TableName)
+	code.fields = buf.String()
+	buf.Reset()
+	fmt.Fprintf(buf, "\nfunc add%sTimeUpdates(table *model.%s, update map[string]interface{}) {", data.TableName, data.TableName)
+	data.Fields = timeFields
+	if err := updateFieldTmpl.Execute(buf, data); err != nil {
+		return updateCodes{}, err
+	}
+	fmt.Fprintln(buf, "\n}")
+	code.helpers = buf.String()
+	return code, nil
 }
 
 func getHandlerStructCodes(data tmplData, jsonNamedType int) (string, error) {
@@ -1040,7 +1101,7 @@ func getProtoFileCode(data tmplData, jsonNamedType int, isWebProto bool, isExten
 	code = strings.ReplaceAll(code, "// protoMessageUpdateCode", protoMessageUpdateCode)
 	code = strings.ReplaceAll(code, "// protoMessageDetailCode", protoMessageDetailCode)
 	code = strings.ReplaceAll(code, "*time.Time", "int64")
-	code = strings.ReplaceAll(code, "time.Time", "int64")
+	code = strings.ReplaceAll(code, goTypeTime, "int64")
 	code = adaptedDbType(data, isWebProto, code)
 
 	return code, nil
@@ -1243,7 +1304,7 @@ func mysqlToGoType(colTp *types.FieldType, style NullStyle) (name string, path s
 			name = "string"
 		case mysql.TypeTimestamp, mysql.TypeDatetime, mysql.TypeDate, mysql.TypeNewDate:
 			path = "time" //nolint
-			name = "time.Time"
+			name = goTypeTime
 		case mysql.TypeEnum, mysql.TypeSet, mysql.TypeGeometry:
 			name = "string"
 		case mysql.TypeJSON:
@@ -1287,7 +1348,7 @@ func goTypeToProto(fields []tmplField, jsonNameType int, isCommonStyle bool) []t
 			field.GoType = "int32"
 		case "uint":
 			field.GoType = "uint32"
-		case "time.Time", "*time.Time":
+		case goTypeTime, "*time.Time":
 			field.GoType = "string"
 		case "float32":
 			field.GoType = "float"

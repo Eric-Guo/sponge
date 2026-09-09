@@ -136,13 +136,13 @@ func (d *userExampleDao) GetByID(ctx context.Context, id uint64) (*model.UserExa
 	}
 
 	// get from cache
-	record, err := d.cache.Get(ctx, id)
-	if err == nil {
+	record, cacheErr := d.cache.Get(ctx, id)
+	if cacheErr == nil {
 		return record, nil
 	}
 
 	// get from database
-	if errors.Is(err, database.ErrCacheNotFound) {
+	if errors.Is(cacheErr, database.ErrCacheNotFound) {
 		// for the same id, prevent high concurrent simultaneous access to database
 		val, err, _ := d.sfg.Do(utils.Uint64ToStr(id), func() (interface{}, error) {
 			table := &model.UserExample{}
@@ -173,11 +173,11 @@ func (d *userExampleDao) GetByID(ctx context.Context, id uint64) (*model.UserExa
 		return table, nil
 	}
 
-	if d.cache.IsPlaceholderErr(err) {
+	if d.cache.IsPlaceholderErr(cacheErr) {
 		return nil, database.ErrRecordNotFound
 	}
 
-	return nil, err
+	return nil, cacheErr
 }
 
 // GetByColumns get a paginated list of userExamples by custom conditions.
@@ -355,3 +355,5 @@ func (d *userExampleDao) UpdateByTx(ctx context.Context, tx *gorm.DB, table *mod
 
 	return err
 }
+
+// todo generate the update helper functions here

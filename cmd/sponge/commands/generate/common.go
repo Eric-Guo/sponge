@@ -84,10 +84,11 @@ var (
 
 	cacheFile = "cache/cacheNameExample.go"
 
-	daoFile     = "dao/userExample.go"
-	daoMgoFile  = "dao/userExample.go.mgo"
-	daoFileMark = "// todo generate the update fields code to here"
-	daoTestFile = "dao/userExample_test.go"
+	daoFile        = "dao/userExample.go"
+	daoMgoFile     = "dao/userExample.go.mgo"
+	daoFileMark    = "// todo generate the update fields code to here"
+	daoHelpersMark = "// todo generate the update helper functions here"
+	daoTestFile    = "dao/userExample_test.go"
 
 	typesFile         = "types/userExample_types.go"
 	typesMgoFile      = "types/userExample_types.go.mgo"
@@ -1034,6 +1035,10 @@ func SetSelectFiles(dbDriver string, selectFiles map[string][]string) error {
 
 func getHTTPServiceFields() []replacer.Field {
 	return []replacer.Field{
+		{ // HTTP services use local configuration and do not emit the config-center YAML.
+			Old: `cmdStr="./${serviceName} -c configs/${serviceName}_cc.yml"`,
+			New: `cmdStr="./${serviceName} -c configs/${serviceName}.yml"`,
+		},
 		{
 			Old: appConfigFileMark3,
 			New: "",

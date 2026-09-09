@@ -226,13 +226,8 @@ func NewHTTPServer(addr string, opts ...HTTPOption) app.IServer {
 		router = routers.NewRouter()
 	}
 	server := &http.Server{
-		Addr: addr,
-		Handler: httpsrv.WrapHandler(router, httpsrv.MiddlewareOptions{
-			AddRequestStartHeader: cfg.AddRequestStartHeader, GzipEnabled: cfg.GzipEnabled,
-			GzipJitter: cfg.GzipJitter, GzipDisableOnAuth: cfg.GzipDisableOnAuth,
-			AddRequestID: true, TrustRequestIDHeader: config.Get().Proxy.ForwardHeaders,
-			LogRequests: cfg.LogRequests, MaxRequestBodyBytes: cfg.MaxRequestBodyBytes,
-		}),
+		Addr:           addr,
+		Handler:        newHTTPHandler(router, cfg),
 		ReadTimeout:    secondsToDuration(cfg.ReadTimeout),
 		WriteTimeout:   secondsToDuration(cfg.WriteTimeout),
 		IdleTimeout:    secondsToDuration(cfg.IdleTimeout),
@@ -272,13 +267,8 @@ func NewHTTPServer_pbExample(addr string, opts ...HTTPOption) app.IServer { //no
 		router = routers.NewRouter_pbExample()
 	}
 	server := &http.Server{
-		Addr: addr,
-		Handler: httpsrv.WrapHandler(router, httpsrv.MiddlewareOptions{
-			AddRequestStartHeader: cfg.AddRequestStartHeader, GzipEnabled: cfg.GzipEnabled,
-			GzipJitter: cfg.GzipJitter, GzipDisableOnAuth: cfg.GzipDisableOnAuth,
-			AddRequestID: true, TrustRequestIDHeader: config.Get().Proxy.ForwardHeaders,
-			LogRequests: cfg.LogRequests, MaxRequestBodyBytes: cfg.MaxRequestBodyBytes,
-		}),
+		Addr:           addr,
+		Handler:        newHTTPHandler(router, cfg),
 		ReadTimeout:    secondsToDuration(cfg.ReadTimeout),
 		WriteTimeout:   secondsToDuration(cfg.WriteTimeout),
 		IdleTimeout:    secondsToDuration(cfg.IdleTimeout),
@@ -294,3 +284,12 @@ func NewHTTPServer_pbExample(addr string, opts ...HTTPOption) app.IServer { //no
 }
 
 // delete the templates code end
+
+func newHTTPHandler(router http.Handler, cfg config.HTTP) http.Handler {
+	return httpsrv.WrapHandler(router, httpsrv.MiddlewareOptions{
+		AddRequestStartHeader: cfg.AddRequestStartHeader, GzipEnabled: cfg.GzipEnabled,
+		GzipJitter: cfg.GzipJitter, GzipDisableOnAuth: cfg.GzipDisableOnAuth,
+		AddRequestID: true, TrustRequestIDHeader: config.Get().Proxy.ForwardHeaders,
+		LogRequests: cfg.LogRequests, MaxRequestBodyBytes: cfg.MaxRequestBodyBytes,
+	})
+}

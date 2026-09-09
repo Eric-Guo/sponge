@@ -261,7 +261,11 @@ func (g *daoGenerator) addFields(r replacer.Replacer) []replacer.Field {
 		},
 		{
 			Old: daoFileMark,
-			New: g.codes[parser.CodeTypeDAO],
+			New: g.codes[parser.CodeTypeDAOUpdate],
+		},
+		{
+			Old: daoHelpersMark,
+			New: g.codes[parser.CodeTypeDAOHelpers],
 		},
 		{
 			Old: selfPackageName + "/" + r.GetSourcePath(),

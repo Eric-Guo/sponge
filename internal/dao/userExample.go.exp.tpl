@@ -141,13 +141,13 @@ func (d *{{.TableNameCamelFCL}}Dao) GetBy{{.ColumnNameCamel}}(ctx context.Contex
 	}
 
 	// get from cache
-	record, err := d.cache.Get(ctx, {{.ColumnNameCamelFCL}})
-	if err == nil {
+	record, cacheErr := d.cache.Get(ctx, {{.ColumnNameCamelFCL}})
+	if cacheErr == nil {
 		return record, nil
 	}
 
 	// get from database
-	if errors.Is(err, database.ErrCacheNotFound) {
+	if errors.Is(cacheErr, database.ErrCacheNotFound) {
 		// for the same {{.ColumnNameCamelFCL}}, prevent high concurrent simultaneous access to database
 		{{if .IsStringType}}val, err, _ := d.sfg.Do({{.ColumnNameCamelFCL}}, func() (interface{}, error) {
 {{else}}		val, err, _ := d.sfg.Do(utils.{{.GoTypeFCU}}ToStr({{.ColumnNameCamelFCL}}), func() (interface{}, error) {
@@ -180,11 +180,11 @@ func (d *{{.TableNameCamelFCL}}Dao) GetBy{{.ColumnNameCamel}}(ctx context.Contex
 		return table, nil
 	}
 
-	if d.cache.IsPlaceholderErr(err) {
+	if d.cache.IsPlaceholderErr(cacheErr) {
 		return nil, database.ErrRecordNotFound
 	}
 
-	return nil, err
+	return nil, cacheErr
 }
 
 // GetByColumns get a paginated list of {{.TableNamePluralCamelFCL}} by custom conditions.
@@ -369,3 +369,5 @@ func (d *{{.TableNameCamelFCL}}Dao) UpdateByTx(ctx context.Context, tx *gorm.DB,
 
 	return err
 }
+
+// todo generate the update helper functions here
