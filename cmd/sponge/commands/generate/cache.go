@@ -8,7 +8,7 @@ import (
 	"github.com/fatih/color"
 	"github.com/spf13/cobra"
 
-	"github.com/go-dev-frame/sponge/pkg/replacer"
+	"github.com/Eric-Guo/sponge/pkg/replacer"
 )
 
 // CacheCommand generate cache code
@@ -171,11 +171,11 @@ func (g *stringCacheGenerator) addFields(r replacer.Replacer) []replacer.Field {
 
 	fields = append(fields, []replacer.Field{
 		{
-			Old: "github.com/go-dev-frame/sponge/internal/model",
+			Old: "github.com/Eric-Guo/sponge/internal/model",
 			New: g.moduleName + "/internal/model",
 		},
 		{
-			Old: "github.com/go-dev-frame/sponge/internal/database",
+			Old: "github.com/Eric-Guo/sponge/internal/database",
 			New: g.moduleName + "/internal/database",
 		},
 		{

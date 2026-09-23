@@ -7,8 +7,8 @@ import (
 
 	"github.com/stretchr/testify/assert"
 
-	"github.com/go-dev-frame/sponge/pkg/servicerd/registry"
-	"github.com/go-dev-frame/sponge/pkg/utils"
+	"github.com/Eric-Guo/sponge/pkg/servicerd/registry"
+	"github.com/Eric-Guo/sponge/pkg/utils"
 )
 
 func TestNewRegistry(t *testing.T) {

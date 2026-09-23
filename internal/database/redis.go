@@ -4,10 +4,10 @@ import (
 	"sync"
 	"time"
 
-	"github.com/go-dev-frame/sponge/pkg/goredis"
-	"github.com/go-dev-frame/sponge/pkg/tracer"
+	"github.com/Eric-Guo/sponge/pkg/goredis"
+	"github.com/Eric-Guo/sponge/pkg/tracer"
 
-	"github.com/go-dev-frame/sponge/internal/config"
+	"github.com/Eric-Guo/sponge/internal/config"
 )
 
 var (

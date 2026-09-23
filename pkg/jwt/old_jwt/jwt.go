@@ -1,5 +1,5 @@
-// Package jwt is deprecated, old package path is "github.com/go-dev-frame/sponge/pkg/jwt/old_jwt"
-// Please use new jwt package instead, new package path is "github.com/go-dev-frame/sponge/pkg/jwt"
+// Package jwt is deprecated, old package path is "github.com/Eric-Guo/sponge/pkg/jwt/old_jwt"
+// Please use new jwt package instead, new package path is "github.com/Eric-Guo/sponge/pkg/jwt"
 package jwt
 
 import (
@@ -29,7 +29,7 @@ type Claims struct {
 }
 
 // GenerateToken generate token by uid and name, use universal Claims
-// Deprecated: use "github.com/go-dev-frame/sponge/pkg/jwt" GenerateToken instead
+// Deprecated: use "github.com/Eric-Guo/sponge/pkg/jwt" GenerateToken instead
 func GenerateToken(uid string, name ...string) (string, error) {
 	if opt == nil {
 		return "", errInit
@@ -54,7 +54,7 @@ func GenerateToken(uid string, name ...string) (string, error) {
 }
 
 // ParseToken parse token, return universal Claims
-// Deprecated: use "github.com/go-dev-frame/sponge/pkg/jwt" ValidateToken instead
+// Deprecated: use "github.com/Eric-Guo/sponge/pkg/jwt" ValidateToken instead
 func ParseToken(tokenString string) (*Claims, error) {
 	if opt == nil {
 		return nil, errInit
@@ -75,7 +75,7 @@ func ParseToken(tokenString string) (*Claims, error) {
 }
 
 // RefreshToken refresh token
-// Deprecated: use "github.com/go-dev-frame/sponge/pkg/jwt" RefreshToken instead
+// Deprecated: use "github.com/Eric-Guo/sponge/pkg/jwt" RefreshToken instead
 func RefreshToken(tokenString string) (string, error) {
 	claims, err := ParseToken(tokenString)
 	if err != nil {
@@ -146,7 +146,7 @@ func (c *CustomClaims) GetUint64(key string) (uint64, bool) {
 }
 
 // GenerateCustomToken generate token by custom fields, use CustomClaims
-// Deprecated: use "github.com/go-dev-frame/sponge/pkg/jwt" GenerateToken instead
+// Deprecated: use "github.com/Eric-Guo/sponge/pkg/jwt" GenerateToken instead
 func GenerateCustomToken(kv map[string]interface{}) (string, error) {
 	if opt == nil {
 		return "", errInit
@@ -166,7 +166,7 @@ func GenerateCustomToken(kv map[string]interface{}) (string, error) {
 }
 
 // ParseCustomToken parse token, return CustomClaims
-// Deprecated: use "github.com/go-dev-frame/sponge/pkg/jwt" ValidateToken instead
+// Deprecated: use "github.com/Eric-Guo/sponge/pkg/jwt" ValidateToken instead
 func ParseCustomToken(tokenString string) (*CustomClaims, error) {
 	if opt == nil {
 		return nil, errInit
@@ -187,7 +187,7 @@ func ParseCustomToken(tokenString string) (*CustomClaims, error) {
 }
 
 // RefreshCustomToken refresh custom token
-// Deprecated: use "github.com/go-dev-frame/sponge/pkg/jwt" RefreshToken instead
+// Deprecated: use "github.com/Eric-Guo/sponge/pkg/jwt" RefreshToken instead
 func RefreshCustomToken(tokenString string) (string, error) {
 	claims, err := ParseCustomToken(tokenString)
 	if err != nil {

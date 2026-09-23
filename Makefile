@@ -1,6 +1,6 @@
 SHELL := /bin/bash
 
-PROJECT_NAME := "github.com/go-dev-frame/sponge"
+PROJECT_NAME := "github.com/Eric-Guo/sponge"
 PKG := "$(PROJECT_NAME)"
 PKG_LIST := $(shell go list ${PKG}/... | grep -v /vendor/ | grep -v /api/ | grep -v /cmd/)
 
@@ -12,8 +12,8 @@ install:
 	go install google.golang.org/grpc/cmd/protoc-gen-go-grpc@latest
 	go install github.com/envoyproxy/protoc-gen-validate@latest
 	go install github.com/srikrsna/protoc-gen-gotag@latest
-	go install github.com/go-dev-frame/sponge/cmd/protoc-gen-go-gin@latest
-	go install github.com/go-dev-frame/sponge/cmd/protoc-gen-go-rpc-tmpl@latest
+	go install github.com/Eric-Guo/sponge/cmd/protoc-gen-go-gin@thruster_generate
+	go install github.com/Eric-Guo/sponge/cmd/protoc-gen-go-rpc-tmpl@thruster_generate
 	go install github.com/grpc-ecosystem/grpc-gateway/v2/protoc-gen-openapiv2@latest
 	go install github.com/pseudomuto/protoc-gen-doc/cmd/protoc-gen-doc@latest
 	go install github.com/golangci/golangci-lint/v2/cmd/golangci-lint@v2.13.2
@@ -49,7 +49,7 @@ cover:
 graph:
 	@echo "generating graph ......"
 	@cp -f cmd/serverNameExample_mixExample/main.go .
-	go-callvis -skipbrowser -format=svg -nostd -file=serverNameExample_mixExample github.com/go-dev-frame/sponge
+	go-callvis -skipbrowser -format=svg -nostd -file=serverNameExample_mixExample github.com/Eric-Guo/sponge
 	@rm -f main.go serverNameExample_mixExample.gv
 
 # delete the templates code start

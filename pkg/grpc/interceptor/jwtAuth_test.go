@@ -9,7 +9,7 @@ import (
 	"github.com/stretchr/testify/assert"
 	"google.golang.org/grpc/metadata"
 
-	"github.com/go-dev-frame/sponge/pkg/jwt"
+	"github.com/Eric-Guo/sponge/pkg/jwt"
 )
 
 var (

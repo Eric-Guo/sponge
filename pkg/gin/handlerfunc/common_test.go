@@ -9,8 +9,8 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/stretchr/testify/assert"
 
-	"github.com/go-dev-frame/sponge/pkg/httpcli"
-	"github.com/go-dev-frame/sponge/pkg/utils"
+	"github.com/Eric-Guo/sponge/pkg/httpcli"
+	"github.com/Eric-Guo/sponge/pkg/utils"
 )
 
 func TestCommonHandlers(t *testing.T) {

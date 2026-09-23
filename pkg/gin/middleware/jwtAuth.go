@@ -4,9 +4,9 @@ package middleware
 import (
 	"github.com/gin-gonic/gin"
 
-	"github.com/go-dev-frame/sponge/pkg/errcode"
-	"github.com/go-dev-frame/sponge/pkg/gin/response"
-	"github.com/go-dev-frame/sponge/pkg/jwt"
+	"github.com/Eric-Guo/sponge/pkg/errcode"
+	"github.com/Eric-Guo/sponge/pkg/gin/response"
+	"github.com/Eric-Guo/sponge/pkg/jwt"
 )
 
 // HeaderAuthorizationKey http header authorization key, value is "Bearer token"

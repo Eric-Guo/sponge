@@ -7,16 +7,16 @@ import (
 	"github.com/DATA-DOG/go-sqlmock"
 	"github.com/stretchr/testify/assert"
 
-	"github.com/go-dev-frame/sponge/pkg/copier"
-	"github.com/go-dev-frame/sponge/pkg/gotest"
-	"github.com/go-dev-frame/sponge/pkg/utils"
+	"github.com/Eric-Guo/sponge/pkg/copier"
+	"github.com/Eric-Guo/sponge/pkg/gotest"
+	"github.com/Eric-Guo/sponge/pkg/utils"
 
-	serverNameExampleV1 "github.com/go-dev-frame/sponge/api/serverNameExample/v1"
-	"github.com/go-dev-frame/sponge/api/types"
-	"github.com/go-dev-frame/sponge/internal/cache"
-	"github.com/go-dev-frame/sponge/internal/dao"
-	"github.com/go-dev-frame/sponge/internal/database"
-	"github.com/go-dev-frame/sponge/internal/model"
+	serverNameExampleV1 "github.com/Eric-Guo/sponge/api/serverNameExample/v1"
+	"github.com/Eric-Guo/sponge/api/types"
+	"github.com/Eric-Guo/sponge/internal/cache"
+	"github.com/Eric-Guo/sponge/internal/dao"
+	"github.com/Eric-Guo/sponge/internal/database"
+	"github.com/Eric-Guo/sponge/internal/model"
 )
 
 func newUserExampleService() *gotest.Service {

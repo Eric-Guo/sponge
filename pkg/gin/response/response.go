@@ -6,7 +6,7 @@ import (
 
 	"github.com/gin-gonic/gin"
 
-	"github.com/go-dev-frame/sponge/pkg/errcode"
+	"github.com/Eric-Guo/sponge/pkg/errcode"
 )
 
 // Result output data format

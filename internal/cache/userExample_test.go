@@ -6,11 +6,11 @@ import (
 
 	"github.com/stretchr/testify/assert"
 
-	"github.com/go-dev-frame/sponge/pkg/gotest"
-	"github.com/go-dev-frame/sponge/pkg/utils"
+	"github.com/Eric-Guo/sponge/pkg/gotest"
+	"github.com/Eric-Guo/sponge/pkg/utils"
 
-	"github.com/go-dev-frame/sponge/internal/database"
-	"github.com/go-dev-frame/sponge/internal/model"
+	"github.com/Eric-Guo/sponge/internal/database"
+	"github.com/Eric-Guo/sponge/internal/model"
 )
 
 func newUserExampleCache() *gotest.Cache {

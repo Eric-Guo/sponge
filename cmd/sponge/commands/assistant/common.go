@@ -11,14 +11,14 @@ import (
 
 	"github.com/fatih/color"
 
-	"github.com/go-dev-frame/sponge/pkg/aicli"
-	"github.com/go-dev-frame/sponge/pkg/aicli/chatgpt"
-	"github.com/go-dev-frame/sponge/pkg/aicli/deepseek"
-	"github.com/go-dev-frame/sponge/pkg/aicli/gemini"
-	"github.com/go-dev-frame/sponge/pkg/goast"
-	"github.com/go-dev-frame/sponge/pkg/gobash"
-	"github.com/go-dev-frame/sponge/pkg/gofile"
-	"github.com/go-dev-frame/sponge/pkg/utils"
+	"github.com/Eric-Guo/sponge/pkg/aicli"
+	"github.com/Eric-Guo/sponge/pkg/aicli/chatgpt"
+	"github.com/Eric-Guo/sponge/pkg/aicli/deepseek"
+	"github.com/Eric-Guo/sponge/pkg/aicli/gemini"
+	"github.com/Eric-Guo/sponge/pkg/goast"
+	"github.com/Eric-Guo/sponge/pkg/gobash"
+	"github.com/Eric-Guo/sponge/pkg/gofile"
+	"github.com/Eric-Guo/sponge/pkg/utils"
 )
 
 const (
@@ -110,13 +110,13 @@ import (
 	"golang.org/x/sync/singleflight"
 	"gorm.io/gorm"
 
-	"github.com/go-dev-frame/sponge/pkg/logger"
-	"github.com/go-dev-frame/sponge/pkg/sgorm/query"
-	"github.com/go-dev-frame/sponge/pkg/utils"
+	"github.com/Eric-Guo/sponge/pkg/logger"
+	"github.com/Eric-Guo/sponge/pkg/sgorm/query"
+	"github.com/Eric-Guo/sponge/pkg/utils"
 
-	"github.com/go-dev-frame/sponge/internal/cache"
-	"github.com/go-dev-frame/sponge/internal/database"
-	"github.com/go-dev-frame/sponge/internal/model"
+	"github.com/Eric-Guo/sponge/internal/cache"
+	"github.com/Eric-Guo/sponge/internal/database"
+	"github.com/Eric-Guo/sponge/internal/model"
 )
 
 var _ UserExampleDao = (*userExampleDao)(nil)
@@ -165,13 +165,13 @@ import (
 	"go.mongodb.org/mongo-driver/mongo/options"
 	"golang.org/x/sync/singleflight"
 
-	"github.com/go-dev-frame/sponge/pkg/logger"
-	"github.com/go-dev-frame/sponge/pkg/mgo"
-	"github.com/go-dev-frame/sponge/pkg/mgo/query"
+	"github.com/Eric-Guo/sponge/pkg/logger"
+	"github.com/Eric-Guo/sponge/pkg/mgo"
+	"github.com/Eric-Guo/sponge/pkg/mgo/query"
 
-	"github.com/go-dev-frame/sponge/internal/cache"
-	"github.com/go-dev-frame/sponge/internal/database"
-	"github.com/go-dev-frame/sponge/internal/model"
+	"github.com/Eric-Guo/sponge/internal/cache"
+	"github.com/Eric-Guo/sponge/internal/database"
+	"github.com/Eric-Guo/sponge/internal/model"
 )
 
 var _ UserExampleDao = (*userExampleDao)(nil)

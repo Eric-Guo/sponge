@@ -8,7 +8,7 @@ import (
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials"
 
-	"github.com/go-dev-frame/sponge/pkg/grpc/metrics"
+	"github.com/Eric-Guo/sponge/pkg/grpc/metrics"
 )
 
 // RegisterFn register object

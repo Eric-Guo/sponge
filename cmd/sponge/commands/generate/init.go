@@ -5,11 +5,10 @@ import (
 	"fmt"
 	"math/rand"
 	"os"
-	"strings"
 	"time"
 
-	"github.com/go-dev-frame/sponge/pkg/gofile"
-	"github.com/go-dev-frame/sponge/pkg/replacer"
+	"github.com/Eric-Guo/sponge/pkg/gofile"
+	"github.com/Eric-Guo/sponge/pkg/replacer"
 )
 
 const warnSymbol = "⚠ "
@@ -75,13 +74,13 @@ func isShowCommand() bool {
 
 	// sponge init or sponge -h
 	if l == 2 {
-		if os.Args[1] == "init" || os.Args[1] == "-h" {
+		if os.Args[1] == "init" || os.Args[1] == "upgrade" || os.Args[1] == "-h" || os.Args[1] == "--help" || os.Args[1] == "-v" || os.Args[1] == "--version" {
 			return true
 		}
 		return false
 	}
 	if l > 2 {
-		return strings.Contains(strings.Join(os.Args[:3], ""), "init")
+		return os.Args[1] == "init" || os.Args[1] == "upgrade"
 	}
 
 	return false

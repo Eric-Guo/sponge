@@ -18,7 +18,7 @@ encapsulated functions:
 package main
 
 import (
-    "github.com/go-dev-frame/sponge/pkg/jwt"
+    "github.com/Eric-Guo/sponge/pkg/jwt"
     "time"
 )
 
@@ -86,7 +86,7 @@ func main() {
 package main
 
 import (
-    "github.com/go-dev-frame/sponge/pkg/jwt"
+    "github.com/Eric-Guo/sponge/pkg/jwt"
     "time"
 )
 
@@ -159,5 +159,5 @@ func main() {
 
 > **Note**: If you used sponge<=v1.12.8 and referenced this library in your project code, 
 > update to the latest version and cause compilation errors, replace the batch import path
-> `github.com/go-dev-frame/sponge/pkg/jwt` with `github.com/go-dev-frame/sponge/pkg/jwt/old_jwt`.
+> `github.com/Eric-Guo/sponge/pkg/jwt` with `github.com/Eric-Guo/sponge/pkg/jwt/old_jwt`.
 > `old_jwt` will remove in the future.

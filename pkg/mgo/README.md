@@ -7,7 +7,7 @@
 ### Example of use
 
 ```go
-    import "github.com/go-dev-frame/sponge/pkg/mgo"
+    import "github.com/Eric-Guo/sponge/pkg/mgo"
 
     // dsn document: https://www.mongodb.com/docs/manual/reference/connection-string/
 

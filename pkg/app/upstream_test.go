@@ -10,7 +10,7 @@ import (
 	"testing"
 	"time"
 
-	"github.com/go-dev-frame/sponge/pkg/logger"
+	"github.com/Eric-Guo/sponge/pkg/logger"
 )
 
 func TestSplitCommandLine(t *testing.T) {

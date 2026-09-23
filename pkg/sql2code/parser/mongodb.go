@@ -13,8 +13,8 @@ import (
 	"go.mongodb.org/mongo-driver/mongo"
 	mgoOptions "go.mongodb.org/mongo-driver/mongo/options"
 
-	"github.com/go-dev-frame/sponge/pkg/mgo"
-	"github.com/go-dev-frame/sponge/pkg/utils"
+	"github.com/Eric-Guo/sponge/pkg/mgo"
+	"github.com/Eric-Guo/sponge/pkg/utils"
 )
 
 const (

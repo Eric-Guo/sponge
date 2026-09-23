@@ -6,6 +6,7 @@ import (
 	goparser "go/parser"
 	"go/token"
 	"os"
+	"os/exec"
 	"path/filepath"
 	"runtime"
 	"strings"
@@ -14,8 +15,8 @@ import (
 	_ "github.com/mattn/go-sqlite3"
 	"github.com/stretchr/testify/require"
 
-	"github.com/go-dev-frame/sponge/pkg/jy2struct"
-	"github.com/go-dev-frame/sponge/pkg/sql2code"
+	"github.com/Eric-Guo/sponge/pkg/jy2struct"
+	"github.com/Eric-Guo/sponge/pkg/sql2code"
 )
 
 func TestGeneratedGoVersions(t *testing.T) {
@@ -94,6 +95,7 @@ func TestHTTPGenerationUsesRepositoryTemplates(t *testing.T) {
 					if parseErr == nil {
 						for _, dependency := range file.Imports {
 							require.NotContains(t, dependency.Path.Value, "test-user-server")
+							require.NotContains(t, dependency.Path.Value, "github.com/go-dev-frame/sponge")
 						}
 					}
 					require.NoError(t, err, path)
@@ -110,6 +112,23 @@ func TestHTTPGenerationUsesRepositoryTemplates(t *testing.T) {
 			require.Contains(t, read("deployments/binary/run.sh"), "configs/${serviceName}.yml")
 			require.Contains(t, read("scripts/binary-package.sh"), "configs/${serviceName}_cc.yml")
 			require.Contains(t, read("go.mod"), "tool golang.org/x/vuln/cmd/govulncheck")
+			require.Contains(t, read("go.mod"), "github.com/Eric-Guo/sponge thruster_generate")
+			require.Contains(t, read("internal/routers/routers.go"), `"github.com/Eric-Guo/sponge/pkg/gin/middleware"`)
+			if os.Getenv("SPONGE_TEST_GENERATED_BUILD") == "1" {
+				// go mod edit requires a canonical version even for a local replacement.
+				require.NoError(t, os.WriteFile(filepath.Join(output, "go.mod"), []byte(strings.ReplaceAll(read("go.mod"), "github.com/Eric-Guo/sponge thruster_generate", "github.com/Eric-Guo/sponge v0.0.0")), 0600))
+				for _, args := range [][]string{
+					{"mod", "edit", "-require=github.com/Eric-Guo/sponge@v0.0.0", "-replace=github.com/Eric-Guo/sponge=" + repository},
+					{"mod", "tidy"},
+					{"build", "./..."},
+				} {
+					cmd := exec.Command("go", args...)
+					cmd.Dir = output
+					cmd.Env = append(os.Environ(), "GOWORK=off")
+					result, err := cmd.CombinedOutput()
+					require.NoError(t, err, "%s", result)
+				}
+			}
 			require.Contains(t, read("Makefile"), "go tool govulncheck ./...")
 			require.Contains(t, read("internal/routers/routers.go"), "proxy.RegisterFallback")
 			require.Contains(t, read("internal/routers/routers.go"), "middleware.RailsCookieAuthMiddleware")
@@ -181,4 +200,15 @@ func TestHTTPSoftDeleteOption(t *testing.T) {
 			}
 		})
 	}
+}
+
+func TestLocalSpongeTemplateVersion(t *testing.T) {
+	previous := SpongeDir
+	SpongeDir = t.TempDir()
+	t.Cleanup(func() { SpongeDir = previous })
+	require.Equal(t, "github.com/Eric-Guo/sponge thruster_generate", getLocalSpongeTemplateVersion())
+	require.NoError(t, os.Mkdir(filepath.Join(SpongeDir, ".github"), 0755))
+	const revision = "v0.0.0-20260923000000-0123456789ab"
+	require.NoError(t, os.WriteFile(filepath.Join(SpongeDir, ".github", "version"), []byte(revision+"\n"), 0600))
+	require.Equal(t, "github.com/Eric-Guo/sponge "+revision, getLocalSpongeTemplateVersion())
 }

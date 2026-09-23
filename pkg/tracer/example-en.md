@@ -4,7 +4,7 @@ Distributed tracing uses Jaeger for tracing and Elasticsearch for storage. You c
 
 **(1) Elasticsearch Service**
 
-Here is the [script for starting the Elasticsearch service](https://github.com/go-dev-frame/sponge/tree/main/test/server/elasticsearch). The `.env` file contains Elasticsearch configuration. To start the Elasticsearch service, run:
+Here is the [script for starting the Elasticsearch service](https://github.com/Eric-Guo/sponge/tree/thruster_generate/test/server/elasticsearch). The `.env` file contains Elasticsearch configuration. To start the Elasticsearch service, run:
 
 > docker-compose up -d
 
@@ -12,7 +12,7 @@ Here is the [script for starting the Elasticsearch service](https://github.com/g
 
 **(2) Jaeger Service**
 
-Here is the [script for starting the Jaeger service](https://github.com/go-dev-frame/sponge/tree/main/test/server/jaeger). The `.env` file contains Jaeger configuration. To start the Jaeger service, run:
+Here is the [script for starting the Jaeger service](https://github.com/Eric-Guo/sponge/tree/thruster_generate/test/server/jaeger). The `.env` file contains Jaeger configuration. To start the Jaeger service, run:
 
 > docker-compose up -d
 
@@ -24,7 +24,7 @@ Access the Jaeger query homepage in your browser at [http://localhost:16686](htt
 
 Taking the code for the `⓵ Web Service Based on SQL` as an example, modify the configuration file `configs/user.yml` to enable distributed tracing (set the `enableTrace` field to true) and provide Jaeger configuration details.
 
-If you want to trace Redis and use Redis caching, change the cache type field **cacheType** to "redis" in the YAML configuration file and configure the Redis address. Additionally, start a Redis service locally using Docker with this [script](https://github.com/go-dev-frame/sponge/tree/main/test/server/redis).
+If you want to trace Redis and use Redis caching, change the cache type field **cacheType** to "redis" in the YAML configuration file and configure the Redis address. Additionally, start a Redis service locally using Docker with this [script](https://github.com/Eric-Guo/sponge/tree/thruster_generate/test/server/redis).
 
 Run the web service:
 
@@ -56,7 +56,7 @@ This means that the second request directly hit the cache, skipping the MySQL qu
 These spans are automatically generated, but often you may need to manually add custom spans. Here's an example of adding a span:
 
 ```go
-import "github.com/go-dev-frame/sponge/pkg/tracer"
+import "github.com/Eric-Guo/sponge/pkg/tracer"
 
 tags := map[string]interface{}{"foo": "bar"}
 _, span := tracer.NewSpan(ctx, "spanName", tags)  

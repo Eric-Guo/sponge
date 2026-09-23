@@ -16,10 +16,10 @@ import (
 	"github.com/gin-gonic/gin"
 	"golang.org/x/net/http2"
 
-	"github.com/go-dev-frame/sponge/pkg/logger"
-	"github.com/go-dev-frame/sponge/pkg/proxykit"
-	proxycache "github.com/go-dev-frame/sponge/pkg/proxykit/cache"
-	"github.com/go-dev-frame/sponge/pkg/requestid"
+	"github.com/Eric-Guo/sponge/pkg/logger"
+	"github.com/Eric-Guo/sponge/pkg/proxykit"
+	proxycache "github.com/Eric-Guo/sponge/pkg/proxykit/cache"
+	"github.com/Eric-Guo/sponge/pkg/requestid"
 )
 
 // Proxy is a proxy server.

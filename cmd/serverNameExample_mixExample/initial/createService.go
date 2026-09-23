@@ -4,15 +4,15 @@ import (
 	"fmt"
 	"strconv"
 
-	"github.com/go-dev-frame/sponge/pkg/app"
-	"github.com/go-dev-frame/sponge/pkg/logger"
-	"github.com/go-dev-frame/sponge/pkg/servicerd/registry"
-	"github.com/go-dev-frame/sponge/pkg/servicerd/registry/consul"
-	"github.com/go-dev-frame/sponge/pkg/servicerd/registry/etcd"
-	"github.com/go-dev-frame/sponge/pkg/servicerd/registry/nacos"
+	"github.com/Eric-Guo/sponge/pkg/app"
+	"github.com/Eric-Guo/sponge/pkg/logger"
+	"github.com/Eric-Guo/sponge/pkg/servicerd/registry"
+	"github.com/Eric-Guo/sponge/pkg/servicerd/registry/consul"
+	"github.com/Eric-Guo/sponge/pkg/servicerd/registry/etcd"
+	"github.com/Eric-Guo/sponge/pkg/servicerd/registry/nacos"
 
-	"github.com/go-dev-frame/sponge/internal/config"
-	"github.com/go-dev-frame/sponge/internal/server"
+	"github.com/Eric-Guo/sponge/internal/config"
+	"github.com/Eric-Guo/sponge/internal/server"
 )
 
 // CreateServices create grpc or http service

@@ -9,7 +9,7 @@ Generate random strings, integers, floating point numbers, and id.
 ### Generate a random string
 
 ```go
-    import "github.com/go-dev-frame/sponge/pkg/krand"
+    import "github.com/Eric-Guo/sponge/pkg/krand"
 
     /*
 	R_NUM = 1      // only number
@@ -30,7 +30,7 @@ Generate random strings, integers, floating point numbers, and id.
 ### Generate random integers
 
 ```go
-    import "github.com/go-dev-frame/sponge/pkg/krand"
+    import "github.com/Eric-Guo/sponge/pkg/krand"
 
     krand.Int(200)            // random number range 0 ~ 200
     krand.Int(1000, 2000)  // random number range 1000 ~ 2000
@@ -41,7 +41,7 @@ Generate random strings, integers, floating point numbers, and id.
 ### Generate random floating point numbers
 
 ```go
-    import "github.com/go-dev-frame/sponge/pkg/krand"
+    import "github.com/Eric-Guo/sponge/pkg/krand"
 
     krand.Float64(1, 200)            // floating point number with 1 decimal point, range 0~200
     krand.Float64(2, 100,1000)            // floating point number with 2 decimal places, range 100~1000
@@ -54,7 +54,7 @@ Generate random strings, integers, floating point numbers, and id.
 Generate an id that grows by datetime.
 
 ```go
-    import "github.com/go-dev-frame/sponge/pkg/krand"
+    import "github.com/Eric-Guo/sponge/pkg/krand"
 
     krand.NewID()  // generate a id, example: 1701234567890397409
     krand.NewStringID()  // generate a string id, example: 179bffd372b8e8e1

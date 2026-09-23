@@ -23,7 +23,7 @@ go install google.golang.org/grpc/cmd/protoc-gen-go-grpc@v1.2.0
 
 #### Install protoc-gen-go-rpc-tmpl
 
-> go install github.com/go-dev-frame/sponge/cmd/protoc-gen-go-rpc-tmpl@latest
+> go install github.com/Eric-Guo/sponge/cmd/protoc-gen-go-rpc-tmpl@thruster_generate
 
 <br>
 

@@ -8,7 +8,7 @@ import (
 	"github.com/hashicorp/consul/api"
 	"github.com/stretchr/testify/assert"
 
-	"github.com/go-dev-frame/sponge/pkg/servicerd/registry"
+	"github.com/Eric-Guo/sponge/pkg/servicerd/registry"
 )
 
 func TestNewRegistry(t *testing.T) {

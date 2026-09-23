@@ -8,10 +8,10 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/stretchr/testify/assert"
 
-	"github.com/go-dev-frame/sponge/pkg/utils"
+	"github.com/Eric-Guo/sponge/pkg/utils"
 
-	"github.com/go-dev-frame/sponge/configs"
-	"github.com/go-dev-frame/sponge/internal/config"
+	"github.com/Eric-Guo/sponge/configs"
+	"github.com/Eric-Guo/sponge/internal/config"
 )
 
 func TestNewRouter(t *testing.T) {

@@ -5,7 +5,7 @@ Connect to the etcd service client.
 ### Example of use
 
 ```go
-    import "github.com/go-dev-frame/sponge/pkg/etcdcli"
+    import "github.com/Eric-Guo/sponge/pkg/etcdcli"
 
     endpoints := []string{"192.168.3.37:2379"}
     // Way 1: setting parameters

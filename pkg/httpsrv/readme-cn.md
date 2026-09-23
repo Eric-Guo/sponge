@@ -33,7 +33,7 @@ import (
     "fmt"
     "net/http"
 
-    "github.com/go-dev-frame/sponge/pkg/httpsrv"
+    "github.com/Eric-Guo/sponge/pkg/httpsrv"
 )
 
 func main() {
@@ -71,7 +71,7 @@ import (
     "fmt"
     "net/http"
 
-    "github.com/go-dev-frame/sponge/pkg/httpsrv"
+    "github.com/Eric-Guo/sponge/pkg/httpsrv"
 )
 
 func main() {
@@ -119,7 +119,7 @@ import (
     "fmt"
     "net/http"
 
-    "github.com/go-dev-frame/sponge/pkg/httpsrv"
+    "github.com/Eric-Guo/sponge/pkg/httpsrv"
 )
 
 func main() {
@@ -169,7 +169,7 @@ import (
     "fmt"
     "net/http"
 
-    "github.com/go-dev-frame/sponge/pkg/httpsrv"
+    "github.com/Eric-Guo/sponge/pkg/httpsrv"
 )
 
 func main() {
@@ -216,7 +216,7 @@ package main
 
 import (
     "fmt"
-    "github.com/go-dev-frame/sponge/pkg/httpsrv"
+    "github.com/Eric-Guo/sponge/pkg/httpsrv"
     "net/http"
 )
 

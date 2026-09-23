@@ -17,7 +17,7 @@ Common interceptors for gRPC server and client side, including:
 
 ### Example of use
 
-All import paths are "github.com/go-dev-frame/sponge/pkg/grpc/interceptor".
+All import paths are "github.com/Eric-Guo/sponge/pkg/grpc/interceptor".
 
 #### Logging interceptor
 
@@ -25,8 +25,8 @@ All import paths are "github.com/go-dev-frame/sponge/pkg/grpc/interceptor".
 
 ```go
 import (
-    "github.com/go-dev-frame/sponge/pkg/grpc/interceptor"
-    "github.com/go-dev-frame/sponge/pkg/logger"
+    "github.com/Eric-Guo/sponge/pkg/grpc/interceptor"
+    "github.com/Eric-Guo/sponge/pkg/logger"
     "google.golang.org/grpc"
 )
 
@@ -56,7 +56,7 @@ func setServerOptions() []grpc.ServerOption {
 
 ```go
 import (
-    "github.com/go-dev-frame/sponge/pkg/grpc/interceptor"
+    "github.com/Eric-Guo/sponge/pkg/grpc/interceptor"
     "google.golang.org/grpc"
 )
 
@@ -85,7 +85,7 @@ func setDialOptions() []grpc.DialOption {
 
 ```go
 import (
-    "github.com/go-dev-frame/sponge/pkg/grpc/interceptor"
+    "github.com/Eric-Guo/sponge/pkg/grpc/interceptor"
     "google.golang.org/grpc"
 )
 
@@ -105,7 +105,7 @@ func setServerOptions() []grpc.ServerOption {
 
 ```go
 import (
-    "github.com/go-dev-frame/sponge/pkg/grpc/interceptor"
+    "github.com/Eric-Guo/sponge/pkg/grpc/interceptor"
     "google.golang.org/grpc"
 )
 
@@ -129,7 +129,7 @@ func setDialOptions() []grpc.DialOption {
 
 ```go
 import (
-    "github.com/go-dev-frame/sponge/pkg/grpc/interceptor"
+    "github.com/Eric-Guo/sponge/pkg/grpc/interceptor"
     "google.golang.org/grpc"
 )
 
@@ -163,7 +163,7 @@ Adaptive flow limitation based on hardware resources.
 
 ```go
 import (
-    "github.com/go-dev-frame/sponge/pkg/grpc/interceptor"
+    "github.com/Eric-Guo/sponge/pkg/grpc/interceptor"
     "google.golang.org/grpc"
 )
 
@@ -196,7 +196,7 @@ func setDialOptions() []grpc.DialOption {
 
 ```go
 import (
-    "github.com/go-dev-frame/sponge/pkg/grpc/interceptor"
+    "github.com/Eric-Guo/sponge/pkg/grpc/interceptor"
     "google.golang.org/grpc"
 )
 
@@ -233,7 +233,7 @@ func setDialOptions() []grpc.DialOption {
 
 ```go
 import (
-    "github.com/go-dev-frame/sponge/pkg/grpc/interceptor"
+    "github.com/Eric-Guo/sponge/pkg/grpc/interceptor"
     "google.golang.org/grpc"
 )
 
@@ -260,7 +260,7 @@ func setDialOptions() []grpc.DialOption {
 
 ```go
 import (
-    "github.com/go-dev-frame/sponge/pkg/tracer"
+    "github.com/Eric-Guo/sponge/pkg/tracer"
     "go.opentelemetry.io/otel"
 )
 
@@ -296,7 +296,7 @@ defer span.End()
 
 ```go
 import (
-    "github.com/go-dev-frame/sponge/pkg/grpc/interceptor"
+    "github.com/Eric-Guo/sponge/pkg/grpc/interceptor"
     "google.golang.org/grpc"
 )
 
@@ -317,7 +317,7 @@ func setServerOptions() []grpc.ServerOption {
 
 ```go
 import (
-    "github.com/go-dev-frame/sponge/pkg/grpc/interceptor"
+    "github.com/Eric-Guo/sponge/pkg/grpc/interceptor"
     "google.golang.org/grpc"
 )
 
@@ -351,7 +351,7 @@ Click to view [metrics examples](../metrics/README.md).
 
 ```go
 import (
-    "github.com/go-dev-frame/sponge/pkg/grpc/interceptor"
+    "github.com/Eric-Guo/sponge/pkg/grpc/interceptor"
     "google.golang.org/grpc"
 )
 
@@ -373,7 +373,7 @@ func setServerOptions() []grpc.ServerOption {
 
 ```go
 import (
-    "github.com/go-dev-frame/sponge/pkg/grpc/interceptor"
+    "github.com/Eric-Guo/sponge/pkg/grpc/interceptor"
     "google.golang.org/grpc"
 )
 
@@ -405,8 +405,8 @@ import (
     "context"
     "net"
     "time"
-    "github.com/go-dev-frame/sponge/pkg/grpc/interceptor"
-    "github.com/go-dev-frame/sponge/pkg/jwt"
+    "github.com/Eric-Guo/sponge/pkg/grpc/interceptor"
+    "github.com/Eric-Guo/sponge/pkg/jwt"
     "google.golang.org/grpc"
     userV1 "user/api/user/v1"
 )
@@ -516,8 +516,8 @@ package main
 
 import (
     "context"
-    "github.com/go-dev-frame/sponge/pkg/grpc/grpccli"
-    "github.com/go-dev-frame/sponge/pkg/grpc/interceptor"
+    "github.com/Eric-Guo/sponge/pkg/grpc/grpccli"
+    "github.com/Eric-Guo/sponge/pkg/grpc/interceptor"
     userV1 "user/api/user/v1"
 )
 

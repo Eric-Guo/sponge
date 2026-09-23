@@ -12,8 +12,8 @@ import (
 	"github.com/nacos-group/nacos-sdk-go/v2/common/constant"
 	"github.com/nacos-group/nacos-sdk-go/v2/vo"
 
-	"github.com/go-dev-frame/sponge/pkg/nacoscli"
-	"github.com/go-dev-frame/sponge/pkg/servicerd/registry"
+	"github.com/Eric-Guo/sponge/pkg/nacoscli"
+	"github.com/Eric-Guo/sponge/pkg/servicerd/registry"
 )
 
 var (

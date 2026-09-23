@@ -16,7 +16,7 @@ import (
 	"golang.org/x/net/http2"
 	"golang.org/x/net/http2/h2c"
 
-	"github.com/go-dev-frame/sponge/pkg/httpsrv"
+	"github.com/Eric-Guo/sponge/pkg/httpsrv"
 )
 
 func TestFallbackKeepsAPIRoutesAndCachesAssets(t *testing.T) {

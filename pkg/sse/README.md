@@ -27,7 +27,7 @@ import (
     "time"
     "math/rand"
     "github.com/gin-gonic/gin"
-    "github.com/go-dev-frame/sponge/pkg/sse"
+    "github.com/Eric-Guo/sponge/pkg/sse"
 )
 
 func main() {
@@ -85,7 +85,7 @@ package main
 
 import (
     "fmt"
-    "github.com/go-dev-frame/sponge/pkg/sse"
+    "github.com/Eric-Guo/sponge/pkg/sse"
 )
 
 func main() {

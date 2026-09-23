@@ -30,7 +30,7 @@ import (
     "fmt"
 
     "github.com/hibiken/asynq"
-    "github.com/go-dev-frame/sponge/pkg/sasynq"
+    "github.com/Eric-Guo/sponge/pkg/sasynq"
 )
 
 // ----------------------------- Definition Method 1 (recommended)----------------------------------
@@ -96,7 +96,7 @@ import (
     "fmt"
     "time"
 
-    "github.com/go-dev-frame/sponge/pkg/sasynq"
+    "github.com/Eric-Guo/sponge/pkg/sasynq"
     "example/common"
 )
 
@@ -207,8 +207,8 @@ A consumer server can register handlers in three different ways:
 package main
 
 import (
-    "github.com/go-dev-frame/sponge/pkg/sasynq"
-    "github.com/go-dev-frame/sponge/pkg/logger"
+    "github.com/Eric-Guo/sponge/pkg/sasynq"
+    "github.com/Eric-Guo/sponge/pkg/logger"
     "example/common"
 )
 
@@ -255,8 +255,8 @@ package main
 import (
     "context"
     "fmt"
-    "github.com/go-dev-frame/sponge/pkg/sasynq"
-    "github.com/go-dev-frame/sponge/pkg/logger"
+    "github.com/Eric-Guo/sponge/pkg/sasynq"
+    "github.com/Eric-Guo/sponge/pkg/logger"
 )
 
 const TypeScheduledGet = "scheduled:get"
@@ -336,7 +336,7 @@ package main
 
 import (
     "fmt"
-    "github.com/go-dev-frame/sponge/pkg/sasynq"
+    "github.com/Eric-Guo/sponge/pkg/sasynq"
 )
 
 var inspector = sasynq.NewInspector(sasynq.DefaultServerConfig())
@@ -376,7 +376,7 @@ package main
 
 import (
     "fmt"
-    "github.com/go-dev-frame/sponge/pkg/sasynq"
+    "github.com/Eric-Guo/sponge/pkg/sasynq"
 )
 
 var scheduler = sasynq.NewScheduler(sasynq.DefaultServerConfig())

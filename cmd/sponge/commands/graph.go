@@ -7,7 +7,7 @@ import (
 	"github.com/fatih/color"
 	"github.com/spf13/cobra"
 
-	"github.com/go-dev-frame/sponge/pkg/gobash"
+	"github.com/Eric-Guo/sponge/pkg/gobash"
 )
 
 // GenGraphCommand generate graph command

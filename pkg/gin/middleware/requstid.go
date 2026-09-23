@@ -7,7 +7,7 @@ import (
 	"github.com/gin-gonic/gin"
 	"go.uber.org/zap"
 
-	"github.com/go-dev-frame/sponge/pkg/krand"
+	"github.com/Eric-Guo/sponge/pkg/krand"
 )
 
 var (

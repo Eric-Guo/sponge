@@ -8,9 +8,9 @@ import (
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
 
-	"github.com/go-dev-frame/sponge/pkg/container/group"
-	"github.com/go-dev-frame/sponge/pkg/errcode"
-	"github.com/go-dev-frame/sponge/pkg/shield/circuitbreaker"
+	"github.com/Eric-Guo/sponge/pkg/container/group"
+	"github.com/Eric-Guo/sponge/pkg/errcode"
+	"github.com/Eric-Guo/sponge/pkg/shield/circuitbreaker"
 )
 
 // ErrNotAllowed error not allowed.

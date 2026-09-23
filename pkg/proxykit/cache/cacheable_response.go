@@ -10,8 +10,8 @@ import (
 	"strings"
 	"time"
 
-	"github.com/go-dev-frame/sponge/pkg/logger"
-	"github.com/go-dev-frame/sponge/pkg/requestid"
+	"github.com/Eric-Guo/sponge/pkg/logger"
+	"github.com/Eric-Guo/sponge/pkg/requestid"
 )
 
 var (

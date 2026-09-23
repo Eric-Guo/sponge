@@ -16,7 +16,7 @@ import (
 
 	"github.com/fatih/color"
 
-	"github.com/go-dev-frame/sponge/cmd/sponge/commands/perftest/common"
+	"github.com/Eric-Guo/sponge/cmd/sponge/commands/perftest/common"
 )
 
 // PerfTestHTTP performance test parameters for HTTP

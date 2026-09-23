@@ -6,7 +6,7 @@ import (
 
 	"google.golang.org/protobuf/proto"
 
-	"github.com/go-dev-frame/sponge/pkg/encoding"
+	"github.com/Eric-Guo/sponge/pkg/encoding"
 )
 
 // Name is the name registered for the proto compressor.

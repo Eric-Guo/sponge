@@ -5,7 +5,7 @@
 ### Example of use
 
 ```go
-import "github.com/go-dev-frame/sponge/pkg/grpc/benchmark"
+import "github.com/Eric-Guo/sponge/pkg/grpc/benchmark"
 
 func benchmarkExample() error {
 	host := "127.0.0.1:8282"

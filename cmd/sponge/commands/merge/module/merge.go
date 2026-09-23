@@ -9,7 +9,7 @@ import (
 	"os"
 	"strings"
 
-	"github.com/go-dev-frame/sponge/pkg/goast"
+	"github.com/Eric-Guo/sponge/pkg/goast"
 )
 
 // CodeAst is the struct for code

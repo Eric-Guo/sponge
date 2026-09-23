@@ -9,9 +9,9 @@ import (
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials/insecure"
 
-	"github.com/go-dev-frame/sponge/pkg/grpc/metrics"
-	"github.com/go-dev-frame/sponge/pkg/logger"
-	"github.com/go-dev-frame/sponge/pkg/utils"
+	"github.com/Eric-Guo/sponge/pkg/grpc/metrics"
+	"github.com/Eric-Guo/sponge/pkg/logger"
+	"github.com/Eric-Guo/sponge/pkg/utils"
 )
 
 var fn = func(s *grpc.Server) {

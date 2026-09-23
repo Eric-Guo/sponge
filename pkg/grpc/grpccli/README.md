@@ -5,7 +5,7 @@
 ### Example of use
 
 ```go
-    import "github.com/go-dev-frame/sponge/pkg/grpc/grpccli"
+    import "github.com/Eric-Guo/sponge/pkg/grpc/grpccli"
 
 func grpcClientExample() serverNameV1.UserExampleServiceClient {
 	err := config.Init(third_party.Path("../config/conf.yml"))

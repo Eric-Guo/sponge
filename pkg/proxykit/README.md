@@ -23,7 +23,7 @@ import (
     "log"
     "net/http"
     "time"
-    "github.com/go-dev-frame/sponge/pkg/proxykit"
+    "github.com/Eric-Guo/sponge/pkg/proxykit"
 )
 
 func main() {

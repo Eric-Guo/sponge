@@ -7,12 +7,12 @@ import (
 	"testing"
 	"time"
 
-	"github.com/go-dev-frame/sponge/pkg/grpc/benchmark"
+	"github.com/Eric-Guo/sponge/pkg/grpc/benchmark"
 
-	serverNameExampleV1 "github.com/go-dev-frame/sponge/api/serverNameExample/v1"
-	"github.com/go-dev-frame/sponge/api/types"
-	"github.com/go-dev-frame/sponge/configs"
-	"github.com/go-dev-frame/sponge/internal/config"
+	serverNameExampleV1 "github.com/Eric-Guo/sponge/api/serverNameExample/v1"
+	"github.com/Eric-Guo/sponge/api/types"
+	"github.com/Eric-Guo/sponge/configs"
+	"github.com/Eric-Guo/sponge/internal/config"
 )
 
 // Test each method of userExample via the rpc client

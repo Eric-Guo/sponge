@@ -13,7 +13,7 @@ import (
 	"google.golang.org/grpc/attributes"
 	"google.golang.org/grpc/resolver"
 
-	"github.com/go-dev-frame/sponge/pkg/servicerd/registry"
+	"github.com/Eric-Guo/sponge/pkg/servicerd/registry"
 )
 
 type discoveryResolver struct {

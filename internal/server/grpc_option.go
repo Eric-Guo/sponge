@@ -1,7 +1,7 @@
 package server
 
 import (
-	"github.com/go-dev-frame/sponge/pkg/servicerd/registry"
+	"github.com/Eric-Guo/sponge/pkg/servicerd/registry"
 )
 
 // GrpcOption grpc settings

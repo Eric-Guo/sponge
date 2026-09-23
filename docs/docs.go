@@ -80,7 +80,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/github_com_go-dev-frame_sponge_internal_types.Params"
+                            "$ref": "#/definitions/github_com_Eric-Guo_sponge_internal_types.Params"
                         }
                     }
                 ],
@@ -319,7 +319,7 @@ const docTemplate = `{
                 }
             }
         },
-        "github_com_go-dev-frame_sponge_internal_types.Column": {
+        "github_com_Eric-Guo_sponge_internal_types.Column": {
             "type": "object",
             "properties": {
                 "exp": {
@@ -339,14 +339,14 @@ const docTemplate = `{
                 }
             }
         },
-        "github_com_go-dev-frame_sponge_internal_types.Params": {
+        "github_com_Eric-Guo_sponge_internal_types.Params": {
             "type": "object",
             "properties": {
                 "columns": {
                     "description": "query conditions",
                     "type": "array",
                     "items": {
-                        "$ref": "#/definitions/github_com_go-dev-frame_sponge_internal_types.Column"
+                        "$ref": "#/definitions/github_com_Eric-Guo_sponge_internal_types.Column"
                     }
                 },
                 "limit": {

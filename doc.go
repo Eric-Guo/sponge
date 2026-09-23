@@ -1,6 +1,6 @@
 /*
 Package sponge is a powerful Go development framework, it's easy to develop web and microservice projects.
-Repo: https://github.com/go-dev-frame/sponge
+Repo: https://github.com/Eric-Guo/sponge
 Docs: https://go-sponge.com
 
 Usage:

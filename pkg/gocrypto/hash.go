@@ -5,6 +5,7 @@ import (
 	"crypto/md5"
 	"crypto/sha1"
 	"crypto/sha256"
+	"crypto/sha3"
 	"crypto/sha512"
 	"encoding/hex"
 	"errors"
@@ -13,7 +14,6 @@ import (
 
 	"golang.org/x/crypto/blake2b"
 	"golang.org/x/crypto/blake2s"
-	"golang.org/x/crypto/sha3"
 )
 
 var hashKey = []byte("fVy7UjMkO9_pLqs3")

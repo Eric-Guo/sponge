@@ -1,4 +1,4 @@
-module github.com/go-dev-frame/sponge
+module github.com/Eric-Guo/sponge
 
 go 1.27.1
 

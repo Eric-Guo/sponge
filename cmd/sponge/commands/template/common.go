@@ -8,7 +8,7 @@ import (
 	"regexp"
 	"strings"
 
-	"github.com/go-dev-frame/sponge/pkg/gofile"
+	"github.com/Eric-Guo/sponge/pkg/gofile"
 )
 
 func parseFields(jsonFile string) (map[string]interface{}, error) {

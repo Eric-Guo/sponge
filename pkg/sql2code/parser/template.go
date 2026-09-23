@@ -102,7 +102,7 @@ package api.serverNameExample.v1;
 import "api/types/types.proto";
 import "validate/validate.proto";
 
-option go_package = "github.com/go-dev-frame/sponge/api/serverNameExample/v1;v1";
+option go_package = "github.com/Eric-Guo/sponge/api/serverNameExample/v1;v1";
 
 service {{.TName}} {
   // Create a new {{.TName}}
@@ -225,7 +225,7 @@ package api.serverNameExample.v1;
 import "api/types/types.proto";
 import "validate/validate.proto";
 
-option go_package = "github.com/go-dev-frame/sponge/api/serverNameExample/v1;v1";
+option go_package = "github.com/Eric-Guo/sponge/api/serverNameExample/v1;v1";
 
 service {{.TName}} {
   // Create a new {{.TName}}
@@ -305,7 +305,7 @@ import "protoc-gen-openapiv2/options/annotations.proto";
 import "tagger/tagger.proto";
 import "validate/validate.proto";
 
-option go_package = "github.com/go-dev-frame/sponge/api/serverNameExample/v1;v1";
+option go_package = "github.com/Eric-Guo/sponge/api/serverNameExample/v1;v1";
 
 /*
 Default settings for generating *.swagger.json documents. For reference, see: https://bit.ly/4dE5jj7
@@ -527,7 +527,7 @@ import "protoc-gen-openapiv2/options/annotations.proto";
 import "tagger/tagger.proto";
 import "validate/validate.proto";
 
-option go_package = "github.com/go-dev-frame/sponge/api/serverNameExample/v1;v1";
+option go_package = "github.com/Eric-Guo/sponge/api/serverNameExample/v1;v1";
 
 /*
 Default settings for generating *.swagger.json documents. For reference, see: https://bit.ly/4dE5jj7

@@ -11,7 +11,7 @@ import (
 
 	"github.com/dgraph-io/ristretto"
 
-	"github.com/go-dev-frame/sponge/pkg/encoding"
+	"github.com/Eric-Guo/sponge/pkg/encoding"
 )
 
 type options struct {

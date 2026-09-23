@@ -9,7 +9,7 @@ import (
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/metadata"
 
-	"github.com/go-dev-frame/sponge/pkg/krand"
+	"github.com/Eric-Guo/sponge/pkg/krand"
 )
 
 var (

@@ -3,10 +3,10 @@ package initial
 import (
 	"strconv"
 
-	"github.com/go-dev-frame/sponge/pkg/app"
+	"github.com/Eric-Guo/sponge/pkg/app"
 
-	"github.com/go-dev-frame/sponge/internal/config"
-	"github.com/go-dev-frame/sponge/internal/server"
+	"github.com/Eric-Guo/sponge/internal/config"
+	"github.com/Eric-Guo/sponge/internal/server"
 )
 
 // CreateServices create grpc service

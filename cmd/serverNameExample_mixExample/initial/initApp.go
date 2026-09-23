@@ -8,16 +8,16 @@ import (
 	"fmt"
 	"strconv"
 
-	"github.com/go-dev-frame/sponge/pkg/conf"
-	"github.com/go-dev-frame/sponge/pkg/copier"
-	"github.com/go-dev-frame/sponge/pkg/logger"
-	"github.com/go-dev-frame/sponge/pkg/nacoscli"
-	"github.com/go-dev-frame/sponge/pkg/stat"
-	"github.com/go-dev-frame/sponge/pkg/tracer"
+	"github.com/Eric-Guo/sponge/pkg/conf"
+	"github.com/Eric-Guo/sponge/pkg/copier"
+	"github.com/Eric-Guo/sponge/pkg/logger"
+	"github.com/Eric-Guo/sponge/pkg/nacoscli"
+	"github.com/Eric-Guo/sponge/pkg/stat"
+	"github.com/Eric-Guo/sponge/pkg/tracer"
 
-	"github.com/go-dev-frame/sponge/configs"
-	"github.com/go-dev-frame/sponge/internal/config"
-	"github.com/go-dev-frame/sponge/internal/database"
+	"github.com/Eric-Guo/sponge/configs"
+	"github.com/Eric-Guo/sponge/internal/config"
+	"github.com/Eric-Guo/sponge/internal/database"
 )
 
 var (

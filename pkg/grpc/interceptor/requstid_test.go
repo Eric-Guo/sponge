@@ -18,7 +18,7 @@ import (
 	"google.golang.org/protobuf/reflect/protoreflect"
 	"google.golang.org/protobuf/runtime/protoimpl"
 
-	"github.com/go-dev-frame/sponge/pkg/utils"
+	"github.com/Eric-Guo/sponge/pkg/utils"
 )
 
 func newUnaryRPCServer(unaryServerInterceptors ...grpc.UnaryServerInterceptor) string {

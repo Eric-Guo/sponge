@@ -14,7 +14,7 @@ package main
 import (
     "context"
     "fmt"
-    "github.com/go-dev-frame/sponge/pkg/aicli/chatgpt"
+    "github.com/Eric-Guo/sponge/pkg/aicli/chatgpt"
 )
 
 func main() {
@@ -48,7 +48,7 @@ package main
 import (
     "context"
     "fmt"
-    "github.com/go-dev-frame/sponge/pkg/aicli/deepseek"
+    "github.com/Eric-Guo/sponge/pkg/aicli/deepseek"
 )
 
 func main() {
@@ -82,7 +82,7 @@ package main
 import (
     "context"
     "fmt"
-    "github.com/go-dev-frame/sponge/pkg/aicli/gemini"
+    "github.com/Eric-Guo/sponge/pkg/aicli/gemini"
 )
 
 func main() {

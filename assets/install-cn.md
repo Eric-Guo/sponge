@@ -1,3 +1,16 @@
+# 安装维护分支
+
+使用 Go 1.27.1 或更新版本安装 `thruster_generate` 分支：
+
+```sh
+go install github.com/Eric-Guo/sponge/cmd/sponge@thruster_generate
+sponge init
+sponge --version
+# sponge version v1.15.1 https://github.com/Eric-Guo/sponge fork
+```
+
+迁移旧安装时，运行 `sponge init` 更新本地模板。参见 [迁移说明](../docs/fork.md)。下文的 Windows 集成安装包和 Docker 镜像属于上游发行版；本 fork 请使用上述 Go 安装命令。
+
 要求 [Go 1.27.1+](https://studygolang.com/dl) 版本。
 
 > **提示**：Go下载第三方包时可能会遇到依赖下载超时问题，建议设置国内代理：
@@ -94,7 +107,7 @@ go env GOBIN  # 验证是否配置成功，如果输出不为空，说明设置�
 
 2. 安装 sponge：
    ```bash
-   go install github.com/go-dev-frame/sponge/cmd/sponge@latest
+   go install github.com/Eric-Guo/sponge/cmd/sponge@thruster_generate
    sponge init          # 初始化并安装依赖
    sponge plugins       # 查看已安装的插件
    sponge -v            # 查看版本

@@ -10,7 +10,7 @@ import (
 	"github.com/fatih/color"
 	"github.com/spf13/cobra"
 
-	"github.com/go-dev-frame/sponge/pkg/goast"
+	"github.com/Eric-Guo/sponge/pkg/goast"
 )
 
 // ModifyDuplicateErrorCodeNumCommand Command modify duplicate error code numbers
@@ -176,7 +176,7 @@ func NewErrorCodeNOAst(filePath string) ([]*ErrorCodeNOAst, error) {
 				if spliceType == 2 {
 					varNOName = "_" + varNOName
 				}
-				infoBody := "package ecode\n\nimport (\"github.com/go-dev-frame/sponge/pkg/errcode\")\n\n" + info.Body
+				infoBody := "package ecode\n\nimport (\"github.com/Eric-Guo/sponge/pkg/errcode\")\n\n" + info.Body
 				varNOCodeSrc, varNOValueStr, err := findVarLineContent(varNOName, infoBody)
 				if err != nil {
 					continue

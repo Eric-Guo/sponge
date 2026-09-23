@@ -2,9 +2,9 @@
 package main
 
 import (
-	"github.com/go-dev-frame/sponge/pkg/app"
+	"github.com/Eric-Guo/sponge/pkg/app"
 
-	"github.com/go-dev-frame/sponge/cmd/serverNameExample_mixExample/initial"
+	"github.com/Eric-Guo/sponge/cmd/serverNameExample_mixExample/initial"
 )
 
 // @title serverNameExample api docs

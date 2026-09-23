@@ -10,9 +10,9 @@ import (
 	"strings"
 	"time"
 
-	"github.com/go-dev-frame/sponge/cmd/sponge/commands/merge/module"
-	"github.com/go-dev-frame/sponge/pkg/gobash"
-	"github.com/go-dev-frame/sponge/pkg/gofile"
+	"github.com/Eric-Guo/sponge/cmd/sponge/commands/merge/module"
+	"github.com/Eric-Guo/sponge/pkg/gobash"
+	"github.com/Eric-Guo/sponge/pkg/gofile"
 )
 
 const defaultFuzzyFilename = "*.go.gen20*"

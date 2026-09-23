@@ -14,8 +14,8 @@ import (
 	"github.com/fatih/color"
 	"github.com/spf13/cobra"
 
-	"github.com/go-dev-frame/sponge/pkg/gobash"
-	"github.com/go-dev-frame/sponge/pkg/gofile"
+	"github.com/Eric-Guo/sponge/pkg/gobash"
+	"github.com/Eric-Guo/sponge/pkg/gofile"
 )
 
 var copyCount = 0

@@ -1,7 +1,7 @@
 package ecode
 
 import (
-	"github.com/go-dev-frame/sponge/pkg/errcode"
+	"github.com/Eric-Guo/sponge/pkg/errcode"
 )
 
 // rpc system level error code, with status prefix, error code range 30000~40000

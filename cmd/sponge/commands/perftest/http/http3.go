@@ -13,7 +13,7 @@ import (
 	"github.com/quic-go/quic-go/http3"
 	"github.com/spf13/cobra"
 
-	"github.com/go-dev-frame/sponge/cmd/sponge/commands/perftest/common"
+	"github.com/Eric-Guo/sponge/cmd/sponge/commands/perftest/common"
 )
 
 // PerfTestHTTP3CMD creates a new cobra.Command for HTTP/3 performance test.

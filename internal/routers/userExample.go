@@ -3,7 +3,7 @@ package routers
 import (
 	"github.com/gin-gonic/gin"
 
-	"github.com/go-dev-frame/sponge/internal/handler"
+	"github.com/Eric-Guo/sponge/internal/handler"
 )
 
 func init() {

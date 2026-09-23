@@ -1,3 +1,17 @@
+# Install the maintained fork
+
+Use the `thruster_generate` branch with Go 1.27.1 or newer:
+
+```sh
+go install github.com/Eric-Guo/sponge/cmd/sponge@thruster_generate
+sponge init
+sponge --version
+# sponge version v1.15.1 https://github.com/Eric-Guo/sponge fork
+```
+
+Run `sponge init` to replace any cached upstream templates. See [migration details](../docs/fork.md).
+The integrated Windows package and Docker images described below are upstream distributions; use the Go installation above for this fork.
+
 Requires [Go 1.27.1+](https://go.dev/doc/install) version.
 
 <br>
@@ -88,7 +102,7 @@ go env GOBIN  # Verify configuration success, non-empty output indicates success
 
 2. Install sponge:
    ```bash
-   go install github.com/go-dev-frame/sponge/cmd/sponge@latest
+   go install github.com/Eric-Guo/sponge/cmd/sponge@thruster_generate
    sponge init          # Initialize and install dependencies
    sponge plugins       # View installed plugins
    sponge -v            # View version

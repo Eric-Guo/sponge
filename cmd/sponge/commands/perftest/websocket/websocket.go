@@ -13,8 +13,8 @@ import (
 	"github.com/fatih/color"
 	"github.com/spf13/cobra"
 
-	"github.com/go-dev-frame/sponge/cmd/sponge/commands/perftest/common"
-	"github.com/go-dev-frame/sponge/pkg/krand"
+	"github.com/Eric-Guo/sponge/cmd/sponge/commands/perftest/common"
+	"github.com/Eric-Guo/sponge/pkg/krand"
 )
 
 // PerfTestWebsocketCMD creates a cobra command for websocket performance test

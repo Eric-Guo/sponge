@@ -9,7 +9,7 @@
 Generate code based on database table.
 
 ```go
-    import "github.com/go-dev-frame/sponge/pkg/sql2code"
+    import "github.com/Eric-Guo/sponge/pkg/sql2code"
 
     // generate model, dao, handler, service and protobuf code, supports database type: mysql, mongodb, postgres, sqlite3
     codes, err := sql2code.Generate(&sql2code.Args{
@@ -28,7 +28,7 @@ Generate code based on database table.
 Generate table information based on database table, used for customized code generation.
 
 ```go
-    import "github.com/go-dev-frame/sponge/pkg/sql2code"
+    import "github.com/Eric-Guo/sponge/pkg/sql2code"
 
     // generate table information based on database table, supports database type: mysql, mongodb, postgres, sqlite3
     codes, err := sql2code.Generate(&sql2code.Args{

@@ -3,7 +3,7 @@ package module
 import (
 	"fmt"
 
-	"github.com/go-dev-frame/sponge/cmd/sponge/commands/patch"
+	"github.com/Eric-Guo/sponge/cmd/sponge/commands/patch"
 )
 
 // ParseErrorCode parse error code from srcFile and genFile, and merge them.

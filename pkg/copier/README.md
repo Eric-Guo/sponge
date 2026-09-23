@@ -11,7 +11,7 @@ import (
     "fmt"
     "time"
 
-    "github.com/go-dev-frame/sponge/pkg/copier"
+    "github.com/Eric-Guo/sponge/pkg/copier"
 )
 
 type Model struct {

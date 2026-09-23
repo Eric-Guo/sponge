@@ -15,9 +15,9 @@ import (
 	"github.com/fatih/color"
 	"github.com/spf13/cobra"
 
-	"github.com/go-dev-frame/sponge/pkg/aicli"
-	"github.com/go-dev-frame/sponge/pkg/goast"
-	"github.com/go-dev-frame/sponge/pkg/gofile"
+	"github.com/Eric-Guo/sponge/pkg/aicli"
+	"github.com/Eric-Guo/sponge/pkg/goast"
+	"github.com/Eric-Guo/sponge/pkg/gofile"
 )
 
 // GenerateCommand  command
@@ -590,7 +590,7 @@ func isMongoOrmType(dbFile string) bool {
 	if err != nil {
 		return false
 	}
-	if bytes.Contains(data, []byte(`"github.com/go-dev-frame/sponge/pkg/mgo"`)) {
+	if bytes.Contains(data, []byte(`"github.com/Eric-Guo/sponge/pkg/mgo"`)) {
 		return true
 	}
 	return false

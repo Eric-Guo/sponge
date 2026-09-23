@@ -5,7 +5,7 @@ import (
 	"testing"
 	"time"
 
-	"github.com/go-dev-frame/sponge/pkg/etcdcli"
+	"github.com/Eric-Guo/sponge/pkg/etcdcli"
 	"go.uber.org/zap"
 )
 

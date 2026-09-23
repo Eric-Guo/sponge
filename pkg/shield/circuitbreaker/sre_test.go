@@ -8,7 +8,7 @@ import (
 
 	"github.com/stretchr/testify/assert"
 
-	"github.com/go-dev-frame/sponge/pkg/shield/window"
+	"github.com/Eric-Guo/sponge/pkg/shield/window"
 )
 
 func getSREBreaker() *Breaker {

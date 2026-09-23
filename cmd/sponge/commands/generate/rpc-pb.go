@@ -8,7 +8,7 @@ import (
 	"github.com/huandu/xstrings"
 	"github.com/spf13/cobra"
 
-	"github.com/go-dev-frame/sponge/pkg/replacer"
+	"github.com/Eric-Guo/sponge/pkg/replacer"
 )
 
 // RPCPbCommand generate grpc server code based on protobuf file
@@ -251,12 +251,12 @@ func (g *rpcPbGenerator) addFields(r replacer.Replacer) []replacer.Field {
 			New: protoShellServiceTmplCode,
 		},
 		{
-			Old: "github.com/go-dev-frame/sponge",
+			Old: "github.com/Eric-Guo/sponge",
 			New: g.moduleName,
 		},
 		{
 			Old: g.moduleName + pkgPathSuffix,
-			New: "github.com/go-dev-frame/sponge/pkg",
+			New: "github.com/Eric-Guo/sponge/pkg",
 		},
 		{ // replace the sponge version of the go.mod file
 			Old: spongeTemplateVersionMark,

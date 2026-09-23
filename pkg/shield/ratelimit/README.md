@@ -28,7 +28,7 @@ The advantages of adaptive rate limiting are:
 
 ```go
 import (
-	rl "github.com/go-dev-frame/sponge/pkg/shield/ratelimit"
+	rl "github.com/Eric-Guo/sponge/pkg/shield/ratelimit"
 )
 
 func RateLimit(opts ...RateLimitOption) gin.HandlerFunc {
@@ -62,7 +62,7 @@ func RateLimit(opts ...RateLimitOption) gin.HandlerFunc {
 
 ```go
 import (
-	rl "github.com/go-dev-frame/sponge/pkg/shield/ratelimit"
+	rl "github.com/Eric-Guo/sponge/pkg/shield/ratelimit"
 )
 
 

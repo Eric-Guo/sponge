@@ -10,7 +10,7 @@ import (
 	"github.com/stretchr/testify/assert"
 	"google.golang.org/grpc"
 
-	"github.com/go-dev-frame/sponge/pkg/utils"
+	"github.com/Eric-Guo/sponge/pkg/utils"
 )
 
 func Test_srvRegisterMetrics(t *testing.T) {

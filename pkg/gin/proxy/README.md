@@ -17,7 +17,7 @@ package main
 
 import (
     "fmt"
-    "github.com/go-dev-frame/sponge/pkg/gin/proxy"
+    "github.com/Eric-Guo/sponge/pkg/gin/proxy"
     "github.com/gin-gonic/gin"
 )
 

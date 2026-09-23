@@ -109,7 +109,7 @@ With this circuit breaker implementation, you can effectively protect services i
 #### Gin circuit breaker middleware
 
 ```go
-import "github.com/go-dev-frame/sponge/pkg/shield/circuitbreaker"
+import "github.com/Eric-Guo/sponge/pkg/shield/circuitbreaker"
 
 // CircuitBreaker a circuit breaker middleware
 func CircuitBreaker(opts ...CircuitBreakerOption) gin.HandlerFunc {
@@ -145,7 +145,7 @@ func CircuitBreaker(opts ...CircuitBreakerOption) gin.HandlerFunc {
 #### gRPC server circuit breaker interceptor
 
 ```go
-import "github.com/go-dev-frame/sponge/pkg/shield/circuitbreaker"
+import "github.com/Eric-Guo/sponge/pkg/shield/circuitbreaker"
 
 // UnaryServerCircuitBreaker server-side unary circuit breaker interceptor
 func UnaryServerCircuitBreaker(opts ...CircuitBreakerOption) grpc.UnaryServerInterceptor {

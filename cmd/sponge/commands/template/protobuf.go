@@ -12,12 +12,12 @@ import (
 	"github.com/fatih/color"
 	"github.com/spf13/cobra"
 
-	"github.com/go-dev-frame/sponge/pkg/gobash"
-	"github.com/go-dev-frame/sponge/pkg/gofile"
-	"github.com/go-dev-frame/sponge/pkg/krand"
-	"github.com/go-dev-frame/sponge/pkg/replacer"
+	"github.com/Eric-Guo/sponge/pkg/gobash"
+	"github.com/Eric-Guo/sponge/pkg/gofile"
+	"github.com/Eric-Guo/sponge/pkg/krand"
+	"github.com/Eric-Guo/sponge/pkg/replacer"
 
-	"github.com/go-dev-frame/sponge/cmd/sponge/commands/generate"
+	"github.com/Eric-Guo/sponge/cmd/sponge/commands/generate"
 )
 
 var (

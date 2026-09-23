@@ -9,17 +9,17 @@ import (
 
 	"google.golang.org/grpc"
 
-	"github.com/go-dev-frame/sponge/pkg/copier"
-	"github.com/go-dev-frame/sponge/pkg/sgorm/query"
-	"github.com/go-dev-frame/sponge/pkg/grpc/interceptor"
-	"github.com/go-dev-frame/sponge/pkg/logger"
+	"github.com/Eric-Guo/sponge/pkg/copier"
+	"github.com/Eric-Guo/sponge/pkg/sgorm/query"
+	"github.com/Eric-Guo/sponge/pkg/grpc/interceptor"
+	"github.com/Eric-Guo/sponge/pkg/logger"
 
-	serverNameExampleV1 "github.com/go-dev-frame/sponge/api/serverNameExample/v1"
-	"github.com/go-dev-frame/sponge/internal/cache"
-	"github.com/go-dev-frame/sponge/internal/dao"
-	"github.com/go-dev-frame/sponge/internal/database"
-	"github.com/go-dev-frame/sponge/internal/ecode"
-	"github.com/go-dev-frame/sponge/internal/model"
+	serverNameExampleV1 "github.com/Eric-Guo/sponge/api/serverNameExample/v1"
+	"github.com/Eric-Guo/sponge/internal/cache"
+	"github.com/Eric-Guo/sponge/internal/dao"
+	"github.com/Eric-Guo/sponge/internal/database"
+	"github.com/Eric-Guo/sponge/internal/ecode"
+	"github.com/Eric-Guo/sponge/internal/model"
 )
 
 func init() {

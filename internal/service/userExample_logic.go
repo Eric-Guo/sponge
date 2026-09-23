@@ -3,8 +3,8 @@ package service
 import (
 	"context"
 
-	serverNameExampleV1 "github.com/go-dev-frame/sponge/api/serverNameExample/v1"
-	"github.com/go-dev-frame/sponge/internal/rpcclient"
+	serverNameExampleV1 "github.com/Eric-Guo/sponge/api/serverNameExample/v1"
+	"github.com/Eric-Guo/sponge/internal/rpcclient"
 )
 
 var _ serverNameExampleV1.UserExampleLogicer = (*userExampleClient)(nil)

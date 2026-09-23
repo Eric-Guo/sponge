@@ -10,9 +10,9 @@ import (
 
 	"github.com/gin-gonic/gin"
 
-	"github.com/go-dev-frame/sponge/pkg/gin/response"
-	"github.com/go-dev-frame/sponge/pkg/httpcli"
-	"github.com/go-dev-frame/sponge/pkg/utils"
+	"github.com/Eric-Guo/sponge/pkg/gin/response"
+	"github.com/Eric-Guo/sponge/pkg/httpcli"
+	"github.com/Eric-Guo/sponge/pkg/utils"
 )
 
 func runRateLimiterHTTPServer() string {

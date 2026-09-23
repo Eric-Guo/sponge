@@ -1,3 +1,5 @@
+本分支由 [Eric-Guo/sponge](https://github.com/Eric-Guo/sponge/tree/thruster_generate) 维护，维护分支为 `thruster_generate`，基于 [go-dev-frame/sponge](https://github.com/go-dev-frame/sponge)。Go 模块路径已改为 `github.com/Eric-Guo/sponge`。安装与迁移说明见 [fork 文档](../docs/fork.md)。下文的在线演示、外部文档及示例仓库属于上游项目。
+
 ## [English](../README.md) | 简体中文
 
 ### 简介
@@ -50,7 +52,7 @@ Sponge 适用于构建高性能、可维护的后端系统，特别适合：
 
 ### 快速上手
 
-1. **安装 Sponge**：支持 Windows、macOS、Linux 及 Docker 环境，查看 [**Sponge 安装指南**](https://github.com/go-dev-frame/sponge/blob/main/assets/install-cn.md)。
+1. **安装 Sponge**：支持 Windows、macOS、Linux 及 Docker 环境，查看 [**Sponge 安装指南**](https://github.com/Eric-Guo/sponge/blob/thruster_generate/assets/install-cn.md)。
 
 2. **打开生成代码 UI 页面**
 
@@ -63,7 +65,7 @@ Sponge 适用于构建高性能、可维护的后端系统，特别适合：
 3. **示例：基于 SQL 一键生成 Web 服务后端代码**
 
    <p align="center">
-   <img width="750px" src="https://raw.githubusercontent.com/go-dev-frame/sponge/main/assets/sponge-ui.png">
+   <img width="750px" src="https://raw.githubusercontent.com/Eric-Guo/sponge/thruster_generate/assets/sponge-ui.png">
    </p>
 
    - 操作流程：
@@ -101,7 +103,7 @@ Sponge 提供多种代码生成引擎，支持**内置模板**、**自定义模�
 1. 基于**内置模板**的代码生成引擎，如下图所示：
 
 <p align="center">
-<img width="1200px" src="https://raw.githubusercontent.com/go-dev-frame/sponge/main/assets/sponge-framework.png">
+<img width="1200px" src="https://raw.githubusercontent.com/Eric-Guo/sponge/thruster_generate/assets/sponge-framework.png">
 </p>
 
 <br>
@@ -109,7 +111,7 @@ Sponge 提供多种代码生成引擎，支持**内置模板**、**自定义模�
 2. 基于**自定义模板**代码生成引擎，如下图所示：
 
 <p align="center">
-<img width="600px" src="https://raw.githubusercontent.com/go-dev-frame/sponge/main/assets/template-framework.png">
+<img width="600px" src="https://raw.githubusercontent.com/Eric-Guo/sponge/thruster_generate/assets/template-framework.png">
 </p>
 
 <br>
@@ -117,7 +119,7 @@ Sponge 提供多种代码生成引擎，支持**内置模板**、**自定义模�
 3. **AI 辅助业务逻辑**代码生成引擎，如下图所示：
 
 <p align="center">
-<img width="600px" src="https://raw.githubusercontent.com/go-dev-frame/sponge/main/assets/ai-assistant-framework.png">
+<img width="600px" src="https://raw.githubusercontent.com/Eric-Guo/sponge/thruster_generate/assets/ai-assistant-framework.png">
 </p>
 
 <br>
@@ -127,7 +129,7 @@ Sponge 提供多种代码生成引擎，支持**内置模板**、**自定义模�
 Sponge 生成的代码遵循典型的分层架构，内置服务治理能力，结构清晰，易于维护。Sponge 的微服务框架结构如下图所示：
 
 <p align="center">
-<img width="750px" src="https://raw.githubusercontent.com/go-dev-frame/sponge/main/assets/microservices-framework.png">
+<img width="750px" src="https://raw.githubusercontent.com/Eric-Guo/sponge/thruster_generate/assets/microservices-framework.png">
 </p>
 
 <br>
@@ -244,7 +246,7 @@ Sponge 创建的服务代码目录结构遵循 [project-layout](https://github.c
 
 欢迎加入**go sponge微信群交流**，加微信(备注`sponge`)进群。
 
-<img width="300px" src="https://raw.githubusercontent.com/go-dev-frame/sponge/main/assets/wechat-group.jpg">
+<img width="300px" src="https://raw.githubusercontent.com/Eric-Guo/sponge/thruster_generate/assets/wechat-group.jpg">
 
 <br>
 

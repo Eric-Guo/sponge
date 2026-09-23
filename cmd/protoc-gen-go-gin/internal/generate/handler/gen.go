@@ -6,7 +6,7 @@ import (
 
 	"google.golang.org/protobuf/compiler/protogen"
 
-	"github.com/go-dev-frame/sponge/cmd/protoc-gen-go-gin/internal/parse"
+	"github.com/Eric-Guo/sponge/cmd/protoc-gen-go-gin/internal/parse"
 )
 
 // GenerateFiles generate handler logic, router, error code files.
@@ -107,7 +107,7 @@ func (f *mixLogicFields) execute() []byte {
 	mark := []byte("ctx = middleware.AdaptCtx(ctx)")
 	if bytes.Contains(content, mark) {
 		importPkgs = append(importPkgs, []byte("\n\t")...)
-		importPkgs = append(importPkgs, []byte(`"github.com/go-dev-frame/sponge/pkg/gin/middleware"`)...)
+		importPkgs = append(importPkgs, []byte(`"github.com/Eric-Guo/sponge/pkg/gin/middleware"`)...)
 	}
 	return bytes.ReplaceAll(content, []byte(importPkgPathMark), importPkgs)
 }

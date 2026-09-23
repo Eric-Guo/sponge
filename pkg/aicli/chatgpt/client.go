@@ -10,7 +10,7 @@ import (
 
 	"github.com/sashabaranov/go-openai"
 
-	"github.com/go-dev-frame/sponge/pkg/aicli"
+	"github.com/Eric-Guo/sponge/pkg/aicli"
 )
 
 // https://platform.openai.com/docs/api-reference

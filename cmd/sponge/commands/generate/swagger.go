@@ -16,7 +16,7 @@ import (
 	"github.com/spf13/cobra"
 	"gopkg.in/yaml.v3"
 
-	"github.com/go-dev-frame/sponge/pkg/gofile"
+	"github.com/Eric-Guo/sponge/pkg/gofile"
 )
 
 // HandleSwaggerJSONCommand handle swagger json command

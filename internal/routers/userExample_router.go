@@ -6,11 +6,11 @@ import (
 	"github.com/gin-gonic/gin"
 	"google.golang.org/grpc/metadata"
 
-	"github.com/go-dev-frame/sponge/pkg/gin/middleware"
-	"github.com/go-dev-frame/sponge/pkg/logger"
+	"github.com/Eric-Guo/sponge/pkg/gin/middleware"
+	"github.com/Eric-Guo/sponge/pkg/logger"
 
-	serverNameExampleV1 "github.com/go-dev-frame/sponge/api/serverNameExample/v1"
-	"github.com/go-dev-frame/sponge/internal/service"
+	serverNameExampleV1 "github.com/Eric-Guo/sponge/api/serverNameExample/v1"
+	"github.com/Eric-Guo/sponge/internal/service"
 )
 
 func init() {

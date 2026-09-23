@@ -8,7 +8,7 @@ import (
 	"sync"
 	"syscall"
 
-	"github.com/go-dev-frame/sponge/pkg/prof"
+	"github.com/Eric-Guo/sponge/pkg/prof"
 )
 
 type serviceResult struct {

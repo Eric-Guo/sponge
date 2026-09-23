@@ -6,8 +6,8 @@ import (
 
 	"github.com/dgraph-io/ristretto"
 
-	spongecache "github.com/go-dev-frame/sponge/pkg/cache"
-	"github.com/go-dev-frame/sponge/pkg/logger"
+	spongecache "github.com/Eric-Guo/sponge/pkg/cache"
+	"github.com/Eric-Guo/sponge/pkg/logger"
 )
 
 // GetCurrentTime allows overriding time in tests.

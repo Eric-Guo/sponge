@@ -12,8 +12,8 @@ import (
 	"gorm.io/gorm/logger"
 	"gorm.io/gorm/schema"
 
-	"github.com/go-dev-frame/sponge/pkg/sgorm/dbclose"
-	"github.com/go-dev-frame/sponge/pkg/sgorm/glog"
+	"github.com/Eric-Guo/sponge/pkg/sgorm/dbclose"
+	"github.com/Eric-Guo/sponge/pkg/sgorm/glog"
 )
 
 // Init sqlite

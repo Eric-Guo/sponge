@@ -8,12 +8,13 @@ import (
 	"github.com/fatih/color"
 	"github.com/spf13/cobra"
 
-	"github.com/go-dev-frame/sponge/cmd/sponge/commands/generate"
+	"github.com/Eric-Guo/sponge/cmd/sponge/commands/generate"
 )
 
 var (
-	version     = "v0.0.0"
-	versionFile = GetSpongeDir() + "/.sponge/.github/version"
+	version         = "v1.15.1"
+	templateVersion = latestVersion
+	versionFile     = GetSpongeDir() + "/.sponge/.github/version"
 )
 
 // NewRootCMD command entry
@@ -25,7 +26,7 @@ A powerful and easy-to-use Go development framework that enables you to effortle
 build stable, reliable, and high-performance backend services with a "low-code" approach.
 Repo: %s
 Docs: %s`,
-			color.HiCyanString("https://github.com/go-dev-frame/sponge"),
+			color.HiCyanString("https://github.com/Eric-Guo/sponge"),
 			color.HiCyanString("https://go-sponge.com")),
 		SilenceErrors: true,
 		SilenceUsage:  true,
@@ -52,12 +53,7 @@ Docs: %s`,
 }
 
 func getVersion() string {
-	data, _ := os.ReadFile(versionFile)
-	v := string(data)
-	if v != "" {
-		return v
-	}
-	return "unknown, execute command \"sponge init\" to get version"
+	return version + " https://github.com/Eric-Guo/sponge fork"
 }
 
 // GetSpongeDir get sponge home directory

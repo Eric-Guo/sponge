@@ -10,8 +10,8 @@ import (
 
 	"github.com/hashicorp/consul/api"
 
-	"github.com/go-dev-frame/sponge/pkg/consulcli"
-	"github.com/go-dev-frame/sponge/pkg/servicerd/registry"
+	"github.com/Eric-Guo/sponge/pkg/consulcli"
+	"github.com/Eric-Guo/sponge/pkg/servicerd/registry"
 )
 
 var (

@@ -9,7 +9,7 @@ import (
 	"github.com/fatih/color"
 	"github.com/spf13/cobra"
 
-	"github.com/go-dev-frame/sponge/pkg/goast"
+	"github.com/Eric-Guo/sponge/pkg/goast"
 )
 
 // ModifyDuplicateErrorCodeOffsetCommand modify duplicate error code offset command
@@ -137,7 +137,7 @@ func NewErrorCodeOffsetAst(filePath string) (*ErrorCodeOffsetAst, error) {
 
 				//varNOName := serviceName + "NO"
 				callFuncName := "NewError"
-				infoBody := "package ecode\n\nimport (\"github.com/go-dev-frame/sponge/pkg/errcode\")\n\n" + info.Body
+				infoBody := "package ecode\n\nimport (\"github.com/Eric-Guo/sponge/pkg/errcode\")\n\n" + info.Body
 				if spliceType == 2 {
 					//varNOName = "_" + varNOName
 					callFuncName = "NewRPCStatus"

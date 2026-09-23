@@ -12,7 +12,7 @@ import (
 	"time"
 	"unicode"
 
-	"github.com/go-dev-frame/sponge/pkg/logger"
+	"github.com/Eric-Guo/sponge/pkg/logger"
 )
 
 const defaultStopTimeout = 10 * time.Second

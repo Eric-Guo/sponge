@@ -11,7 +11,7 @@ import (
 
 	"go.uber.org/zap"
 
-	spongelog "github.com/go-dev-frame/sponge/pkg/logger"
+	spongelog "github.com/Eric-Guo/sponge/pkg/logger"
 )
 
 // Middleware is a function that takes a http.Handler and returns a http.Handler,

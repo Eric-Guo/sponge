@@ -13,9 +13,9 @@ import (
 
 	"github.com/gin-gonic/gin"
 
-	"github.com/go-dev-frame/sponge/pkg/gin/handlerfunc"
-	"github.com/go-dev-frame/sponge/pkg/gin/middleware"
-	"github.com/go-dev-frame/sponge/pkg/logger"
+	"github.com/Eric-Guo/sponge/pkg/gin/handlerfunc"
+	"github.com/Eric-Guo/sponge/pkg/gin/middleware"
+	"github.com/Eric-Guo/sponge/pkg/logger"
 )
 
 //go:embed static

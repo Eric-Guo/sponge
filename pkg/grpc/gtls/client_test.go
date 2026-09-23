@@ -3,7 +3,7 @@ package gtls
 import (
 	"testing"
 
-	"github.com/go-dev-frame/sponge/pkg/grpc/gtls/certfile"
+	"github.com/Eric-Guo/sponge/pkg/grpc/gtls/certfile"
 
 	"github.com/stretchr/testify/assert"
 )

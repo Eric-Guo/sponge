@@ -8,9 +8,9 @@ import (
 	"github.com/fatih/color"
 	"github.com/spf13/cobra"
 
-	"github.com/go-dev-frame/sponge/pkg/replacer"
-	"github.com/go-dev-frame/sponge/pkg/sql2code"
-	"github.com/go-dev-frame/sponge/pkg/sql2code/parser"
+	"github.com/Eric-Guo/sponge/pkg/replacer"
+	"github.com/Eric-Guo/sponge/pkg/sql2code"
+	"github.com/Eric-Guo/sponge/pkg/sql2code/parser"
 )
 
 // DaoCommand generate dao code
@@ -272,12 +272,12 @@ func (g *daoGenerator) addFields(r replacer.Replacer) []replacer.Field {
 			New: g.moduleName,
 		},
 		{
-			Old: "github.com/go-dev-frame/sponge",
+			Old: "github.com/Eric-Guo/sponge",
 			New: g.moduleName,
 		},
 		{
 			Old: g.moduleName + pkgPathSuffix,
-			New: "github.com/go-dev-frame/sponge/pkg",
+			New: "github.com/Eric-Guo/sponge/pkg",
 		},
 		{
 			Old: "init.go.mgo",

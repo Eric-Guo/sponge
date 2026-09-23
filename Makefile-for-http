@@ -1,6 +1,6 @@
 SHELL := /bin/bash
 
-PROJECT_NAME := "github.com/go-dev-frame/sponge"
+PROJECT_NAME := "github.com/Eric-Guo/sponge"
 PKG := "$(PROJECT_NAME)"
 PKG_LIST := $(shell go list ${PKG}/... | grep -v /vendor/ | grep -v /api/ | grep -v /cmd/)
 
@@ -21,7 +21,7 @@ DOCKER_PLATFORM := $(TARGET_OS)/$(TARGET_ARCH)
 HOST_UID := $(shell id -u)
 HOST_GID := $(shell id -g)
 
-SPONGE_LOCAL_PATH := $(strip $(shell awk '/replace github.com\/go-dev-frame\/sponge =>/{print $$4}' go.mod))
+SPONGE_LOCAL_PATH := $(strip $(shell awk '/replace github.com\/Eric-Guo\/sponge =>/{print $$4}' go.mod))
 DOCKER_EXTRA_VOLUMES :=
 ifneq ($(SPONGE_LOCAL_PATH),)
 ifneq ($(wildcard $(SPONGE_LOCAL_PATH)),)
@@ -63,7 +63,7 @@ cover:
 graph:
 	@echo "generating graph ......"
 	@cp -f cmd/serverNameExample_mixExample/main.go .
-	go-callvis -skipbrowser -format=svg -nostd -file=serverNameExample_mixExample github.com/go-dev-frame/sponge
+	go-callvis -skipbrowser -format=svg -nostd -file=serverNameExample_mixExample github.com/Eric-Guo/sponge
 	@rm -f main.go serverNameExample_mixExample.gv
 
 

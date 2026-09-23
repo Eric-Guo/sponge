@@ -5,11 +5,11 @@ import (
 	"testing"
 	"time"
 
-	"github.com/go-dev-frame/sponge/pkg/utils"
+	"github.com/Eric-Guo/sponge/pkg/utils"
 
-	"github.com/go-dev-frame/sponge/configs"
-	"github.com/go-dev-frame/sponge/internal/config"
-	"github.com/go-dev-frame/sponge/internal/rpcclient"
+	"github.com/Eric-Guo/sponge/configs"
+	"github.com/Eric-Guo/sponge/internal/config"
+	"github.com/Eric-Guo/sponge/internal/rpcclient"
 )
 
 func TestNewUserExampleServiceClient(t *testing.T) {

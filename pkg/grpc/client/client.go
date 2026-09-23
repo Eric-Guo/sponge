@@ -9,8 +9,8 @@ import (
 	"google.golang.org/grpc/credentials/insecure"
 	"google.golang.org/grpc/resolver"
 
-	"github.com/go-dev-frame/sponge/pkg/servicerd/discovery"
-	"github.com/go-dev-frame/sponge/pkg/servicerd/registry"
+	"github.com/Eric-Guo/sponge/pkg/servicerd/discovery"
+	"github.com/Eric-Guo/sponge/pkg/servicerd/registry"
 )
 
 // Option client option func

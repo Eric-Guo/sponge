@@ -9,8 +9,8 @@ import (
 	clientv3 "go.etcd.io/etcd/client/v3"
 	"go.uber.org/zap"
 
-	"github.com/go-dev-frame/sponge/pkg/grpc/gtls/certfile"
-	"github.com/go-dev-frame/sponge/pkg/servicerd/registry/etcd"
+	"github.com/Eric-Guo/sponge/pkg/grpc/gtls/certfile"
+	"github.com/Eric-Guo/sponge/pkg/servicerd/registry/etcd"
 )
 
 func TestNewClient(t *testing.T) {

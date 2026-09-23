@@ -8,17 +8,17 @@ import (
 	"github.com/DATA-DOG/go-sqlmock"
 	"github.com/stretchr/testify/assert"
 
-	"github.com/go-dev-frame/sponge/pkg/copier"
-	"github.com/go-dev-frame/sponge/pkg/gotest"
-	"github.com/go-dev-frame/sponge/pkg/httpcli"
-	"github.com/go-dev-frame/sponge/pkg/sgorm/query"
-	"github.com/go-dev-frame/sponge/pkg/utils"
+	"github.com/Eric-Guo/sponge/pkg/copier"
+	"github.com/Eric-Guo/sponge/pkg/gotest"
+	"github.com/Eric-Guo/sponge/pkg/httpcli"
+	"github.com/Eric-Guo/sponge/pkg/sgorm/query"
+	"github.com/Eric-Guo/sponge/pkg/utils"
 
-	"github.com/go-dev-frame/sponge/internal/cache"
-	"github.com/go-dev-frame/sponge/internal/dao"
-	"github.com/go-dev-frame/sponge/internal/database"
-	"github.com/go-dev-frame/sponge/internal/model"
-	"github.com/go-dev-frame/sponge/internal/types"
+	"github.com/Eric-Guo/sponge/internal/cache"
+	"github.com/Eric-Guo/sponge/internal/dao"
+	"github.com/Eric-Guo/sponge/internal/database"
+	"github.com/Eric-Guo/sponge/internal/model"
+	"github.com/Eric-Guo/sponge/internal/types"
 )
 
 func newUserExampleHandler() *gotest.Handler {

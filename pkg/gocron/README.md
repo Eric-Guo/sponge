@@ -17,8 +17,8 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/go-dev-frame/sponge/pkg/gocron"
-	"github.com/go-dev-frame/sponge/pkg/logger"
+	"github.com/Eric-Guo/sponge/pkg/gocron"
+	"github.com/Eric-Guo/sponge/pkg/logger"
 )
 
 var task1 = func() {
@@ -70,4 +70,4 @@ func main() {
 
 Distributed scheduled tasks are designed for cluster environments, ensuring coordinated task execution across multiple nodes to avoid duplicate scheduling while improving reliability and scalability. Example usage:
 
-[https://github.com/go-dev-frame/sponge/tree/main/pkg/sasynq#periodic-tasks](https://github.com/go-dev-frame/sponge/tree/main/pkg/sasynq#periodic-tasks)
+[https://github.com/Eric-Guo/sponge/tree/thruster_generate/pkg/sasynq#periodic-tasks](https://github.com/Eric-Guo/sponge/tree/thruster_generate/pkg/sasynq#periodic-tasks)

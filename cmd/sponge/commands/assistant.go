@@ -3,7 +3,7 @@ package commands
 import (
 	"github.com/spf13/cobra"
 
-	"github.com/go-dev-frame/sponge/cmd/sponge/commands/assistant"
+	"github.com/Eric-Guo/sponge/cmd/sponge/commands/assistant"
 )
 
 // AssistantCommand AI assistant command

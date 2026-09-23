@@ -6,12 +6,12 @@ import (
 	"strings"
 	"time"
 
-	"github.com/go-dev-frame/sponge/pkg/cache"
-	"github.com/go-dev-frame/sponge/pkg/encoding"
-	"github.com/go-dev-frame/sponge/pkg/utils"
+	"github.com/Eric-Guo/sponge/pkg/cache"
+	"github.com/Eric-Guo/sponge/pkg/encoding"
+	"github.com/Eric-Guo/sponge/pkg/utils"
 
-	"github.com/go-dev-frame/sponge/internal/database"
-	"github.com/go-dev-frame/sponge/internal/model"
+	"github.com/Eric-Guo/sponge/internal/database"
+	"github.com/Eric-Guo/sponge/internal/model"
 )
 
 const (

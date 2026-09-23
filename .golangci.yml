@@ -230,7 +230,7 @@ formatters:
           replacement: any
     goimports:
       local-prefixes:
-        - github.com/go-dev-frame/sponge
+        - github.com/Eric-Guo/sponge
   exclusions:
     generated: lax
     paths:

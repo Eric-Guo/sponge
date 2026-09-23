@@ -8,9 +8,9 @@ import (
 	"github.com/fatih/color"
 	"github.com/spf13/cobra"
 
-	"github.com/go-dev-frame/sponge/cmd/sponge/commands/generate"
-	"github.com/go-dev-frame/sponge/pkg/gofile"
-	"github.com/go-dev-frame/sponge/pkg/replacer"
+	"github.com/Eric-Guo/sponge/cmd/sponge/commands/generate"
+	"github.com/Eric-Guo/sponge/pkg/gofile"
+	"github.com/Eric-Guo/sponge/pkg/replacer"
 )
 
 // GenTypesPbCommand generate types.proto code
@@ -113,7 +113,7 @@ func addTypePbFields(moduleName string) []replacer.Field {
 
 	fields = append(fields, []replacer.Field{
 		{
-			Old:             "github.com/go-dev-frame/sponge",
+			Old:             "github.com/Eric-Guo/sponge",
 			New:             moduleName,
 			IsCaseSensitive: false,
 		},

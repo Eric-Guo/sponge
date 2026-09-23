@@ -12,10 +12,10 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/stretchr/testify/assert"
 
-	"github.com/go-dev-frame/sponge/pkg/gin/response"
-	"github.com/go-dev-frame/sponge/pkg/httpcli"
-	"github.com/go-dev-frame/sponge/pkg/jwt"
-	"github.com/go-dev-frame/sponge/pkg/utils"
+	"github.com/Eric-Guo/sponge/pkg/gin/response"
+	"github.com/Eric-Guo/sponge/pkg/httpcli"
+	"github.com/Eric-Guo/sponge/pkg/jwt"
+	"github.com/Eric-Guo/sponge/pkg/utils"
 )
 
 var (

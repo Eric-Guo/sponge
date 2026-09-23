@@ -11,7 +11,7 @@ Support `mysql`, `postgresql`, `sqlite`.
 ### Mysql
 
 ```go
-    import "github.com/go-dev-frame/sponge/pkg/sgorm/mysql"
+    import "github.com/Eric-Guo/sponge/pkg/sgorm/mysql"
 
     var dsn = "root:123456@(127.0.0.1:3306)/test?charset=utf8mb4&collation=utf8mb4_general_ci&parseTime=True&loc=Local"
 
@@ -43,8 +43,8 @@ Support `mysql`, `postgresql`, `sqlite`.
 
 ```go
     import (
-        "github.com/go-dev-frame/sponge/pkg/sgorm/postgresql"
-        "github.com/go-dev-frame/sponge/pkg/utils"
+        "github.com/Eric-Guo/sponge/pkg/sgorm/postgresql"
+        "github.com/Eric-Guo/sponge/pkg/utils"
     )
 
     func InitPostgresql() {
@@ -76,7 +76,7 @@ Tidb is mysql compatible, just use **mysql.Init**.
 ### Sqlite
 
 ```go
-    import "github.com/go-dev-frame/sponge/pkg/sgorm/sqlite"
+    import "github.com/Eric-Guo/sponge/pkg/sgorm/sqlite"
 
     func InitSqlite() {
         opts := []sqlite.Option{
@@ -138,7 +138,7 @@ Tidb is mysql compatible, just use **mysql.Init**.
 ```go
 package model
 
-import "github.com/go-dev-frame/sponge/pkg/sgorm"
+import "github.com/Eric-Guo/sponge/pkg/sgorm"
 
 // User object fields mapping table
 type User struct {

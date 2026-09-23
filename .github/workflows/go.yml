@@ -1,14 +1,14 @@
 name: Go
 
 on:
-  # triggers the execution of jobs when committed to the main branch
+  # triggers the execution of jobs when committed to the thruster_generate branch
   push:
     branches:
-      - main
-  # trigger execution of jobs when merging to main branch
+      - thruster_generate
+  # trigger execution of jobs when merging to thruster_generate branch
   pull_request:
     branches:
-      - main
+      - thruster_generate
 
 jobs:
 

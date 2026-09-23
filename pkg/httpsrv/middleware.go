@@ -8,8 +8,8 @@ import (
 	"net/http"
 	"time"
 
-	"github.com/go-dev-frame/sponge/pkg/logger"
-	"github.com/go-dev-frame/sponge/pkg/requestid"
+	"github.com/Eric-Guo/sponge/pkg/logger"
+	"github.com/Eric-Guo/sponge/pkg/requestid"
 )
 
 // Options configures the optional HTTP middleware that can wrap the Gin engine.

@@ -9,9 +9,9 @@ import (
 	"github.com/fatih/color"
 	"github.com/spf13/cobra"
 
-	"github.com/go-dev-frame/sponge/cmd/sponge/commands/generate"
-	"github.com/go-dev-frame/sponge/pkg/gofile"
-	"github.com/go-dev-frame/sponge/pkg/replacer"
+	"github.com/Eric-Guo/sponge/cmd/sponge/commands/generate"
+	"github.com/Eric-Guo/sponge/pkg/gofile"
+	"github.com/Eric-Guo/sponge/pkg/replacer"
 )
 
 // GenerateDBInitCommand generate database initialization code
@@ -151,12 +151,12 @@ func (g *dbInitGenerator) addFields(r replacer.Replacer) []replacer.Field {
 	fields = append(fields, generate.DeleteCodeMark(r, generate.ModelInitDBFile, generate.StartMark, generate.EndMark)...)
 	fields = append(fields, []replacer.Field{
 		{
-			Old:             "github.com/go-dev-frame/sponge/internal",
+			Old:             "github.com/Eric-Guo/sponge/internal",
 			New:             g.moduleName + "/internal",
 			IsCaseSensitive: false,
 		},
 		{
-			Old:             "github.com/go-dev-frame/sponge/configs",
+			Old:             "github.com/Eric-Guo/sponge/configs",
 			New:             g.moduleName + "/configs",
 			IsCaseSensitive: false,
 		},

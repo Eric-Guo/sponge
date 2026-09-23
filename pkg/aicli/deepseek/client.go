@@ -6,7 +6,7 @@ import (
 
 	"github.com/sashabaranov/go-openai"
 
-	"github.com/go-dev-frame/sponge/pkg/aicli/chatgpt"
+	"github.com/Eric-Guo/sponge/pkg/aicli/chatgpt"
 )
 
 // https://api-docs.deepseek.com/

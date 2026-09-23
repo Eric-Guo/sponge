@@ -23,7 +23,7 @@ You can set the maximum length for printing, add a request id field, ignore prin
 ```go
 import (
     "github.com/gin-gonic/gin"
-    "github.com/go-dev-frame/sponge/pkg/gin/middleware"
+    "github.com/Eric-Guo/sponge/pkg/gin/middleware"
 )
 
 func NewRouter() *gin.Engine {
@@ -63,7 +63,7 @@ func NewRouter() *gin.Engine {
 ```go
 import (
     "github.com/gin-gonic/gin"
-    "github.com/go-dev-frame/sponge/pkg/gin/middleware"
+    "github.com/Eric-Guo/sponge/pkg/gin/middleware"
 )
 
 func NewRouter() *gin.Engine {
@@ -86,7 +86,7 @@ Adaptive flow limitation based on hardware resources.
 ```go
 import (
     "github.com/gin-gonic/gin"
-    "github.com/go-dev-frame/sponge/pkg/gin/middleware"
+    "github.com/Eric-Guo/sponge/pkg/gin/middleware"
 )
 
 func NewRouter() *gin.Engine {
@@ -116,7 +116,7 @@ func NewRouter() *gin.Engine {
 ```go
 import (
     "github.com/gin-gonic/gin"
-    "github.com/go-dev-frame/sponge/pkg/gin/middleware"
+    "github.com/Eric-Guo/sponge/pkg/gin/middleware"
 )
 
 func NewRouter() *gin.Engine {
@@ -145,7 +145,7 @@ func NewRouter() *gin.Engine {
 
 There are two usage examples available:
 
-1. **Example One**: This example adopts a highly abstracted design, making it simpler and more convenient to use. Click to view the example at [pkg/gin/middleware/auth](https://github.com/go-dev-frame/sponge/tree/main/pkg/gin/middleware/auth#example-of-use). Requires sponge version `v1.13.2+`.
+1. **Example One**: This example adopts a highly abstracted design, making it simpler and more convenient to use. Click to view the example at [pkg/gin/middleware/auth](https://github.com/Eric-Guo/sponge/tree/thruster_generate/pkg/gin/middleware/auth#example-of-use). Requires sponge version `v1.13.2+`.
 2. **Example Two**: This example offers greater flexibility and is suitable for scenarios requiring custom implementations. The example code is as follows:
 
     ```go
@@ -154,9 +154,9 @@ There are two usage examples available:
     import (
         "time"
         "github.com/gin-gonic/gin"
-        "github.com/go-dev-frame/sponge/pkg/gin/middleware"
-        "github.com/go-dev-frame/sponge/pkg/gin/response"
-        "github.com/go-dev-frame/sponge/pkg/jwt"
+        "github.com/Eric-Guo/sponge/pkg/gin/middleware"
+        "github.com/Eric-Guo/sponge/pkg/gin/response"
+        "github.com/Eric-Guo/sponge/pkg/jwt"
     )
     
     func main() {
@@ -268,8 +268,8 @@ There are two usage examples available:
 ```go
 import (
     "github.com/gin-gonic/gin"
-    "github.com/go-dev-frame/sponge/pkg/gin/middleware"
-    "github.com/go-dev-frame/sponge/pkg/tracer"
+    "github.com/Eric-Guo/sponge/pkg/gin/middleware"
+    "github.com/Eric-Guo/sponge/pkg/tracer"
 )
 
 func InitTrace(serviceName string) {
@@ -316,8 +316,8 @@ func CreateSpanDemo(serviceName string, spanName string, ctx context.Context) {
 ```go
 import (
     "github.com/gin-gonic/gin"
-    "github.com/go-dev-frame/sponge/pkg/gin/middleware"
-    "github.com/go-dev-frame/sponge/pkg/gin/middleware/metrics"
+    "github.com/Eric-Guo/sponge/pkg/gin/middleware"
+    "github.com/Eric-Guo/sponge/pkg/gin/middleware/metrics"
 )
 
 func NewRouter() *gin.Engine {
@@ -342,7 +342,7 @@ func NewRouter() *gin.Engine {
 ```go
 import (
     "github.com/gin-gonic/gin"
-    "github.com/go-dev-frame/sponge/pkg/gin/middleware"
+    "github.com/Eric-Guo/sponge/pkg/gin/middleware"
 )
 
 func NewRouter() *gin.Engine {
@@ -376,7 +376,7 @@ func NewRouter() *gin.Engine {
 ```go
 import (
     "github.com/gin-gonic/gin"
-    "github.com/go-dev-frame/sponge/pkg/gin/middleware"
+    "github.com/Eric-Guo/sponge/pkg/gin/middleware"
 )
 
 func NewRouter() *gin.Engine {

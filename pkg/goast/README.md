@@ -11,7 +11,7 @@ package main
 
 import (
 	"fmt"
-	"github.com/go-dev-frame/sponge/pkg/goast"
+	"github.com/Eric-Guo/sponge/pkg/goast"
 )
 
 func main() {
@@ -45,7 +45,7 @@ package main
 
 import (
 	"fmt"
-	"github.com/go-dev-frame/sponge/pkg/goast"
+	"github.com/Eric-Guo/sponge/pkg/goast"
 )
 
 func main() {

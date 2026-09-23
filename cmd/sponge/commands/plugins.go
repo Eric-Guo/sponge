@@ -11,7 +11,7 @@ import (
 	"github.com/fatih/color"
 	"github.com/spf13/cobra"
 
-	"github.com/go-dev-frame/sponge/pkg/gobash"
+	"github.com/Eric-Guo/sponge/pkg/gobash"
 )
 
 var pluginNames = []string{
@@ -38,9 +38,9 @@ var installPluginCommands = map[string]string{
 	"protoc-gen-go-grpc":     "google.golang.org/grpc/cmd/protoc-gen-go-grpc@latest",
 	"protoc-gen-validate":    "github.com/envoyproxy/protoc-gen-validate@latest",
 	"protoc-gen-gotag":       "github.com/srikrsna/protoc-gen-gotag@latest",
-	"protoc-gen-go-gin":      "github.com/go-dev-frame/sponge/cmd/protoc-gen-go-gin@latest",
-	"protoc-gen-go-rpc-tmpl": "github.com/go-dev-frame/sponge/cmd/protoc-gen-go-rpc-tmpl@latest",
-	"protoc-gen-json-field":  "github.com/go-dev-frame/sponge/cmd/protoc-gen-json-field@latest",
+	"protoc-gen-go-gin":      "github.com/Eric-Guo/sponge/cmd/protoc-gen-go-gin@thruster_generate",
+	"protoc-gen-go-rpc-tmpl": "github.com/Eric-Guo/sponge/cmd/protoc-gen-go-rpc-tmpl@thruster_generate",
+	"protoc-gen-json-field":  "github.com/Eric-Guo/sponge/cmd/protoc-gen-json-field@thruster_generate",
 	"protoc-gen-openapiv2":   "github.com/grpc-ecosystem/grpc-gateway/v2/protoc-gen-openapiv2@latest",
 	"protoc-gen-doc":         "github.com/pseudomuto/protoc-gen-doc/cmd/protoc-gen-doc@latest",
 	"swag":                   "github.com/swaggo/swag/cmd/swag@v1.8.12",
@@ -102,9 +102,9 @@ func checkInstallPlugins() (installedNames []string, lackNames []string) {
 	}
 
 	data, _ := os.ReadFile(versionFile)
-	v := string(data)
+	v := strings.TrimSpace(string(data))
 	if v != "" {
-		version = v
+		templateVersion = v
 	}
 
 	return installedNames, lackNames
@@ -180,9 +180,7 @@ func installPlugins(lackNames []string) {
 func adaptInternalCommand(name string, pkgAddr string) string {
 	if name == "protoc-gen-go-gin" || name == "protoc-gen-go-rpc-tmpl" ||
 		name == "protoc-gen-json-field" {
-		if version != "v0.0.0" {
-			return strings.ReplaceAll(pkgAddr, "@latest", "@"+version)
-		}
+		return strings.ReplaceAll(pkgAddr, "@"+latestVersion, "@"+templateVersion)
 	}
 
 	return pkgAddr

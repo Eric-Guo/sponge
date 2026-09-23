@@ -11,8 +11,8 @@ import (
 	"github.com/fatih/color"
 	"github.com/spf13/cobra"
 
-	"github.com/go-dev-frame/sponge/pkg/goast"
-	"github.com/go-dev-frame/sponge/pkg/gofile"
+	"github.com/Eric-Guo/sponge/pkg/goast"
+	"github.com/Eric-Guo/sponge/pkg/gofile"
 )
 
 // MergeAssistantCode merge AI assistant generated code into source Go file

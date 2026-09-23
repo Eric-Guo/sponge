@@ -38,7 +38,7 @@ import (
     "log"
 
     "github.com/gin-gonic/gin"
-    "github.com/go-dev-frame/sponge/pkg/gin/staticfs" 
+    "github.com/Eric-Guo/sponge/pkg/gin/staticfs"
 )
 
 func main() {
@@ -92,7 +92,7 @@ import (
     "log"
 
     "github.com/gin-gonic/gin"
-    "github.com/go-dev-frame/sponge/pkg/gin/staticfs"
+    "github.com/Eric-Guo/sponge/pkg/gin/staticfs"
 )
 
 func main() {

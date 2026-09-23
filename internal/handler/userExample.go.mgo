@@ -5,17 +5,17 @@ import (
 
 	"github.com/gin-gonic/gin"
 
-	"github.com/go-dev-frame/sponge/pkg/copier"
-	"github.com/go-dev-frame/sponge/pkg/gin/middleware"
-	"github.com/go-dev-frame/sponge/pkg/gin/response"
-	"github.com/go-dev-frame/sponge/pkg/logger"
+	"github.com/Eric-Guo/sponge/pkg/copier"
+	"github.com/Eric-Guo/sponge/pkg/gin/middleware"
+	"github.com/Eric-Guo/sponge/pkg/gin/response"
+	"github.com/Eric-Guo/sponge/pkg/logger"
 
-	"github.com/go-dev-frame/sponge/internal/cache"
-	"github.com/go-dev-frame/sponge/internal/dao"
-	"github.com/go-dev-frame/sponge/internal/database"
-	"github.com/go-dev-frame/sponge/internal/ecode"
-	"github.com/go-dev-frame/sponge/internal/model"
-	"github.com/go-dev-frame/sponge/internal/types"
+	"github.com/Eric-Guo/sponge/internal/cache"
+	"github.com/Eric-Guo/sponge/internal/dao"
+	"github.com/Eric-Guo/sponge/internal/database"
+	"github.com/Eric-Guo/sponge/internal/ecode"
+	"github.com/Eric-Guo/sponge/internal/model"
+	"github.com/Eric-Guo/sponge/internal/types"
 )
 
 var _ UserExampleHandler = (*userExampleHandler)(nil)

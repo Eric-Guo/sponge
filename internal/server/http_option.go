@@ -3,9 +3,9 @@ package server
 import (
 	"net/http"
 
-	"github.com/go-dev-frame/sponge/pkg/servicerd/registry"
+	"github.com/Eric-Guo/sponge/pkg/servicerd/registry"
 
-	"github.com/go-dev-frame/sponge/internal/config"
+	"github.com/Eric-Guo/sponge/internal/config"
 )
 
 // HTTPOption setting up http

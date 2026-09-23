@@ -27,8 +27,8 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/spf13/cobra"
 
-	"github.com/go-dev-frame/sponge/cmd/sponge/commands/perftest/common"
-	"github.com/go-dev-frame/sponge/pkg/gin/frontend"
+	"github.com/Eric-Guo/sponge/cmd/sponge/commands/perftest/common"
+	"github.com/Eric-Guo/sponge/pkg/gin/frontend"
 )
 
 // PerfTestCollectorCMD is the command for running collector performance test for HTTP API
@@ -1086,7 +1086,7 @@ func printRegisterHelp(testID string, agentNum int) {
 	log.Printf("created new test session: testID=%s, expectedAgents=%d\n", testID, agentNum)
 	log.Printf("waiting for agents to register...\n%s\n\n",
 		color.HiBlackString("[Tip]: run command 'sponge perftest agent -c agent.yml' to register agents, "+
-			"agent.yml file reference: https://github.com/go-dev-frame/sponge/blob/main/cmd/sponge/commands/perftest/agent.yml"))
+			"agent.yml file reference: https://github.com/Eric-Guo/sponge/blob/thruster_generate/cmd/sponge/commands/perftest/agent.yml"))
 }
 
 type Builder struct {

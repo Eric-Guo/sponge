@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/go-dev-frame/sponge/pkg/sgorm/sqlite"
+	"github.com/Eric-Guo/sponge/pkg/sgorm/sqlite"
 )
 
 // GetSqliteTableInfo get table info from sqlite

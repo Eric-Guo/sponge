@@ -6,7 +6,7 @@ import (
 
 	"github.com/golang-jwt/jwt/v5"
 
-	"github.com/go-dev-frame/sponge/pkg/krand"
+	"github.com/Eric-Guo/sponge/pkg/krand"
 )
 
 type SigningMethodHMAC = jwt.SigningMethodHMAC

@@ -10,7 +10,7 @@ package main
 import (
     "context"
     "fmt"
-    "github.com/go-dev-frame/sponge/pkg/grpc/server"
+    "github.com/Eric-Guo/sponge/pkg/grpc/server"
     "google.golang.org/grpc"
     pb "google.golang.org/grpc/examples/helloworld/helloworld"
 )

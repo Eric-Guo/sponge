@@ -4,7 +4,7 @@ import (
 	"github.com/fatih/color"
 	"github.com/spf13/cobra"
 
-	"github.com/go-dev-frame/sponge/pkg/gofile"
+	"github.com/Eric-Guo/sponge/pkg/gofile"
 )
 
 // CleanUpAssistantCode clean up all assistant generated code

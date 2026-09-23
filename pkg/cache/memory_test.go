@@ -6,9 +6,9 @@ import (
 
 	"github.com/stretchr/testify/assert"
 
-	"github.com/go-dev-frame/sponge/pkg/encoding"
-	"github.com/go-dev-frame/sponge/pkg/gotest"
-	"github.com/go-dev-frame/sponge/pkg/utils"
+	"github.com/Eric-Guo/sponge/pkg/encoding"
+	"github.com/Eric-Guo/sponge/pkg/gotest"
+	"github.com/Eric-Guo/sponge/pkg/utils"
 )
 
 func TestInitMemoryCache(t *testing.T) {

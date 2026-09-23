@@ -8,10 +8,10 @@ import (
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials/insecure"
 
-	"github.com/go-dev-frame/sponge/pkg/grpc/gtls"
-	"github.com/go-dev-frame/sponge/pkg/grpc/interceptor"
-	"github.com/go-dev-frame/sponge/pkg/logger"
-	"github.com/go-dev-frame/sponge/pkg/servicerd/discovery"
+	"github.com/Eric-Guo/sponge/pkg/grpc/gtls"
+	"github.com/Eric-Guo/sponge/pkg/grpc/interceptor"
+	"github.com/Eric-Guo/sponge/pkg/logger"
+	"github.com/Eric-Guo/sponge/pkg/servicerd/discovery"
 )
 
 // NewClient creates a new grpc client

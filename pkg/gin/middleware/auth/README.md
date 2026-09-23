@@ -10,8 +10,8 @@ package main
 import (
     "time"
     "github.com/gin-gonic/gin"
-    "github.com/go-dev-frame/sponge/pkg/gin/middleware/auth"
-    "github.com/go-dev-frame/sponge/pkg/gin/response"
+    "github.com/Eric-Guo/sponge/pkg/gin/middleware/auth"
+    "github.com/Eric-Guo/sponge/pkg/gin/response"
 )
 
 func main() {

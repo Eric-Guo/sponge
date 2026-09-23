@@ -59,7 +59,7 @@ const (
 	jsonPkgPath      = "gorm.io/datatypes"
 	boolTypeName     = "sgorm.Bool"
 	boolTypeTinyName = "sgorm.TinyBool"
-	boolPkgPath      = "github.com/go-dev-frame/sponge/pkg/sgorm"
+	boolPkgPath      = "github.com/Eric-Guo/sponge/pkg/sgorm"
 	decimalTypeName  = "decimal.Decimal"
 	decimalPkgPath   = "github.com/shopspring/decimal"
 
@@ -770,7 +770,7 @@ func getModelStructCode(data tmplData, importPaths []string, isEmbed bool, jsonN
 				newImportPaths = append(newImportPaths, path)
 			}
 		}
-		newImportPaths = append(newImportPaths, "github.com/go-dev-frame/sponge/pkg/sgorm")
+		newImportPaths = append(newImportPaths, "github.com/Eric-Guo/sponge/pkg/sgorm")
 	} else {
 		for _, field := range data.Fields {
 			if strings.Contains(field.GoType, goTypeTime) {

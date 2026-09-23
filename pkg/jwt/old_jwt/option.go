@@ -45,7 +45,7 @@ func defaultOptions() *options {
 }
 
 // Option set the jwt options.
-// Deprecated: use "github.com/go-dev-frame/sponge/pkg/jwt" RegisteredClaimsOption instead.
+// Deprecated: use "github.com/Eric-Guo/sponge/pkg/jwt" RegisteredClaimsOption instead.
 type Option func(*options)
 
 func (o *options) apply(opts ...Option) {

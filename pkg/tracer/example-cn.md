@@ -5,7 +5,7 @@
 
 **(1) elasticsearch服务**
 
-这是 [elasticsearch服务的启动脚本](https://github.com/go-dev-frame/sponge/tree/main/test/server/elasticsearch)，`.env`文件是elasticsearch的启动配置，启动elasticsearch服务：
+这是 [elasticsearch服务的启动脚本](https://github.com/Eric-Guo/sponge/tree/thruster_generate/test/server/elasticsearch)，`.env`文件是elasticsearch的启动配置，启动elasticsearch服务：
 
 > docker-compose up -d
 
@@ -13,7 +13,7 @@
 
 **(2) jaeger服务**
 
-这是 [jaeger服务的启动脚本](https://github.com/go-dev-frame/sponge/tree/main/test/server/jaeger)，`.env`文件是配置jaeger信息，启动jaeger服务：
+这是 [jaeger服务的启动脚本](https://github.com/Eric-Guo/sponge/tree/thruster_generate/test/server/jaeger)，`.env`文件是配置jaeger信息，启动jaeger服务：
 
 > docker-compose up -d
 
@@ -25,7 +25,7 @@
 
 以`⓵基于sql创建web服务`代码为例，修改配置文件`configs/user.yml`，开启链路追踪功能(字段enableTrace)，并且填写jaeger配置信息。
 
-如果想跟踪redis，启用redis缓存，把yaml配置文件里的缓存类型字段**cacheType**值改为redis，并配置redis地址，同时在本地使用docker启动redis服务，这是[redis服务启动脚本](https://github.com/go-dev-frame/sponge/tree/main/test/server/redis)。
+如果想跟踪redis，启用redis缓存，把yaml配置文件里的缓存类型字段**cacheType**值改为redis，并配置redis地址，同时在本地使用docker启动redis服务，这是[redis服务启动脚本](https://github.com/Eric-Guo/sponge/tree/thruster_generate/test/server/redis)。
 
 运行web服务：
 
@@ -59,7 +59,7 @@ make run
 这些span是自动生成的，很多时候需要手动添加自定义span，添加span示例：
 
 ```go
-import "github.com/go-dev-frame/sponge/pkg/tracer"
+import "github.com/Eric-Guo/sponge/pkg/tracer"
 
 tags := map[string]interface{}{"foo": "bar"}
 _, span := tracer.NewSpan(ctx, "spanName", tags)  

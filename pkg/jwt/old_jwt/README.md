@@ -1,6 +1,6 @@
 ## jwt
 
-> Note: This package is deprecated, please use `github.com/go-dev-frame/pkg/jwt` instead.
+> Note: This package is deprecated, please use `github.com/Eric-Guo/sponge/pkg/jwt` instead.
 
 `jwt` is a library for generating and parsing token based on [jwt](https://github.com/golang-jwt/jwt).
 
@@ -11,7 +11,7 @@
 ### Default jwt
 
 ```go
-    import "github.com/go-dev-frame/sponge/pkg/jwt/old_jwt"
+    import "github.com/Eric-Guo/sponge/pkg/jwt/old_jwt"
 
     jwt.Init(
         // jwt.WithSigningKey("123456"),   // key
@@ -42,7 +42,7 @@
 ### Custom jwt
 
 ```go
-    import "github.com/go-dev-frame/sponge/pkg/jwt/old_jwt"
+    import "github.com/Eric-Guo/sponge/pkg/jwt/old_jwt"
 
     jwt.Init(
         // jwt.WithSigningKey("123456"),   // key

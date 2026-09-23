@@ -14,7 +14,7 @@ import (
 	"google.golang.org/api/iterator"
 	"google.golang.org/api/option"
 
-	"github.com/go-dev-frame/sponge/pkg/aicli"
+	"github.com/Eric-Guo/sponge/pkg/aicli"
 )
 
 // Client is a Google generative AI client.

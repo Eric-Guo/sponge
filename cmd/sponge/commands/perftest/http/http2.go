@@ -12,7 +12,7 @@ import (
 	"github.com/fatih/color"
 	"github.com/spf13/cobra"
 
-	"github.com/go-dev-frame/sponge/cmd/sponge/commands/perftest/common"
+	"github.com/Eric-Guo/sponge/cmd/sponge/commands/perftest/common"
 )
 
 // PerfTestHTTP2CMD creates a new cobra.Command for HTTP/2 performance test.

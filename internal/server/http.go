@@ -7,16 +7,16 @@ import (
 	"strings"
 	"time"
 
-	"github.com/go-dev-frame/sponge/pkg/logger"
+	"github.com/Eric-Guo/sponge/pkg/logger"
 
 	"github.com/gin-gonic/gin"
 
-	"github.com/go-dev-frame/sponge/pkg/app"
-	"github.com/go-dev-frame/sponge/pkg/httpsrv"
-	"github.com/go-dev-frame/sponge/pkg/servicerd/registry"
+	"github.com/Eric-Guo/sponge/pkg/app"
+	"github.com/Eric-Guo/sponge/pkg/httpsrv"
+	"github.com/Eric-Guo/sponge/pkg/servicerd/registry"
 
-	"github.com/go-dev-frame/sponge/internal/config"
-	"github.com/go-dev-frame/sponge/internal/routers"
+	"github.com/Eric-Guo/sponge/internal/config"
+	"github.com/Eric-Guo/sponge/internal/routers"
 )
 
 var _ app.IServer = (*httpServer)(nil)

@@ -20,7 +20,7 @@ Run commands from the repository root. `go.mod` and CI use Go 1.27.1.
 
 ## Coding Style & Naming Conventions
 
-Use Go formatting with tabs (`gofmt -s`) and `goimports`, grouping local imports under `github.com/go-dev-frame/sponge`. Follow `.golangci.yml`; its line-length limit is 200 characters. Use lowercase package names, exported `PascalCase` identifiers, and unexported `camelCase` identifiers.
+Use Go formatting with tabs (`gofmt -s`) and `goimports`, grouping local imports under `github.com/Eric-Guo/sponge`. Follow `.golangci.yml`; its line-length limit is 200 characters. Use lowercase package names, exported `PascalCase` identifiers, and unexported `camelCase` identifiers.
 
 Preserve generator placeholders such as `serverNameExample` and `userExample`, template markers, and related `.tpl`, `.exp`, and `.mgo` variants. Regenerate Protobuf output with `make proto FILES=api/path/file.proto` after installing the required plugins.
 

@@ -13,7 +13,7 @@ package main
 
 import (
 	"github.com/gin-gonic/gin"
-	"github.com/go-dev-frame/sponge/pkg/gin/frontend"
+	"github.com/Eric-Guo/sponge/pkg/gin/frontend"
 )
 
 func main() {
@@ -38,7 +38,7 @@ package main
 import (
 	"embed"
 	"github.com/gin-gonic/gin"
-	"github.com/go-dev-frame/sponge/pkg/gin/frontend"
+	"github.com/Eric-Guo/sponge/pkg/gin/frontend"
 )
 
 //go:embed dist

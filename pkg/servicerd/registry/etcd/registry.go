@@ -8,8 +8,8 @@ import (
 
 	clientv3 "go.etcd.io/etcd/client/v3"
 
-	"github.com/go-dev-frame/sponge/pkg/etcdcli"
-	"github.com/go-dev-frame/sponge/pkg/servicerd/registry"
+	"github.com/Eric-Guo/sponge/pkg/etcdcli"
+	"github.com/Eric-Guo/sponge/pkg/servicerd/registry"
 )
 
 var (

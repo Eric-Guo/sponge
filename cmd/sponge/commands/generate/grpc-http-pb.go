@@ -8,7 +8,7 @@ import (
 	"github.com/huandu/xstrings"
 	"github.com/spf13/cobra"
 
-	"github.com/go-dev-frame/sponge/pkg/replacer"
+	"github.com/Eric-Guo/sponge/pkg/replacer"
 )
 
 // GRPCAndHTTPPbCommand generate grpc+http servers code based on protobuf file
@@ -283,12 +283,12 @@ func (g *httpAndGRPCPbGenerator) addFields(r replacer.Replacer) []replacer.Field
 			New: protoShellServiceAndHandlerCode,
 		},
 		{
-			Old: "github.com/go-dev-frame/sponge",
+			Old: "github.com/Eric-Guo/sponge",
 			New: g.moduleName,
 		},
 		{
 			Old: g.moduleName + pkgPathSuffix,
-			New: "github.com/go-dev-frame/sponge/pkg",
+			New: "github.com/Eric-Guo/sponge/pkg",
 		},
 		{ // replace the sponge version of the go.mod file
 			Old: spongeTemplateVersionMark,
@@ -357,12 +357,12 @@ func (g *httpAndGRPCPbGenerator) addFields(r replacer.Replacer) []replacer.Field
 			New: "// implemented on port 8283",
 		},
 		{
-			Old: `"github.com/go-dev-frame/sponge/pkg/gin/prof"`,
+			Old: `"github.com/Eric-Guo/sponge/pkg/gin/prof"`,
 			New: "",
 		},
 		{
 			Old: "reference-db-config-url",
-			New: "Reference: https://github.com/go-dev-frame/sponge/blob/main/configs/serverNameExample.yml#L87",
+			New: "Reference: https://github.com/Eric-Guo/sponge/blob/thruster_generate/configs/serverNameExample.yml#L87",
 		},
 	}...)
 

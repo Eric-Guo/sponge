@@ -19,11 +19,11 @@ import (
 
 	"github.com/huandu/xstrings"
 
-	"github.com/go-dev-frame/sponge/pkg/gobash"
-	"github.com/go-dev-frame/sponge/pkg/gofile"
-	"github.com/go-dev-frame/sponge/pkg/replacer"
-	"github.com/go-dev-frame/sponge/pkg/sql2code/parser"
-	"github.com/go-dev-frame/sponge/pkg/utils"
+	"github.com/Eric-Guo/sponge/pkg/gobash"
+	"github.com/Eric-Guo/sponge/pkg/gofile"
+	"github.com/Eric-Guo/sponge/pkg/replacer"
+	"github.com/Eric-Guo/sponge/pkg/sql2code/parser"
+	"github.com/Eric-Guo/sponge/pkg/utils"
 )
 
 const (
@@ -163,7 +163,7 @@ var (
 	wellEndMark   = symbolConvert(endMarkStr)
 
 	// embed FS template file when using
-	selfPackageName = "github.com/go-dev-frame/sponge"
+	selfPackageName = "github.com/Eric-Guo/sponge"
 )
 
 var (
@@ -523,24 +523,14 @@ func GetInitDataBaseCode(dbDriver string) string {
 }
 
 func getLocalSpongeTemplateVersion() string {
-	dir, err := os.UserHomeDir()
-	if err != nil {
-		fmt.Println("os.UserHomeDir error:", err)
-		return ""
+	data, err := os.ReadFile(filepath.Join(SpongeDir, ".github", "version"))
+	v := strings.TrimSpace(string(data))
+	if err != nil || v == "" {
+		// A source checkout has no installed-template version. Go mod tidy
+		// resolves the maintained branch to a canonical pseudo-version.
+		v = "thruster_generate"
 	}
-
-	versionFile := dir + "/.sponge/.github/version"
-	data, err := os.ReadFile(versionFile)
-	if err != nil {
-		fmt.Printf("read file %s error: %v\n", versionFile, err)
-		return ""
-	}
-
-	v := string(data)
-	if v == "" {
-		return ""
-	}
-	return fmt.Sprintf("github.com/go-dev-frame/sponge %s", v)
+	return fmt.Sprintf("github.com/Eric-Guo/sponge %s", v)
 }
 
 func getEmbedTimeCode(isEmbed bool) string {
@@ -761,7 +751,7 @@ func serverCodeFields(serverType string, moduleName string, serverName string) [
 		},
 		{
 			Old: fmt.Sprintf("go get %s@", moduleName),
-			New: fmt.Sprintf("go get %s@", "github.com/go-dev-frame/sponge"),
+			New: fmt.Sprintf("go get %s@", "github.com/Eric-Guo/sponge"),
 		},
 	}
 }
@@ -897,7 +887,7 @@ func getReadmeContent(moduleName, serverName, serverType, dbDriver string, suite
 func GetGoModFields(moduleName string) []replacer.Field {
 	return []replacer.Field{
 		{
-			Old: "github.com/go-dev-frame/sponge",
+			Old: "github.com/Eric-Guo/sponge",
 			New: moduleName,
 		},
 		{
@@ -1001,7 +991,7 @@ func replaceTemplateFileContent(r replacer.Replacer, file string, crudInfo *pars
 
 	dstContent := buf.String()
 	if !strings.Contains(dstContent, "utils.") {
-		dstContent = strings.ReplaceAll(dstContent, `"github.com/go-dev-frame/sponge/pkg/utils"`, "")
+		dstContent = strings.ReplaceAll(dstContent, `"github.com/Eric-Guo/sponge/pkg/utils"`, "")
 	}
 	if !strings.Contains(dstContent, "math.MaxInt32") {
 		dstContent = strings.ReplaceAll(dstContent, `"math"`, "")

@@ -7,8 +7,8 @@ import (
 	"github.com/fatih/color"
 	"github.com/spf13/cobra"
 
-	"github.com/go-dev-frame/sponge/pkg/replacer"
-	"github.com/go-dev-frame/sponge/pkg/sql2code"
+	"github.com/Eric-Guo/sponge/pkg/replacer"
+	"github.com/Eric-Guo/sponge/pkg/sql2code"
 )
 
 // GRPCAndHTTPCommand generate grpc+http servers code based on sql

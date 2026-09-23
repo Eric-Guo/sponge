@@ -6,7 +6,7 @@ import (
 
 	"github.com/gin-gonic/gin"
 
-	"github.com/go-dev-frame/sponge/pkg/gin/middleware/auth"
+	"github.com/Eric-Guo/sponge/pkg/gin/middleware/auth"
 )
 
 // 1. Universal session middleware example refer to https://github.com/gin-contrib/sessions?tab=readme-ov-file#basic-examples

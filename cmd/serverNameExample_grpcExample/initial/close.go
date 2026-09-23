@@ -4,12 +4,12 @@ import (
 	"context"
 	"time"
 
-	"github.com/go-dev-frame/sponge/pkg/app"
-	"github.com/go-dev-frame/sponge/pkg/logger"
-	"github.com/go-dev-frame/sponge/pkg/tracer"
+	"github.com/Eric-Guo/sponge/pkg/app"
+	"github.com/Eric-Guo/sponge/pkg/logger"
+	"github.com/Eric-Guo/sponge/pkg/tracer"
 
-	"github.com/go-dev-frame/sponge/internal/config"
-	"github.com/go-dev-frame/sponge/internal/database"
+	"github.com/Eric-Guo/sponge/internal/config"
+	"github.com/Eric-Guo/sponge/internal/database"
 )
 
 // Close releasing resources after service exit

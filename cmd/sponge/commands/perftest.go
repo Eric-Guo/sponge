@@ -3,9 +3,9 @@ package commands
 import (
 	"github.com/spf13/cobra"
 
-	"github.com/go-dev-frame/sponge/cmd/sponge/commands/perftest/grpc"
-	"github.com/go-dev-frame/sponge/cmd/sponge/commands/perftest/http"
-	"github.com/go-dev-frame/sponge/cmd/sponge/commands/perftest/websocket"
+	"github.com/Eric-Guo/sponge/cmd/sponge/commands/perftest/grpc"
+	"github.com/Eric-Guo/sponge/cmd/sponge/commands/perftest/http"
+	"github.com/Eric-Guo/sponge/cmd/sponge/commands/perftest/websocket"
 )
 
 // PerftestCommand command entry

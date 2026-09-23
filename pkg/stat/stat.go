@@ -9,8 +9,8 @@ import (
 
 	"go.uber.org/zap"
 
-	"github.com/go-dev-frame/sponge/pkg/stat/cpu"
-	"github.com/go-dev-frame/sponge/pkg/stat/mem"
+	"github.com/Eric-Guo/sponge/pkg/stat/cpu"
+	"github.com/Eric-Guo/sponge/pkg/stat/mem"
 )
 
 var (

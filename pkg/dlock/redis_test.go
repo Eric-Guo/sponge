@@ -7,7 +7,7 @@ import (
 	"testing"
 	"time"
 
-	"github.com/go-dev-frame/sponge/pkg/goredis"
+	"github.com/Eric-Guo/sponge/pkg/goredis"
 )
 
 func TestRedisLock_TryLock(t *testing.T) {

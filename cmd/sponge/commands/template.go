@@ -3,7 +3,7 @@ package commands
 import (
 	"github.com/spf13/cobra"
 
-	"github.com/go-dev-frame/sponge/cmd/sponge/commands/template"
+	"github.com/Eric-Guo/sponge/cmd/sponge/commands/template"
 )
 
 // TemplateCommand generate code based on custom templates

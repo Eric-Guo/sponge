@@ -7,7 +7,7 @@
 ### Example of use
 
 ```go
-import "github.com/go-dev-frame/sponge/pkg/replacer"
+import "github.com/Eric-Guo/sponge/pkg/replacer"
 
 //go:embed dir
 var fs embed.FS

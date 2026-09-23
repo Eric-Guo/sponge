@@ -6,10 +6,10 @@ import (
 	"strings"
 	"time"
 
-	"github.com/go-dev-frame/sponge/pkg/cache"
-	"github.com/go-dev-frame/sponge/pkg/encoding"
+	"github.com/Eric-Guo/sponge/pkg/cache"
+	"github.com/Eric-Guo/sponge/pkg/encoding"
 
-	"github.com/go-dev-frame/sponge/internal/database"
+	"github.com/Eric-Guo/sponge/internal/database"
 )
 
 // delete the templates code start

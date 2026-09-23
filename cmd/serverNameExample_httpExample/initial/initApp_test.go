@@ -7,7 +7,7 @@ import (
 
 	"github.com/stretchr/testify/require"
 
-	"github.com/go-dev-frame/sponge/internal/config"
+	"github.com/Eric-Guo/sponge/internal/config"
 )
 
 func clearThrusterEnvironment(t *testing.T) {

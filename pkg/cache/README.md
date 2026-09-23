@@ -11,8 +11,8 @@ package main
 
 import (
 	"github.com/redis/go-redis/v9"
-	"github.com/go-dev-frame/sponge/pkg/cache"
-	"github.com/go-dev-frame/sponge/pkg/encoding"
+	"github.com/Eric-Guo/sponge/pkg/cache"
+	"github.com/Eric-Guo/sponge/pkg/encoding"
 )
 
 func main() {
@@ -42,8 +42,8 @@ func main() {
 package main
 
 import (
-	"github.com/go-dev-frame/sponge/pkg/cache"
-	"github.com/go-dev-frame/sponge/pkg/encoding"
+	"github.com/Eric-Guo/sponge/pkg/cache"
+	"github.com/Eric-Guo/sponge/pkg/encoding"
 )
 
 func main() {

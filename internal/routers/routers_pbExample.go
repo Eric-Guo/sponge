@@ -7,16 +7,16 @@ import (
 
 	"github.com/gin-gonic/gin"
 
-	"github.com/go-dev-frame/sponge/pkg/errcode"
-	"github.com/go-dev-frame/sponge/pkg/gin/handlerfunc"
-	"github.com/go-dev-frame/sponge/pkg/gin/middleware"
-	"github.com/go-dev-frame/sponge/pkg/gin/middleware/metrics"
-	"github.com/go-dev-frame/sponge/pkg/gin/prof"
-	"github.com/go-dev-frame/sponge/pkg/gin/swagger"
-	"github.com/go-dev-frame/sponge/pkg/logger"
+	"github.com/Eric-Guo/sponge/pkg/errcode"
+	"github.com/Eric-Guo/sponge/pkg/gin/handlerfunc"
+	"github.com/Eric-Guo/sponge/pkg/gin/middleware"
+	"github.com/Eric-Guo/sponge/pkg/gin/middleware/metrics"
+	"github.com/Eric-Guo/sponge/pkg/gin/prof"
+	"github.com/Eric-Guo/sponge/pkg/gin/swagger"
+	"github.com/Eric-Guo/sponge/pkg/logger"
 
-	"github.com/go-dev-frame/sponge/docs"
-	"github.com/go-dev-frame/sponge/internal/config"
+	"github.com/Eric-Guo/sponge/docs"
+	"github.com/Eric-Guo/sponge/internal/config"
 )
 
 type routeFns = []func(r *gin.Engine, groupPathMiddlewares map[string][]gin.HandlerFunc, singlePathMiddlewares map[string][]gin.HandlerFunc)

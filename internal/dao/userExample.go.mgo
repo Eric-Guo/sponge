@@ -11,13 +11,13 @@ import (
 	"go.mongodb.org/mongo-driver/mongo/options"
 	"golang.org/x/sync/singleflight"
 
-	"github.com/go-dev-frame/sponge/pkg/logger"
-	"github.com/go-dev-frame/sponge/pkg/mgo"
-	"github.com/go-dev-frame/sponge/pkg/mgo/query"
+	"github.com/Eric-Guo/sponge/pkg/logger"
+	"github.com/Eric-Guo/sponge/pkg/mgo"
+	"github.com/Eric-Guo/sponge/pkg/mgo/query"
 
-	"github.com/go-dev-frame/sponge/internal/cache"
-	"github.com/go-dev-frame/sponge/internal/database"
-	"github.com/go-dev-frame/sponge/internal/model"
+	"github.com/Eric-Guo/sponge/internal/cache"
+	"github.com/Eric-Guo/sponge/internal/database"
+	"github.com/Eric-Guo/sponge/internal/model"
 )
 
 var _ UserExampleDao = (*userExampleDao)(nil)

@@ -12,7 +12,7 @@ Logger library wrapped in [zap](https://github.com/uber-go/zap).
 ## Example of use
 
 ```go
-    import "github.com/go-dev-frame/sponge/pkg/logger"
+    import "github.com/Eric-Guo/sponge/pkg/logger"
 
     // (1) used directly, it will be initialised by default
     logger.Info("this is info")

@@ -7,7 +7,7 @@
 ```go
 package main
 
-import "github.com/go-dev-frame/sponge/pkg/grpc/resolve"
+import "github.com/Eric-Guo/sponge/pkg/grpc/resolve"
 
 func getDialOptions() []grpc.DialOption {
 	var options []grpc.DialOption
