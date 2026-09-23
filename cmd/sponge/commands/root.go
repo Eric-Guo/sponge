@@ -12,7 +12,7 @@ import (
 )
 
 var (
-	version         = "v1.15.1"
+	version         = "v1.16.2"
 	templateVersion = latestVersion
 	versionFile     = GetSpongeDir() + "/.sponge/.github/version"
 )
